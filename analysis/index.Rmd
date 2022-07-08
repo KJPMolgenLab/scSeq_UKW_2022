@@ -8,4 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Here you find all analyses, results and visualizations
+
+* Quality control and data preprocessing [view](00_QC.html)
+* Statistical analysis [view](01_Biostatistics.html)
