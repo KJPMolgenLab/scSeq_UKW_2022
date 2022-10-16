@@ -6,3 +6,336 @@ output: html_document
 ---
 
 ## in progress
+#Calling the libraries
+library(ggplot2)
+library(DropletUtils)
+library(SingleCellExperiment)
+library(scRNAseq)
+library(SingleR)
+library(BiocSingular)
+library(bluster)
+library(scuttle)
+library(AnnotationHub)
+library(org.Hs.eg.db)
+library(scater)
+library(scran)
+library(pheatmap)
+library(batchelor)
+library(celldex)
+library(Seurat)
+library(dplyr)
+library(data.table)
+set.seed(42)
+
+Set12=RColorBrewer::brewer.pal(12, "Set3")
+
+edb <- keys(org.Hs.eg.db)
+
+#Reading the data
+Samples= data.frame(
+  SampleID=c("SK301_CL1_TR1", "SK301_CL13_TR2", 
+             "SK55_CL9_TR1", "SK55_CL9_TR2", "SK55_CL49C_TR1", "SK308_CL6_TR2",
+             "awr925_CL3_TR2", "jem839_CL5_TR2", "nuc725_CL4_TR1", 
+             "nuc752_CL4_TR2", "nuc752_CL6_TR1"),
+  poolID=  c("pool1","pool1",
+             "pool2","pool2","pool2","pool2",
+             "pool3","pool3","pool3",
+             "pool4","pool4"))
+
+#######################################################################################
+# TR1 and TR2 are from two different wells same clone if in name
+# comparison across TR it it reproducible (pseudotime analysis)
+# 
+# same for across genotype (check if worth doing randome effect correction)
+# carriers of the SNP differential esporession of LPHN3 gene (all cells, vs cell type, ) 
+#######################################################################################
+
+
+home="/home/afsheenyousaf/scratch/scRNA/"
+
+
+dirs=c(paste0(home, "data/",Samples$poolID,"/outs/per_sample_outs/",Samples$SampleID,"/count/sample_feature_bc_matrix"))
+
+
+sce <- read10xCounts(dirs)
+
+#Gene annotation
+symbols <- rowData(sce)$ID
+ens.id <- mapIds(org.Hs.eg.db, keys=symbols, keytype="ENSEMBL", column=c("SYMBOL"), multiVals = "first")
+ens.id <- ifelse(is.na(ens.id), symbols, ens.id)
+
+## remove duplicated rows... check if sum would be better
+keep <- !duplicated(ens.id)
+sce <- sce[keep,]
+rownames(sce) <- ens.id[keep]
+
+## annotate sample based meta data 
+meta <- colData(sce)
+
+# simplify sample and batch name 
+meta$BatchID <- gsub("/outs/per.*", "", gsub(".*07/data/" ,"" , meta$Sample)) 
+meta$SampleID <- gsub("/count/sa.*", "", gsub(".*sample_outs/" ,"" , meta$Sample)) 
+
+# Look for spikes
+is.spike <- grepl("^ERCC", rownames(sce))
+sce <- splitAltExps(sce, ifelse(is.spike, "ERCC", "gene"))
+
+entrez.id <- mapIds(org.Hs.eg.db, keys=rowData(sce)$ID, 
+                    keytype="ENSEMBL", column=c("ENTREZID"), multiVals = "first")
+
+chromdb <- sapply(entrez.id, function(x){ifelse(is.na(x), NA, org.Hs.egCHR[[x]])})
+rowData(sce)<- cbind(rowData(sce), CHR=chromdb)
+
+is.mito <- grepl("MT", chromdb)
+sce <- splitAltExps(sce, ifelse(is.mito, "Mito", "gene"))
+
+is.cmo <- grepl("CMO", rowData(sce)$Symbol)
+sce <- splitAltExps(sce, ifelse(is.cmo, "Capture", "gene"))
+
+ave.counts <- ave.counts <- calculateAverage(sce)
+num.cells <- nexprs(sce, byrow=TRUE)
+
+pdf("ScatterPlot.pdf")
+smoothScatter(log10(ave.counts), num.cells, ylab="Number of cells", 
+              xlab=expression(Log[10]~"average count"))
+dev.off()
+
+
+
+unfiltered <- sce
+
+keep1 <- ave.counts >= 1
+summary(keep1)
+keep2 <- num.cells > 0
+summary(keep2)
+
+sce <- sce[keep1&keep2, ]
+
+# ribosomal protein genes will only be analyzed as a subset not as altExp
+is.ribo <- grepl("^RPS|^RPL", rownames(sce))
+
+stats <- perCellQCMetrics(sce, subset=list(Ribo=is.ribo))
+
+
+
+sce <- addPerCellQCMetrics(sce)
+
+reasons <- perCellQCFilters(stats, 
+                            sub.fields=c("altexps_Mito_percent", "altexps_ERCC_percent"))
+colSums(as.matrix(reasons))
+
+sce <- sce[ ,!reasons$discard]
+
+colData(unfiltered) <- cbind(colData(unfiltered), stats, reasons)
+
+pdf("SampleOverview.pdf")
+
+gridExtra::grid.arrange(
+  plotColData(unfiltered, x="SampleID", y="sum", colour_by="discard") +
+    scale_y_log10() + ggtitle("Total count") +
+    theme(axis.text.x = element_text(angle = 90)),
+  plotColData(unfiltered, x="SampleID", y="detected", colour_by="discard") +
+    scale_y_log10() + ggtitle("Detected features") +
+    theme(axis.text.x = element_text(angle = 90)),
+  plotColData(unfiltered, x="SampleID", y="altexps_ERCC_percent", colour_by="discard")+
+    scale_y_log10() + ggtitle("ERCC_percent")+
+    theme(axis.text.x = element_text(angle = 90)),
+  plotColData(unfiltered, x="SampleID", y="altexps_Mito_percent", colour_by="discard")+
+    scale_y_log10() + ggtitle("Mito_percent")+
+    theme(axis.text.x = element_text(angle = 90)),
+  ncol=2
+)
+dev.off()
+
+
+
+pdf("QCplot.pdf")
+gridExtra::grid.arrange(
+  plotColData(unfiltered, x="sum", y="altexps_Mito_percent", colour_by="discard"), 
+  plotColData(unfiltered, x="altexps_ERCC_percent", y="altexps_Mito_percent", colour_by="discard"), 
+  ncol=2)
+dev.off()
+
+
+rm(unfiltered)
+gcclean <- function(){while(any(gc()[,-1]!=gc()[,-1], na.rm = T)){gc()}}
+
+#r normalization and variance modelling
+
+clusters <- quickCluster(sce,method="igraph")
+sce <- computeSumFactors(sce, clusters=clusters)
+sce <- logNormCounts(sce) 
+
+summary(sizeFactors(sce))
+
+pdf("LibrarySizefactors.pdf")
+plot(librarySizeFactors(sce), sizeFactors(sce), pch=16,
+     xlab="Library size factors", ylab="Deconvolution factors", log="xy", 
+     col=Set12[as.factor(sce$SampleID)])
+legend("bottomright", legend = as.factor(sce$SampleID) %>% levels(),
+       fill=Set12[1:nlevels(as.factor(sce$SampleID))], cex=0.7)
+abline(0,1,col="black", lwd=2)
+dev.off()
+
+dec.sce <- modelGeneVar(sce, block=sce$SampleID)
+chosen.hvgs <- getTopHVGs(dec.sce, n=2000)
+
+
+par(mfrow=c(4,3))
+blocked.stats <- dec.sce$per.block
+for (i in colnames(blocked.stats)) {
+  current <- blocked.stats[[i]]
+  plot(current$mean, current$total, main=i, pch=16, cex=0.5,
+       xlab="Mean of log-expression", ylab="Variance of log-expression")
+  curfit <- metadata(current)
+  points(curfit$mean, curfit$var, col="red", pch=16)
+  curve(curfit$trend(x), col='dodgerblue', add=TRUE, lwd=2)
+}
+
+
+sce <- computeSpikeFactors(sce, "ERCC")
+
+
+to.plot <- data.frame(
+  DeconvFactor=calculateSumFactors(sce),
+  SpikeFactor=sizeFactors(sce),
+  Patient=sce$SampleID, 
+  Batch=sce$BatchID
+)
+
+pdf("DeconvFactorsvsSpikeFactor.pdf")
+ggplot(to.plot, aes(x=DeconvFactor, y=SpikeFactor, color=Batch)) +
+  geom_point() + facet_wrap(~Patient) + scale_x_log10() + 
+  scale_y_log10() + geom_abline(intercept=0, slope=1, color="red")
+dev.off()
+
+#Converting to Seurat Object
+sce <- as.Seurat(sce, data=NULL)
+DefaultAssay(sce) <- "gene"
+
+## data reduction methods
+sce <- FindVariableFeatures(sce)
+sce <- ScaleData(sce, verbose = FALSE)
+sce <- Seurat::RunPCA(sce, npcs = 50, verbose = FALSE)
+sce <- Seurat::RunUMAP(sce, reduction = "pca", dims = 1:50, verbose = FALSE)
+sce <- Seurat::RunTSNE(sce, reduction = "pca", dims = 1:50, verbose = FALSE)
+
+FetchData(sce,vars = c("ident", "orig.ident"))%>%
+  dplyr::count(ident, orig.ident) %>%
+  tidyr::spread(ident, n)
+
+pdf("Dimplot_umap.pdf")
+DimPlot(sce, 
+        label = TRUE)  + NoLegend()
+dev.off()
+
+
+srat <- FindVariableFeatures(sce, selection.method = "vst", nfeatures = 2000)
+top10 <- head(VariableFeatures(srat), 10)
+top10 
+
+pdf("VariableFeature.pdf")
+plot1 <- VariableFeaturePlot(srat)
+LabelPoints(plot = plot1, points = top10, repel = TRUE, xnudge = 0, ynudge = 0)
+dev.off()
+
+pdf("DimLoadings.pdf")
+VizDimLoadings(srat, dims = 1:9, reduction = "pca") & 
+  theme(axis.text=element_text(size=5), axis.title=element_text(size=8,face="bold"))
+dev.off()
+
+pdf("pheatmap.pdf")
+DimHeatmap(srat, dims = 1:6, nfeatures = 20, cells = 500, balanced = T)
+dev.off()
+
+pdf("dimplot.pdf")
+DimPlot(srat, reduction = "pca")
+dev.off()
+
+pdf("Screeplot.pdf")
+ElbowPlot(srat)
+dev.off()
+
+srat <- FindNeighbors(srat, dims = 1:10)
+srat <- FindClusters(srat, resolution = 0.5)
+srat <- RunUMAP(srat, dims = 1:10, verbose = F)
+table(srat@meta.data$seurat_clusters)
+
+pdf("Cluster_dimplot.pdf")
+DimPlot(srat,label.size = 4,repel = T,label = T)
+dev.off()
+
+pdf("Clusters_featureplot.pdf")
+FeaturePlot(srat, features = c("PENK", "SST", "SFRP4", "IFFBP3"))
+dev.off()
+
+pdf("Resolution_clusters.pdf")
+DimPlot(srat,label.size = 4,repel = T,label = T)
+dev.off()
+
+pdf("Voilonplot.pdf")
+VlnPlot(srat,features = "percent.mt") & theme(plot.title = element_text(size=10))
+dev.off()
+
+######################################################################
+
+#SC transformation and normalization
+#DefaultAssay(srat) <- "RNA"
+srat <- NormalizeData(srat)
+srat <- FindVariableFeatures(srat, selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(srat)
+srat <- ScaleData(srat, features = all.genes)
+
+all.markers <- FindAllMarkers(srat, only.pos = T, min.pct = 0.5, logfc.threshold = 0.5)
+dim(all.markers) 
+table(all.markers$cluster)
+top3_markers <- as.data.frame(all.markers %>% group_by(cluster) %>% top_n(n = 3, wt = avg_log2FC))
+top3_markers
+
+hpca.ref <- celldex::HumanPrimaryCellAtlasData()
+sce_seurat <- as.SingleCellExperiment(DietSeurat(srat))
+
+
+hpca.main <- SingleR(test = sce_seurat,assay.type.test = 1,ref = hpca.ref,labels = hpca.ref$label.main)
+hpca.fine <- SingleR(test = sce_seurat,assay.type.test = 1,ref = hpca.ref,labels = hpca.ref$label.fine)
+table(hpca.main$pruned.labels)
+
+srat@meta.data$hpca.main <- hpca.main$pruned.labels
+srat@meta.data$hpca.fine <- hpca.fine$pruned.labels
+
+srat <- SetIdent(srat, value = "hpca.main")
+pdf("Dimplot_labels.pdf")
+DimPlot(srat, label = T , repel = T, label.size = 3) + NoLegend()
+dev.off()
+
+meta.data.cluster <- unique(Idents(srat))
+for(group in meta.data.cluster) {
+  group.cells <- WhichCells(object = srat, idents = group)
+  data_to_write_out <- as.data.frame(GetAssayData(srat,slot = 'counts')[,group.cells])
+  write.csv(data_to_write_out, row.names = TRUE, file = paste0(group, "_cluster_outfile.csv"))
+}
+
+
+SampleID_cells<-as.data.frame(srat$SampleID)
+colnames(SampleID_cells)<-"SampleID"
+
+SampleID_cells$Cells<-rownames(SampleID_cells)
+
+
+# Calculate number of cells per cluster from object@ident
+cell.num <- table(srat@active.ident)
+
+# Add cell number per cluster to cluster labels
+ClusterLabels = paste("Cluster", names(cell.num), paste0("(n = ", cell.num, ")"))
+
+# Order legend labels in plot in the same order as 'ClusterLabels'
+ClusterBreaks = names(cell.num)
+
+# Plot tSNE with new legend labels for clusters
+TSNEPlot(object = srat, do.return = T) +
+  scale_colour_discrete(breaks = ClusterBreaks, 
+                        labels = ClusterLabels) +
+  labs(x = "t-SNE 1",
+       y = "t-SNE 2")
+
+
