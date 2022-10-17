@@ -1,12 +1,9 @@
 ---
-title: "Preprocessing"
+  title: "Preprocessing"
 author: "Chioccheti AG"
 date: '2022-07-08'
 output: html_document
 ---
-
-## in progress
-#Calling the libraries
 library(ggplot2)
 library(DropletUtils)
 library(SingleCellExperiment)
@@ -31,7 +28,7 @@ Set12=RColorBrewer::brewer.pal(12, "Set3")
 
 edb <- keys(org.Hs.eg.db)
 
-#Reading the data
+
 Samples= data.frame(
   SampleID=c("SK301_CL1_TR1", "SK301_CL13_TR2", 
              "SK55_CL9_TR1", "SK55_CL9_TR2", "SK55_CL49C_TR1", "SK308_CL6_TR2",
@@ -42,14 +39,16 @@ Samples= data.frame(
              "pool3","pool3","pool3",
              "pool4","pool4"))
 
-#######################################################################################
+##########
 # TR1 and TR2 are from two different wells same clone if in name
 # comparison across TR it it reproducible (pseudotime analysis)
 # 
 # same for across genotype (check if worth doing randome effect correction)
 # carriers of the SNP differential esporession of LPHN3 gene (all cells, vs cell type, ) 
-#######################################################################################
+# 
 
+
+#load("scRNA3.RData")
 
 home="/home/afsheenyousaf/scratch/scRNA/"
 
@@ -59,7 +58,7 @@ dirs=c(paste0(home, "data/",Samples$poolID,"/outs/per_sample_outs/",Samples$Samp
 
 sce <- read10xCounts(dirs)
 
-#Gene annotation
+## annotate genes
 symbols <- rowData(sce)$ID
 ens.id <- mapIds(org.Hs.eg.db, keys=symbols, keytype="ENSEMBL", column=c("SYMBOL"), multiVals = "first")
 ens.id <- ifelse(is.na(ens.id), symbols, ens.id)
@@ -148,7 +147,6 @@ gridExtra::grid.arrange(
 dev.off()
 
 
-
 pdf("QCplot.pdf")
 gridExtra::grid.arrange(
   plotColData(unfiltered, x="sum", y="altexps_Mito_percent", colour_by="discard"), 
@@ -178,7 +176,7 @@ abline(0,1,col="black", lwd=2)
 dev.off()
 
 dec.sce <- modelGeneVar(sce, block=sce$SampleID)
-chosen.hvgs <- getTopHVGs(dec.sce, n=2000)
+chosen.hvgs <- getTopHVGs(dec.sce, n=2000) #choosing the top 2000 variable genes
 
 
 par(mfrow=c(4,3))
@@ -228,7 +226,6 @@ pdf("Dimplot_umap.pdf")
 DimPlot(sce, 
         label = TRUE)  + NoLegend()
 dev.off()
-
 
 srat <- FindVariableFeatures(sce, selection.method = "vst", nfeatures = 2000)
 top10 <- head(VariableFeatures(srat), 10)
@@ -287,14 +284,13 @@ all.genes <- rownames(srat)
 srat <- ScaleData(srat, features = all.genes)
 
 all.markers <- FindAllMarkers(srat, only.pos = T, min.pct = 0.5, logfc.threshold = 0.5)
-dim(all.markers) 
+dim(all.markers) #2067 7
 table(all.markers$cluster)
 top3_markers <- as.data.frame(all.markers %>% group_by(cluster) %>% top_n(n = 3, wt = avg_log2FC))
 top3_markers
 
 hpca.ref <- celldex::HumanPrimaryCellAtlasData()
 sce_seurat <- as.SingleCellExperiment(DietSeurat(srat))
-
 
 hpca.main <- SingleR(test = sce_seurat,assay.type.test = 1,ref = hpca.ref,labels = hpca.ref$label.main)
 hpca.fine <- SingleR(test = sce_seurat,assay.type.test = 1,ref = hpca.ref,labels = hpca.ref$label.fine)
@@ -315,10 +311,9 @@ for(group in meta.data.cluster) {
   write.csv(data_to_write_out, row.names = TRUE, file = paste0(group, "_cluster_outfile.csv"))
 }
 
-
+#Samples and cells table
 SampleID_cells<-as.data.frame(srat$SampleID)
 colnames(SampleID_cells)<-"SampleID"
-
 SampleID_cells$Cells<-rownames(SampleID_cells)
 
 
@@ -337,5 +332,50 @@ TSNEPlot(object = srat, do.return = T) +
                         labels = ClusterLabels) +
   labs(x = "t-SNE 1",
        y = "t-SNE 2")
+
+
+#object <-FetchData(srat, vars = 'ident')
+#write.csv(object_Clu, "object_clusters.csv")
+
+tmp<-srat
+
+CellsMeta = srat@meta.data
+CellsMeta["CellInfo"]<-as.vector(rownames(srat@meta.data))
+CellsMetaTrim<-subset(CellsMeta,select=c("CellInfo"))
+tmp2<-AddMetaData(tmp,CellsMetaTrim)
+
+srat<-tmp2
+
+cluster_seurat<-data.frame(srat@meta.data$seurat_clusters,srat@meta.data$SampleID,srat@meta.data$CellInfo)
+colnames(cluster_seurat)<-c("ClusterName","SampleID","CellInfo")
+write.table(cluster_seurat,"clusters_seurat.txt",sep="\t")
+
+
+save.image("QualityControl_scna_2.Rdata")
+
+pt <- table(Idents(srat), srat$orig.ident)
+pt <- as.data.frame(pt)
+pt$Var1 <- as.character(pt$Var1)
+
+#Extracting clusters information
+number_perCluster<- table(srat@meta.data$SampleID, 
+                          srat@meta.data$seurat_clusters)
+
+number_perCluster<-as.data.frame.matrix(table(srat@meta.data$SampleID,srat@meta.data$seurat_clusters))
+#number_perCluster$SampleID<-rownames(number_perCluster)
+number_perCluster$Groups<-c(1,2,3,4,4,5,5,6,6,7)
+
+write.table(number_perCluster,"Number_Per_cluster.txt",sep="\t")
+
+#Calculating cells percentage
+number_perCLusterPercentage<-round(number_perCluster/rowSums(number_perCluster),2)
+write.table(number_perCLusterPercentage,"Number_Per_clusterPercentage.txt",sep="\t")
+
+#Comparing Groups
+Groups_comparison<-compareGroups(Groups ~ ., data = number_perCluster,  max.ylev = 7)
+Samples_comparison<-createTable(compareGroups(Groups ~ ., data = number_perCluster,  max.ylev = 7))
+export2csv(Samples_comparison, file="Samples_comparison.csv")
+
+save.image("QualityControl_scna_2.Rdata")
 
 
