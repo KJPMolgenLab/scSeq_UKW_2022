@@ -261,13 +261,13 @@ RidgePlot(seurat_integrated, features = c("DCX", "TUBB3", "NEUROD1", "STMN1"), n
 RidgePlot(seurat_integrated, features = c("PDGFRA", "CSPG4"), ncol = 2, cols = Set26)
 ```
 
-## ## Oligodendrocytes mature  marker
+## Oligodendrocytes mature  marker
 
 ```{r, Oligodendrocytes mature markers, fig.height=4, fig.width=4}
 RidgePlot(seurat_integrated, features = c("OLIG1", "MBP", "SOX10", "LRP5"), ncol = 2, cols = Set26)
 ```
 
-## ## Schwann Cell  marker
+## Schwann Cell  marker
 
 ```{r, Schwann markers, fig.height=4, fig.width=8}
 # RidgePlot(seurat_integrated, features = c("NCAM", "MPZ", "S100", "MOG"), ncol = 2, cols = Set26)
@@ -485,7 +485,7 @@ p + guides(color=guide_legend(title="Cell Type"))+theme(axis.text.x = element_te
 ```
 
 
-```{r Cluster Comparison per Sample,echo=FALSE, fig.width=8, fig.height=5}
+```{r Cluster Comparison per Sample, fig.width=8, fig.height=5}
 #  Prepare a counts matrix with labeled rows and columns. 
 # sce <- logcounts(sce)  # access log-transformed counts matrix
 # cellLabels <- as.factor(scRNA.sce$HumanPrimaryCellAtlas.label)
@@ -521,12 +521,12 @@ mat = chisqmatrix(t(number_perCluster))
 cormat = matrix(data = p.adjust(mat, method = "BH"), 
        nrow = nrow(mat), ncol=ncol(mat))
 
-pheatmap::pheatmap(prop_per_Sample, )
+pheatmap::pheatmap(prop_per_Sample)
 
 ```
 
 
-```{r ## Enrichment analysis,echo=FALSE, fig.width=8, fig.height=5}
+```{r ## Enrichment analysis, fig.width=8, fig.height=5}
 #Enrichment Analysis
 colDatasetDF=colData(scRNA.sce)
 
@@ -555,9 +555,9 @@ pheatmap::pheatmap(enrichmentMap)
 ```
 
 
-## Map to neuronal Subtypes
+# Map to neuronal Subtypes
 
-## models not copnverging 
+### models not copnverging 
 ```{r}
 
 # allen_reference  = readRDS("/files/scRNA_Qualitycheck/data/data/refData/allen_cortex.rds")

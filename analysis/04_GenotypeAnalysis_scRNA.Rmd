@@ -65,7 +65,7 @@ coldata$TR = gsub(".*(TR.)", "\\1", coldata$SampleID)
 model = as.formula("x ~ Genotype+(1|TR)")
 
 runlmer = function(i, mod, gdata, cdata){
-  cat(i, end="\r")
+  #cat(i, end="\r")
   cdata$x=gdata[i,]
   res = suppressMessages(lmer(mod, data=cdata, verbose = 0))
   res = summary(res)
@@ -126,7 +126,7 @@ ResFreq$p.adj = p.adjust(ResFreq$pvalue)
 
 reslist.by.cluster=list()
 for(i in unique(seurat_integrated$seurat_clusters)){
-  print(i)
+  #print(i)
   cellidx=coldata$seurat_clusters==i
   countdata.subset=countdata[,cellidx]
   reslmer <- lapply(1:nrow(countdata), function(i){
@@ -142,7 +142,6 @@ for(i in unique(seurat_integrated$seurat_clusters)){
 
 reslist.by.cluster = reslist.by.cluster[as.character(sort(unique(seurat_integrated$seurat_clusters)))]
 
-x=4
 lapply(seq_along(reslist.by.cluster), function(x){
   df = reslist.by.cluster[[x]]
   df = df[order(df$adj.p, decreasing = F),]
