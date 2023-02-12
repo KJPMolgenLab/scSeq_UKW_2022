@@ -1,0 +1,654 @@
+---
+title: "Cell type annotation"
+date: 2023-01-12
+output: html_document
+---
+```{r Calling libraries, echo=FALSE, include=FALSE}
+library(SingleR)
+library(DropletUtils)
+library(SingleCellExperiment)
+library(Seurat)
+library(ggplot2)
+library(scuttle)
+library(celldex)
+library(AnnotationHub)
+library(org.Hs.eg.db)
+library(scater)
+library(tidyverse)
+library(data.table)
+library(RColorBrewer)
+library(RCurl)
+library(randomcoloR)
+library(cowplot)
+library(viridis)
+library(gprofiler2)
+
+SamplePalette =  c(awr925_CL3_TR1="#000000",
+                   awr925_CL3_TR2= "#808080",
+                   jem839_CL5_TR2 = "#3399FF", 
+                   nuc752_CL4_TR1 = "#FF3300",
+                   nuc752_CL4_TR2 = "#CC3300",
+                   nuc752_CL6_TR1  = "#990000",
+                   SK55_CL9_TR1 = "#FF00FF",
+                   SK55_CL9_TR2  = "#CC00CC",
+                   SK55_CL49C_TR1   = "#CC66CC",
+                   SK301_CL13_TR2  = "#3CB371")
+
+SampleGPalette = c(awr925="#000000", 
+                   jem839="#3399FF", 
+                   nuc752="#FF3300", 
+                   SK55="#FF00FF", 
+                   SK301="#3CB371")
+
+nb.cols <- 26
+Set26 <- colorRampPalette(brewer.pal(12, "Set3"))(nb.cols)
+names(Set26)=1:nb.cols-1
+
+```
+
+
+```{r load data, include = FALSE}
+# Annotating cell Type
+load("/files/scRNA_Qualitycheck/output/01_QC_scRNA_seurat_integrated.Rdata")
+```
+
+
+
+```{r, Clustering after batch correction}
+seurat_integrated <- FindNeighbors(object = seurat_integrated, 
+                                   dims = 1:10)
+seurat_integrated <- FindClusters(object = seurat_integrated,
+                                  resolution = c(0.2, 0.4, 0.6, 0.8, 1.2, 1.4))
+```
+
+
+```{r, UMAP Clustering after batch correction, fig.width=8, fig.height=8}
+# Assign identity of clusters at various thresholds
+
+Idents(object = seurat_integrated) <- "integrated_snn_res.0.2"
+a<- DimPlot(seurat_integrated,
+            reduction = "umap",
+            label = TRUE,cols = Set26,
+            label.size = 6)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("res.0.2")
+
+Idents(object = seurat_integrated) <- "integrated_snn_res.0.4"
+b<- DimPlot(seurat_integrated,
+            reduction = "umap",
+            label = TRUE,cols = Set26,
+            label.size = 6)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("res.0.4")
+
+Idents(object = seurat_integrated) <- "integrated_snn_res.0.6"
+d<- DimPlot(seurat_integrated,
+            reduction = "umap",
+            label = TRUE,cols = Set26,
+            label.size = 6)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("res.0.6")
+
+Idents(object = seurat_integrated) <- "integrated_snn_res.0.8"
+e<- DimPlot(seurat_integrated,
+            reduction = "umap",
+            label = TRUE,cols = Set26,
+            label.size = 6)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("res.0.8")
+
+Idents(object = seurat_integrated) <- "integrated_snn_res.1.2"
+f<- DimPlot(seurat_integrated,
+            reduction = "umap",
+            label = TRUE,cols = Set26,
+            label.size = 6)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("res.1.2")
+
+Idents(object = seurat_integrated) <- "integrated_snn_res.1.4"
+g<- DimPlot(seurat_integrated,
+            reduction = "umap",
+            label = TRUE,cols = Set26,
+            label.size = 6)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("res.1.4")
+
+ggpubr::ggarrange(a,b,d,e,f,g)
+
+```
+
+
+```{r, fig.width=8, fig.height=4}
+seurat_integrated <- FindClusters(object = seurat_integrated,
+                                  resolution =0.6)
+
+
+# Extract identity and sample information from seurat object to determine the number of cells per cluster per sample
+n_cells <- FetchData(seurat_integrated, 
+                     vars = c("ident", "SampleID")) %>%
+  dplyr::count(ident, SampleID) %>%
+  tidyr::spread(ident, n)
+
+n_cells[is.na(n_cells)]=0
+
+corrmap = cor(n_cells %>% column_to_rownames("SampleID") %>%  t(),method = "spearman")
+
+
+pheatmap::pheatmap(corrmap, main = "Correlation Cell distribution", breaks = seq(-1,1,length.out=100))
+
+long <- melt(n_cells, value.name = "ncells", variable.name="cluster")
+
+a<-ggplot(long, aes(x=SampleID, y=cluster, size=ncells, color=SampleID))+
+  geom_point() + scale_color_manual(values=SamplePalette)+theme_classic()+scale_size(range=c(1,20))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))
+
+
+b<-DimPlot(seurat_integrated,
+        reduction = "umap",
+        label = TRUE,
+        cols = Set26)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("Seurat cluster")
+
+d<-DimPlot(seurat_integrated,
+        reduction = "umap",
+        label = TRUE,
+        split.by = "Phase",
+        cols = Set26)+
+  theme_classic()+
+  theme(legend.position = "none")+ggtitle("Seurat cluster")
+
+
+a+b
+d
+```
+
+
+```{r, Feature plots tsne and umap,fig.width=8,fig.height=8}
+metrics <-  c("nUMI", "nGene", "S.Score", "G2M.Score", "mitoRatio")
+
+
+FeaturePlot(seurat_integrated, 
+            reduction = "umap", 
+            features = metrics,
+            pt.size = 0.3, 
+            cols = viridis(100),
+            order = TRUE,
+            min.cutoff = 'q10',
+            label = TRUE)
+
+```
+
+
+```{r, Feature plots PCA, fig.width=8, fig.height=8}
+# Defining the information in the seurat object of interest
+columns <- c(paste0("PC_", 1:16),
+             "ident",
+             "UMAP_1", "UMAP_2")
+
+# Extracting this data from the seurat object
+pc_data <- FetchData(seurat_integrated, 
+                     vars = columns)
+
+# Adding cluster label to center of cluster on UMAP
+umap_label <- FetchData(seurat_integrated, 
+                        vars = c("ident", "UMAP_1", "UMAP_2"))  %>%
+  group_by(ident) %>%
+  summarise(x=mean(UMAP_1), y=mean(UMAP_2))
+
+
+# Plotting a UMAP plot for each of the PCs
+map(paste0("PC_", 1:16), function(pc){
+  ggplot(pc_data, 
+         aes(UMAP_1, UMAP_2)) +
+    geom_point(aes_string(color=pc), 
+               alpha = 0.7, size=0.3) +
+    scale_color_viridis()  +
+    geom_text(data=umap_label, 
+              aes(label=ident, x, y)) +
+    ggtitle(pc) + theme_classic()
+}) %>% 
+  plot_grid(plotlist = .)
+
+```
+
+
+```{r, Identifying markers, fig.height=12, fig.width=12}
+#based on cluster resolution of 0,6
+markers <- FindAllMarkers(object = seurat_integrated, 
+                          only.pos = TRUE,
+                          logfc.threshold = 0.25)  
+
+
+
+write.table(markers,"/files/scRNA_Qualitycheck/output/Cluster_markers.txt",sep="\t")
+DefaultAssay(seurat_integrated) = "integrated"
+
+markers %>%
+    group_by(cluster) %>%
+    top_n(n = 10, wt = avg_log2FC) -> top10
+
+DoHeatmap(seurat_integrated, features = top10$gene, group.by = "seurat_clusters", group.colors = Set26) + NoLegend()
+```
+
+## Neuroepithelial marker
+
+```{r, Neuroepithelial markers, fig.height=8, fig.width=8}
+RidgePlot(seurat_integrated, features = c("NES", "SOX2", "NOTCH1", "OCT4"), ncol = 2, cols = Set26)
+```
+
+## Radial glia marker
+
+```{r, Radial markers,  fig.height=8, fig.width=8}
+RidgePlot(seurat_integrated, features = c("GFAP", "PAX6", "SLC1A3", "HES1"), ncol = 2, cols = Set26)
+```
+
+## Intermediate Progen marker
+
+```{r, Intermediate markers, fig.height=4, fig.width=4}
+RidgePlot(seurat_integrated, features = c("TBR2", "ASCL1"), ncol = 2, cols = Set26)
+```
+
+## Immature Neurons marker
+
+```{r, Immature markers, fig.height=8, fig.width=8}
+RidgePlot(seurat_integrated, features = c("DCX", "TUBB3", "NEUROD1", "STMN1"), ncol = 2, cols = Set26)
+```
+
+## Oligodendrocytes precurser  marker
+
+```{r, Oligodendrocytes markers, fig.height=4, fig.width=4}
+RidgePlot(seurat_integrated, features = c("PDGFRA", "CSPG4"), ncol = 2, cols = Set26)
+```
+
+## ## Oligodendrocytes mature  marker
+
+```{r, Oligodendrocytes mature markers, fig.height=4, fig.width=4}
+RidgePlot(seurat_integrated, features = c("OLIG1", "MBP", "SOX10", "LRP5"), ncol = 2, cols = Set26)
+```
+
+## ## Schwann Cell  marker
+
+```{r, Schwann markers, fig.height=4, fig.width=8}
+# RidgePlot(seurat_integrated, features = c("NCAM", "MPZ", "S100", "MOG"), ncol = 2, cols = Set26)
+# none detectable
+```
+
+## Astrocytes  marker
+
+```{r, Astrocytes markers, fig.height=8, fig.width=8}
+RidgePlot(seurat_integrated, features = c("GFAP", "SLC1A3", "SLC1A2", "SOX10"), ncol = 2, cols = Set26)
+```
+## Microglia  marker
+ none detected
+
+```{r, Microglia markers, fig.height=4, fig.width=8}
+#RidgePlot(seurat_integrated, features = c("ITGAM", "PTPRC", "SCARD1", "TNFRSF5"), ncol = 2, cols = Set26)
+# none detectable
+```
+##  Mature Neurons  marker
+
+```{r, Mature Neurons markers, fig.height=4, fig.width=8}
+RidgePlot(seurat_integrated, features = c("MAP2", "DLG4", "NEFM"), ncol = 2, cols = Set26)
+```
+
+##  Glutamtergic Neurons  marker
+
+```{r, Glutamtergic markers, fig.height=4, fig.width=4}
+RidgePlot(seurat_integrated, features = c("SLC17A7", "SLC17A6", "GRIN2B", "GLUD1"), ncol = 2, cols = Set26)
+```
+
+##  GABAergic Neurons  marker
+
+```{r, GABAergic markers, fig.height=4, fig.width=8}
+RidgePlot(seurat_integrated, features = c("SLC6A1", "SLC17A6", "GABBR1", "GAD67"), ncol = 2, cols = Set26)
+```
+
+##  Dopaminergic Neurons  marker
+
+none detected
+```{r, Dopaminergic markers, fig.height=4, fig.width=8}
+# RidgePlot(seurat_integrated, features = c("GIRK2", "TH", "DAT1", "DRD2"), ncol = 2, cols = Set26)
+# none detected
+```
+
+##  Serotonergic Neurons  marker
+
+```{r, Serotonergic markers, fig.height=4, fig.width=4}
+RidgePlot(seurat_integrated, features = c("SLC6A4", "TPH1", "HTR2A"), ncol = 2, cols = Set26)
+# none detected
+```
+## Cholinergicneurons marker
+```{r, Cholinergicneurons markers, fig.width=4., fig.height=4}
+RidgePlot(seurat_integrated, features = c("CHAT", "SLC18A3", "ACHE"), ncol = 2, cols = Set26)
+
+```
+## GO terms of clusters 
+
+```{r GO res analysis, fig.height=8}
+
+genelist = list()
+for( i in unique(markers$cluster)){
+  genelist[[i]] = markers$gene[markers$cluster == i ]
+}
+
+gostres = gost(query = genelist, evcodes = T)
+
+names(gostres)
+
+tablegostres = gostres$result[grepl("GO:", gostres$result$source), c("query", "source", "term_name","p_value", "intersection")]
+
+DT::datatable(tablegostres, extensions = "Buttons",
+                    filter="top",
+                    options = list(
+                      pageLength = 15,
+                      info = FALSE,
+                      lengthMenu = list(c(15,50, 100, -1),
+                                        c("15","50", "100" ,"All")
+                      ),dom = 'Blfrtip',
+                      buttons = c('copy', 'csv', 'excel', 'pdf')
+                    ))
+
+writexl::write_xlsx(gostres$result, path =  "/files/scRNA_Qualitycheck/output/GO_termsCluster.xlsx")
+
+```
+
+
+
+
+## Map to Human primary cell atlas
+
+```{r load data for Prediction, include = FALSE}
+## 1) Converting query data to single cell experiment
+scRNA.sce <- as.SingleCellExperiment(seurat_integrated)
+counts(scRNA.sce) <- expm1(logcounts(scRNA.sce))
+#scRNA.sce <- logNormCounts(scRNA.sce)
+#assay(scRNA.sce, 'logcounts') <- log1p(counts(scRNA.sce))
+```
+
+
+```{r Calling and processing reference data, include = FALSE}
+hpca <-HumanPrimaryCellAtlasData()
+
+tmp<- as(hpca, "SingleCellExperiment")
+counts(tmp) <- expm1(logcounts(tmp))
+tmp = logNormCounts(tmp)
+ave.counts <- rowMeans2(counts(tmp))
+num.cells <- rowSums(counts(tmp)!=0)
+
+
+unfiltered <- tmp
+keep1 <- ave.counts >= 1
+summary(keep1)
+keep2 <- num.cells > 0
+summary(keep2)
+
+tmp <- tmp[keep1&keep2, ]
+entrez.id <- mapIds(org.Hs.eg.db, keys=rownames(tmp), 
+                    keytype="SYMBOL", column=c("ENTREZID"), multiVals = "first")
+chromdb <- sapply(entrez.id, function(x){ifelse(is.na(x), NA, org.Hs.egCHR[[x]])})
+rowData(tmp)<- cbind(rowData(tmp), CHR=chromdb)
+
+## Check mito genes
+is.mito <- grepl("MT", chromdb)
+tmp <- splitAltExps(tmp, ifelse(is.mito, "Mito", "gene"))
+
+## ribosomal protein genes will only be analyzed as a subset not as altExp
+is.ribo <- grepl("^RPS|^RPL", rownames(tmp))
+stats <- perCellQCMetrics(tmp, subset=list(Ribo=is.ribo))
+tmp <- addPerCellQCMetrics(tmp)
+reasons <- perCellQCFilters(stats, sub.fields = T)
+
+colSums(as.matrix(reasons))
+
+tmp <- tmp[ ,!reasons$discard]
+
+table(tmp$label.main)
+
+hpca.se<-tmp
+rm(tmp)
+rm(hpca)
+```
+
+```{r Mapping reference data to query data}
+#3) Mapping reference data to query data
+pred.hesc <- SingleR(test = scRNA.sce, 
+                     ref = hpca.se, 
+                     assay.type.test=1,
+                     num.threads = 12,
+                     labels = hpca.se$label.main)
+
+
+
+cdata = cbind(colData(scRNA.sce), 
+                            data.frame(HumanPrimaryCellAtlas.label = pred.hesc$pruned.labels))
+
+rescounts = table(pred.hesc$pruned.labels, useNA="ifany")
+othercells = names(rescounts)[rescounts<100]
+
+cdata$HPCA100.label = pred.hesc$pruned.labels
+
+cdata$HPCA100.label[cdata$HPCA100.label %in%othercells] = "other"
+
+Cellpalette = colorRampPalette(brewer.pal(12, "Paired"))(length(unique(cdata$HPCA100.label)))
+names(Cellpalette) = unique(cdata$HPCA100.label)
+Cellpalette["other"] = "gray30"
+Cellpalette["Neurons"] = "black"
+
+
+colData(scRNA.sce) = cdata
+
+```
+
+```{r Adding reduced dims to the seurat converted object}
+# Adding reduced dims to the seurat converted object
+
+umap<-Embeddings(seurat_integrated,"umap")[,]
+reducedDim(scRNA.sce, "UMAP")<-umap
+
+pca<-Embeddings(seurat_integrated,"pca")[,]
+reducedDim(scRNA.sce, "PCA")<-pca
+
+tsne<-Embeddings(seurat_integrated,"tsne")[,]
+reducedDim(scRNA.sce, "TSNE")<-tsne
+
+
+colData(scRNA.sce)$UMAP1<-data.frame(reducedDim(scRNA.sce)[,1])
+colData(scRNA.sce)$UMAP2<-data.frame(reducedDim(scRNA.sce)[,2])
+
+scRNA.sce$UMAP1<-as.numeric(scRNA.sce$UMAP1$reducedDim.scRNA.sce....1.)
+scRNA.sce$UMAP2<-as.numeric(scRNA.sce$UMAP2$reducedDim.scRNA.sce....2.)
+
+```
+
+```{r plot Celltype, fig.width=12, fig.height=4}
+plotScoreHeatmap(pred.hesc)
+
+cowplot::plot_grid(
+  scater::plotReducedDim(scRNA.sce, 'UMAP', colour_by = 'HPCA100.label') + scale_fill_manual(values=Cellpalette, aesthetics="colour", name="Celltype"),
+  scater::plotReducedDim(scRNA.sce, 'UMAP', colour_by = 'seurat_clusters', text_by = 'seurat_clusters')+ scale_fill_manual(values=Set26, aesthetics="colour",  name="Clusters"))
+
+```
+
+
+```{r,fig.width=8,fig.height=8}
+p<-plotColData(scRNA.sce, x="HPCA100.label", y="SampleID", colour_by="seurat_clusters")+
+  scale_fill_manual(values=Set26, aesthetics="colour")
+p + guides(color=guide_legend(title="Clusters")) + theme(axis.text.x = element_text(angle=90))
+```
+
+
+```{r,fig.width=8,fig.height=8}
+p<-plotColData(scRNA.sce, x="SampleID", y="seurat_clusters", colour_by="HPCA100.label")+
+  scale_fill_manual(values=Cellpalette, aesthetics="colour")
+p + guides(color=guide_legend(title="Cell Type"))+theme(axis.text.x = element_text(angle=90))
+```
+
+
+```{r Cluster Comparison per Sample,echo=FALSE, fig.width=8, fig.height=5}
+#  Prepare a counts matrix with labeled rows and columns. 
+# sce <- logcounts(sce)  # access log-transformed counts matrix
+# cellLabels <- as.factor(scRNA.sce$HumanPrimaryCellAtlas.label)
+# colnames(scRNA.sce) <- cellLabels
+
+#Calculating the percentages of cell per cluster
+number_perCluster<- as.data.frame.matrix(table(Samples=scRNA.sce$Sample, 
+                                               Clusters=scRNA.sce$seurat_clusters))
+prop_per_Sample<- prop.table(table(Samples=scRNA.sce$Sample, 
+                                               Clusters=scRNA.sce$seurat_clusters), margin = 1)
+
+pheatmap::pheatmap(prop_per_Sample)
+
+#Group comparisons
+chisqmatrix <- function(x) {
+  names = colnames(x);  
+  num = length(names)
+  m = matrix(nrow=num,ncol=num,dimnames=list(names,names))
+  for (i in names) {
+    for (j in names) {
+      m[i,j] = chisq.test((x[,c(i,j)]))$p.value
+    }
+  }
+  diag(m)=NA
+  m[lower.tri(m)]=NA
+  colnames(m)=names
+  rownames(m)=names
+  return (m)
+}
+
+mat = chisqmatrix(t(number_perCluster))
+
+cormat = matrix(data = p.adjust(mat, method = "BH"), 
+       nrow = nrow(mat), ncol=ncol(mat))
+
+pheatmap::pheatmap(prop_per_Sample, )
+
+```
+
+
+```{r ## Enrichment analysis,echo=FALSE, fig.width=8, fig.height=5}
+#Enrichment Analysis
+colDatasetDF=colData(scRNA.sce)
+
+#CC<-read.table("CellType_cluster.txt")
+res = list()
+for( i in unique(colDatasetDF$seurat_clusters)){
+    for(j in unique(colDatasetDF$HPCA100.label)){
+    ft = fisher.test(table(factor(colDatasetDF$seurat_clusters==i,
+                                  levels=c("TRUE","FALSE")),
+                           factor(colDatasetDF$HPCA100.label==j,
+                                  levels=c("TRUE","FALSE"))))
+    res[[paste0(i,"_",j)]] = c(estiamte=ft$estimate, pvalue=ft$p.value)
+  }
+}
+
+df <- data.frame(matrix(unlist(res), nrow=length(res), byrow=TRUE))
+rownames(df)<-names(res)
+colnames(df)<-c("estimate","p-value")
+df$Cluster=unlist(lapply(strsplit(names(res), "_"), function(x) x[1]))
+df$Celltype=unlist(lapply(strsplit(names(res), "_"), function(x) x[2]))
+
+enrichmentMap = log(reshape2::acast(df, Cluster~Celltype, value.var = "estimate"))
+enrichmentMap[enrichmentMap<0]=0
+pheatmap::pheatmap(enrichmentMap)
+
+```
+
+
+## Map to neuronal Subtypes
+
+## models not copnverging 
+```{r}
+
+# allen_reference  = readRDS("/files/scRNA_Qualitycheck/data/data/refData/allen_cortex.rds")
+# 
+# tmp<- as.SingleCellExperiment(allen_reference)
+# 
+# logcounts(tmp)<- log1p(counts(tmp))
+# tmp <- logNormCounts(tmp) 
+# ave.counts <- rowMeans2(counts(tmp))
+# num.cells <- rowSums(counts(tmp)!=0)
+# 
+# unfiltered <- tmp
+# keep1 <- ave.counts >= 1 # check if we need to include less or more reads here 
+# summary(keep1)
+# keep2 <- num.cells > 0
+# summary(keep2)
+# 
+# tmp <- tmp[keep1&keep2, ]
+# 
+# entrez.id <- mapIds(org.Hs.eg.db, keys=rownames(tmp), 
+#                     keytype="SYMBOL", column=c("ENTREZID"), multiVals = "first")
+# chromdb <- sapply(entrez.id, function(x){ifelse(is.na(x), NA, org.Hs.egCHR[[x]])})
+# rowData(tmp)<- cbind(rowData(tmp), CHR=chromdb)
+# 
+# ## Check mito genes
+# is.mito <- grepl("MT", chromdb)
+# tmp <- splitAltExps(tmp, ifelse(is.mito, "Mito", "gene"))
+# 
+# ## ribosomal protein genes will only be analyzed as a subset not as altExp
+# is.ribo <- grepl("^RPS|^RPL", rownames(tmp))
+# 
+# stats <- perCellQCMetrics(tmp, subset=list(Ribo=is.ribo))
+# tmp <- addPerCellQCMetrics(tmp, subset=list(Ribo=is.ribo))
+# reasons <- perCellQCFilters(stats, sub.fields = T)
+# 
+# colSums(as.matrix(reasons), na.rm = T)
+# 
+# tmp <- tmp[ ,!reasons$discard]
+# 
+# table(tmp$subclass)
+# 
+# hneurons.sce<-tmp
+# 
+# rm(tmp)
+# gc()
+# 
+# idx=c()
+# 
+# Nsub=100
+# 
+# # break it down 
+# for (i in unique(hneurons.sce$subclass)){
+#   subtype= which(hneurons.sce$subclass == i)
+#   idx = c(idx, sample(subtype, size = min(length(subtype), Nsub), replace = F))
+# }
+# 
+# 
+# 
+# hneurons.sce.subset = hneurons.sce[,idx]
+# table(hneurons.sce.subset$subclass)
+# 
+# pred.hneurons <- SingleR(test = scRNA.sce, 
+#                      ref = hneurons.sce.subset, 
+#                      assay.type.test=1,
+#                      num.threads = 12,
+#                      labels = hneurons.sce.subset$subclass
+#                      )
+# 
+# 
+# cdata = cbind(colData(scRNA.sce), 
+#                             data.frame(HumanNeurons.label = pred.hneurons$pruned.labels))
+# 
+# rescounts = table(pred.hesc$pruned.labels, useNA="ifany")
+# othercells = names(rescounts)[rescounts<100]
+# 
+# cdata$Neurons100.label = pred.hesc$pruned.labels
+# cdata$Neurons100.label[cdata$Neurons100.label %in%othercells] = "other"
+# 
+# Neuronpalette = colorRampPalette(brewer.pal(12, "Paired"))(length(unique(cdata$Neurons100.label)))
+# names(Neuronpalette) = unique(cdata$Neurons100.label)
+# Neuronpalette["other"] = "gray30"
+# 
+# colData(scRNA.sce) = cdata
+# 
+# seurat_clustered = as.Seurat(scRNA.sce)
+# 
+# save.image("/files/scRNA_Qualitycheck/output/Clustering_step_2.RData")
+
+
+save(scRNA.sce, seurat_integrated, Cellpalette, file = "/files/scRNA_Qualitycheck/output/02_Clustering_scRNA_seurat_clustered.Rdata")
+
+```
+
+

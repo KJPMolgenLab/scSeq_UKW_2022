@@ -7,4 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+Project has been analzed by Afsheen Kumar and Andreas Chiocchetti at the Laboratory for Translational Child Psychiatry at the University Hospital Frankfurt 
+
+
+The analysis has been funded by NNN awarde to NNN 

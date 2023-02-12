@@ -1,0 +1,169 @@
+---
+title: "Genotype analysis"
+author: "AGC AK"
+date: "2023-02-11"
+output: html_document
+---
+
+```{r Calling libraries, echo=FALSE, include=FALSE}
+library(SingleR)
+library(DropletUtils)
+library(SingleCellExperiment)
+library(Seurat)
+library(slingshot)
+library(ggplot2)
+library(scuttle)
+library(celldex)
+library(AnnotationHub)
+library(org.Hs.eg.db)
+library(scater)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+library(RColorBrewer)
+library(RCurl)
+library(randomcoloR)
+library(cowplot)
+library(viridis)
+library(gprofiler2)
+library(lme4)
+
+
+
+SamplePalette =  c(awr925_CL3_TR1="#000000",
+                   awr925_CL3_TR2= "#808080",
+                   jem839_CL5_TR2 = "#3399FF", 
+                   nuc752_CL4_TR1 = "#FF3300",
+                   nuc752_CL4_TR2 = "#CC3300",
+                   nuc752_CL6_TR1  = "#990000",
+                   SK55_CL9_TR1 = "#FF00FF",
+                   SK55_CL9_TR2  = "#CC00CC",
+                   SK55_CL49C_TR1   = "#CC66CC",
+                   SK301_CL13_TR2  = "#3CB371")
+
+SampleGPalette = c(awr925="#000000", 
+                   jem839="#3399FF", 
+                   nuc752="#FF3300", 
+                   SK55="#FF00FF", 
+                   SK301="#3CB371")
+
+nb.cols <- 26
+Set26 <- colorRampPalette(brewer.pal(12, "Set3"))(nb.cols)
+names(Set26)=1:nb.cols-1
+
+```
+
+```{r load files}
+load(file = "/files/scRNA_Qualitycheck/output/03_Trajectory_scRNA_seurat_sling.Rdata")
+```
+
+```{r identify markers}
+coldata = seurat_integrated@meta.data
+countdata = as.matrix(seurat_integrated@assays$SCT@scale.data)
+coldata$TR = gsub(".*(TR.)", "\\1", coldata$SampleID)
+
+model = as.formula("x ~ Genotype+(1|TR)")
+
+runlmer = function(i, mod, gdata, cdata){
+  cat(i, end="\r")
+  cdata$x=gdata[i,]
+  res = suppressMessages(lmer(mod, data=cdata, verbose = 0))
+  res = summary(res)
+  return(res$coefficients[2,])
+}
+
+reslmer <- lapply(1:nrow(countdata), function(i){
+  runlmer(i, gdata = countdata, mod = model, cdata = coldata)})
+names(reslmer) = rownames(countdata)
+reslmer <- do.call(rbind, reslmer)
+reslmer <- as.data.frame(reslmer)
+reslmer$p.value = 2*pt(abs(reslmer$`t value`), df=ncol(countdata)-1, lower=FALSE)
+reslmer$adj.p = p.adjust(reslmer$p, method="BH")
+
+ggplot(reslmer, aes(x=Estimate, y=p.value, fill=p.value))+
+  geom_point()
+
+Idents(seurat_integrated) = "Genotype"
+
+Genotype.Markers= FindMarkers(seurat_integrated, 
+                              assay = "integrated",
+                              test.use = "wilcox",
+                              ident.1 = "C/C", only.pos = F)
+
+Genotype.Markers <- Genotype.Markers[Genotype.Markers$p_val_adj<0.05,]
+Genotype.Markers %>%
+  top_n(n = 20, wt = abs(avg_log2FC)) -> top10Genotype.Markers
+
+Genotype.Markers = Genotype.Markers[order(Genotype.Markers$avg_log2FC),]
+DoHeatmap(seurat_integrated, features = rownames(top10Genotype.Markers), 
+          group.by = "Genotype", assay = "integrated")
+
+```
+
+
+
+
+```{r }
+#Calculating the percentages of cell per cluster
+number_perCluster<- as.data.frame.matrix(table(Samples=seurat_integrated$SampleID, 
+                                               Clusters=scRNA.sce$seurat_clusters))
+prop_per_Sample<- prop.table(table(Samples=scRNA.sce$Sample, 
+                                   Clusters=scRNA.sce$seurat_clusters), margin = 1)
+
+SampleData = unique(coldata[,c("SampleID", "BatchID", "Genotype", "TR")])
+
+
+res = apply(prop_per_Sample, 2, function(x){summary(lmer(x~Genotype+(1|TR), data=SampleData))})
+ResFreq <- lapply(res, function(x) x$coefficients[2,]) %>% do.call(rbind,.) %>% as.data.frame()
+
+ResFreq$pvalue = 2*pt(abs(ResFreq$`t value`), df=10, lower.tail = F)
+ResFreq$p.adj = p.adjust(ResFreq$pvalue)
+
+```
+
+## gene based cluster based
+```{r genwise by cell cluster}
+
+reslist.by.cluster=list()
+for(i in unique(seurat_integrated$seurat_clusters)){
+  print(i)
+  cellidx=coldata$seurat_clusters==i
+  countdata.subset=countdata[,cellidx]
+  reslmer <- lapply(1:nrow(countdata), function(i){
+    runlmer(i, gdata = countdata.subset, mod = model, cdata = coldata[cellidx,])})
+  reslmer <- do.call(rbind, reslmer)
+  reslmer <- as.data.frame(reslmer)
+  reslmer$p.value = 2*pt(abs(reslmer$`t value`), df=ncol(countdata)-1, lower=FALSE)
+  reslmer$adj.p = p.adjust(reslmer$p, method="BH")
+  row.names(reslmer) = rownames(countdata)
+  reslist.by.cluster[[i]] = reslmer
+  
+}
+
+reslist.by.cluster = reslist.by.cluster[as.character(sort(unique(seurat_integrated$seurat_clusters)))]
+
+x=4
+lapply(seq_along(reslist.by.cluster), function(x){
+  df = reslist.by.cluster[[x]]
+  df = df[order(df$adj.p, decreasing = F),]
+  DT::datatable(df, extensions = "Buttons",
+                filter="top",
+                caption = paste0("Genewise results cluster ",names(reslist.by.cluster)[x]),
+                options = list(
+                  pageLength = 10,
+                  info = FALSE,
+                  lengthMenu = list(c(15,50, 100, -1),
+                                    c("15","50", "100" ,"All")
+                  ),dom = 'Blfrtip',
+                  buttons = c('copy', 'csv', 'excel', 'pdf')
+                ))
+  })
+
+```
+
+```{r}
+save(reslist.by.cluster, ResFreq, Genotype.Markers, reslmer, seurat_integrated, scRNA.sce, Cellpalette, SampleGPalette, SamplePalette, prop_per_Sample, file = "/files/scRNA_Qualitycheck/output/04_GenotypeAnalysis_scRNA_Output.Rdata")
+
+```
+
+

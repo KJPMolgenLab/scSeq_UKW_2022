@@ -1,0 +1,236 @@
+---
+title: "03_TrajectoryAnalysis"
+author: "Afsheen"
+date: "2023-01-12"
+output: html_document
+---
+
+```{r Calling libraries, echo=FALSE, include=FALSE}
+library(SingleR)
+library(DropletUtils)
+library(SingleCellExperiment)
+library(Seurat)
+library(slingshot)
+library(ggplot2)
+library(scuttle)
+library(celldex)
+library(AnnotationHub)
+library(org.Hs.eg.db)
+library(scater)
+library(tidyverse)
+library(lubridate)
+library(data.table)
+library(RColorBrewer)
+library(RCurl)
+library(randomcoloR)
+library(cowplot)
+library(viridis)
+library(gprofiler2)
+
+
+SamplePalette =  c(awr925_CL3_TR1="#000000",
+                   awr925_CL3_TR2= "#808080",
+                   jem839_CL5_TR2 = "#3399FF", 
+                   nuc752_CL4_TR1 = "#FF3300",
+                   nuc752_CL4_TR2 = "#CC3300",
+                   nuc752_CL6_TR1  = "#990000",
+                   SK55_CL9_TR1 = "#FF00FF",
+                   SK55_CL9_TR2  = "#CC00CC",
+                   SK55_CL49C_TR1   = "#CC66CC",
+                   SK301_CL13_TR2  = "#3CB371")
+
+SampleGPalette = c(awr925="#000000", 
+                   jem839="#3399FF", 
+                   nuc752="#FF3300", 
+                   SK55="#FF00FF", 
+                   SK301="#3CB371")
+
+nb.cols <- 26
+Set26 <- colorRampPalette(brewer.pal(12, "Set3"))(nb.cols)
+names(Set26)=1:nb.cols-1
+
+```
+
+```{r}
+load(file = "/files/scRNA_Qualitycheck/output/02_Clustering_scRNA_seurat_clustered.Rdata")
+```
+
+
+
+```{r 08-Trajectory analysis Calc Pseudtime,echo=FALSE, fig.width=8, fig.height=5}
+
+#head(colData(scRNA.sce))
+
+#Calculating slingsshot
+
+sce_sling <- slingshot(scRNA.sce, 
+                       clusterLabels = scRNA.sce$seurat_clusters, 
+                       reducedDim = 'PCA', 
+                       approx_points=100, omega=TRUE)
+
+pseudo.paths <- slingPseudotime(sce_sling)
+shared.pseudo <- rowMeans(pseudo.paths, na.rm=TRUE)
+
+embedded <- embedCurves(sce_sling, "UMAP")
+embedded <- slingCurves(embedded)
+
+PS<-cbind(colData(scRNA.sce),shared.pseudo, pseudo.paths) %>% as.data.frame()
+linages= grep("Lineage", colnames(PS), value = T)
+
+names(embedded) = linages
+
+```
+
+
+```{r pseudotime UMAP plots, fig.width=12, fig.height=4}
+
+gga <- plotUMAP(sce_sling, colour_by=I(shared.pseudo))
+for (path in embedded) {
+  embedded_tmp <- data.frame(path$s[path$ord,])
+  gga <- gga + geom_path(data=embedded_tmp, aes(x=UMAP_1, y=UMAP_2), linewidth=1.2)
+}
+gga <- gga + ggtitle("Trajectory-Pseudotime")+theme_classic()
+
+
+
+ggb <- plotUMAP(sce_sling, colour_by="seurat_clusters")
+for (path in embedded) {
+  embedded_tmp <- data.frame(path$s[path$ord,])
+  ggb <- ggb + geom_path(data=embedded_tmp, aes(x=UMAP_1, y=UMAP_2), linewidth=1.2)
+}
+ggb <- ggb + ggtitle("Trajectory-Clusters")+ scale_fill_manual(values=Set26, aesthetics="colour",  name="Clusters") +theme_classic()
+
+
+
+ggc <- plotUMAP(sce_sling, colour_by="HPCA100.label")
+for (path in embedded) {
+  embedded_tmp <- data.frame(path$s[path$ord,])
+  ggc <- ggc + geom_path(data=embedded_tmp, aes(x=UMAP_1, y=UMAP_2), linewidth=1.2)
+}
+ggc <- ggc + ggtitle("Trajectory-Celltype")+ scale_fill_manual(values=Cellpalette, aesthetics="colour",  name="Clusters") +theme_classic()
+
+gga+ggb+ggc
+
+```
+
+
+
+
+```{r ## 08-Trajectory Lineages individual,echo=FALSE, fig.width=8, fig.height=8}
+plots=list()
+for(lin in linages){
+  ind = !is.na(PS[,lin])
+  embedded_tmp = data.frame(embedded[[lin]]$s[path$ord,])
+  gga <- plotUMAP(sce_sling[,ind], colour_by=I(pseudo.paths[ind,lin]))+ 
+    geom_path(data=embedded_tmp, aes(x=UMAP_1, y=UMAP_2), linewidth=1.2)
+  plots[[lin]] = gga + ggtitle(lin) +theme_classic()
+}
+
+ggpubr::ggarrange(plotlist=plots)
+
+```
+
+
+```{r ## 08-Trajectory Lineages Samples,echo=FALSE, fig.width=8, fig.height=8}
+
+for( lin in c("shared.pseudo",linages)){
+  ggp2 <- ggplot(PS, aes(x = get(lin), color=Sample)) + 
+    geom_density() + 
+    facet_wrap(~ sampleG, scales="free_y")+
+    scale_fill_manual(values=SamplePalette, aesthetics="colour")+
+    theme_classic()+ ggtitle(lin)
+  print(ggp2 )
+}
+
+
+for( lin in c("shared.pseudo",linages)){
+  ggp2 <- ggplot(PS, aes(x = get(lin), color=Sample)) + 
+    geom_density() + 
+    scale_fill_manual(values=SamplePalette, aesthetics="colour")+
+    theme_classic()+ ggtitle(lin)
+  print(ggp2 )
+}
+
+```
+
+
+
+```{r ## 08-Trajectory analysis compare linages,echo=FALSE, fig.width=8, fig.height=5}
+
+PS_compare<-PS[,c("Sample", linages)] %>%
+  group_by(Sample) %>%
+  ggpubr::get_summary_stats(type = "full")
+
+writexl::write_xlsx(PS_compare,"/files/scRNA_Qualitycheck/output/PS_comparison.xlsx")
+
+Tcomp = list()
+nsamples = length(unique(PS$SampleID))
+Resmatrix=matrix(nrow = nsamples, ncol = nsamples)
+diag(Resmatrix) = NA
+colnames(Resmatrix) = rownames(Resmatrix) = unique(PS$SampleID)
+
+Comparison_PseudoTime<-rstatix::pairwise_t_test(data = PS, 
+                                                formula = as.formula("shared.pseudo ~ Sample"))
+Tcomp [["shared.pseudo"]] = Comparison_PseudoTime
+writexl::write_xlsx(Comparison_PseudoTime, path = "/files/scRNA_Qualitycheck/output/shared.pseudo_comparison.xlsx")
+
+for(i in unique(PS$SampleID)){
+  for(j in unique(PS$SampleID)){
+    idx = Comparison_PseudoTime$group1==i&Comparison_PseudoTime$group2==j
+    if(any(idx)){
+      Resmatrix[i,j]=Comparison_PseudoTime$p.adj[idx]
+    }
+  }
+}
+
+Resmatrix[lower.tri(Resmatrix)]=t(Resmatrix[upper.tri(Resmatrix)])
+Resmatrix[Resmatrix<10e-50] = 10e-50
+
+pheatmap::pheatmap(log10(Resmatrix), 
+                   #cluster_rows = T, 
+                   legend_labels = "-log10(adj.p)",
+                   #cluster_cols = F, 
+                   main ="shared.pseudotime")
+
+
+for(lin in linages){
+  Comparison_PseudoTime<-rstatix::pairwise_t_test(data = PS, 
+                                                  formula = as.formula(paste0(lin, "~ Sample")))
+  
+writexl::write_xlsx(Comparison_PseudoTime, path =paste0( "/files/scRNA_Qualitycheck/output/",lin,"_comparison.xlsx"))
+  for(i in unique(PS$SampleID)){
+    for(j in unique(PS$SampleID)){
+      idx = Comparison_PseudoTime$group1==i&Comparison_PseudoTime$group2==j
+      if(any(idx)){
+        Resmatrix[i,j]=Comparison_PseudoTime$p.adj[idx]
+      }
+    }
+  }
+  
+  Resmatrix[lower.tri(Resmatrix)]=t(Resmatrix[upper.tri(Resmatrix)])
+  Resmatrix[Resmatrix<10e-50] = 10e-50
+  pheatmap::pheatmap(-log10(Resmatrix), cluster_rows = F, cluster_cols = F, main = lin)
+  Tcomp [[lin]] = Comparison_PseudoTime
+}
+
+
+```
+
+
+
+```{r ## 08-Trajectory analysis plot dist,echo=FALSE, fig.width=8, fig.height=4}
+p<-plotColData(sce_sling, x="SampleID", y="slingPseudotime_1", colour_by="HumanPrimaryCellAtlas.label")+
+  theme(axis.text.x = element_text(angle = 90)) +
+  scale_fill_manual(values= Cellpalette, aesthetics="colour")+
+  xlab("UMAP1") + ylab("Timepoint")
+p + guides(color=guide_legend(title="Cell Types"))
+
+```
+
+
+```{r}
+
+save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = "/files/scRNA_Qualitycheck/output/03_Trajectory_scRNA_seurat_sling.Rdata")
+
+```
+

@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Afsheen" />
+
+<meta name="date" content="2023-01-11" />
+
+<title>QC</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">scRNA_Qualitycheck</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">QC</h1>
+<h4 class="author">Afsheen</h4>
+<h4 class="date">2023-01-11</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-02-11
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 2
+</p>
+<p>
+<strong>Knit directory:</strong> <code>scRNA_Qualitycheck/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20230211code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20230211)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20230211code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20230211)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it
+difficult for you and others to run your code on a different machine.
+Change the absolute path(s) below to the suggested relative path(s) to
+make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+/files/scRNA_Qualitycheck/data/
+</td>
+<td style="text-align:left;">
+data
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/files/scRNA_Qualitycheck/output/01_QC_scRNA_seurat_integrated.Rdata
+</td>
+<td style="text-align:left;">
+output/01_QC_scRNA_seurat_integrated.Rdata
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong10f1473">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> 10f1473
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong10f1473"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 10f1473.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+
+Untracked files:
+    Untracked:  analysis/01_QC_scRNA.Rmd
+    Untracked:  analysis/02_Clustering_scRNA.Rmd
+    Untracked:  analysis/03_TrajectoryAnalysis_scRNA.Rmd
+    Untracked:  analysis/04_GenotypeAnalysis_scRNA.Rmd
+    Untracked:  code/wflow_helper.R
+    Untracked:  data/data/
+    Untracked:  output/01_QC_scRNA_Output.Rdata
+    Untracked:  output/01_QC_scRNA_seurat_integrated.Rdata
+    Untracked:  output/02_Clusterig_scRNA.Rdata
+    Untracked:  output/02_Clustering_scRNA_seurat_clustered.Rdata
+    Untracked:  output/03_Trajectory_scRNA_seurat_sling.Rdata
+    Untracked:  output/BatchCorrection_pools_samples/
+    Untracked:  output/Cellcycle_allSamples/
+    Untracked:  output/Chisquares_Samples.txt
+    Untracked:  output/Cluster_Labels.txt
+    Untracked:  output/Cluster_markers.txt
+    Untracked:  output/Comparison_Ps.txt
+    Untracked:  output/Enrichment_cluster.txt
+    Untracked:  output/GO_termsCluster.xlsx
+    Untracked:  output/Lineage1_comparison.xlsx
+    Untracked:  output/Lineage2_comparison.xlsx
+    Untracked:  output/Lineage3_comparison.xlsx
+    Untracked:  output/Lineage4_comparison.xlsx
+    Untracked:  output/Lineage5_comparison.xlsx
+    Untracked:  output/Lineage6_comparison.xlsx
+    Untracked:  output/Markers_Clusters.txt
+    Untracked:  output/Markers_upregulated_clusters.txt
+    Untracked:  output/Number_Per_cluster.txt
+    Untracked:  output/PS_comparison.txt
+    Untracked:  output/PS_comparison.xlsx
+    Untracked:  output/Wilcoxin_test_PseudoCompare.txt
+    Untracked:  output/shared.pseudo_comparison.xlsx
+
+Unstaged changes:
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="qc-of-the-samples" class="section level1">
+<h1>QC of the samples</h1>
+<div id="data-preparation" class="section level2">
+<h2>Data Preparation</h2>
+</div>
+<div id="data-loading" class="section level2">
+<h2>Data Loading</h2>
+<pre><code>as(&lt;dgTMatrix&gt;, &quot;dgCMatrix&quot;) is deprecated since Matrix 1.5-0; do as(., &quot;CsparseMatrix&quot;) instead</code></pre>
+<pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns
+&#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
+<p><img src="figure/01_QC_scRNA.Rmd/Loading%20samples%20and%20performing%20basic%20QC-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;detected genes passing QC&quot;</code></pre>
+<pre><code>detectedGenes
+FALSE  TRUE 
+ 8894 27634 </code></pre>
+<pre><code>             low_lib_size            low_n_features high_altexps_Mito_percent 
+                        0                         0                       647 
+high_altexps_ERCC_percent                   discard 
+                       59                       705 </code></pre>
+</div>
+<div id="data-inspection" class="section level2">
+<h2>Data Inspection</h2>
+<pre><code>Warning: Transformation introduced infinite values in continuous y-axis
+Transformation introduced infinite values in continuous y-axis</code></pre>
+<pre><code>Warning: Removed 6815 rows containing non-finite values (`stat_ydensity()`).</code></pre>
+<pre><code>Warning: Removed 6815 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="figure/01_QC_scRNA.Rmd/QCplot1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/QCplot2-1.png" width="768" style="display: block; margin: auto;" />
+#Read QC samples only</p>
+<pre><code>10X data contains more than one type and is being returned as a list containing matrices of each type.</code></pre>
+</div>
+<div id="inspect-cells-per-samples" class="section level2">
+<h2>Inspect Cells per samples</h2>
+<p><img src="figure/01_QC_scRNA.Rmd/Sample%20group%20vs%20Ncells-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Samples%20vs%20Ncells-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inspect-umi-per-samples" class="section level2">
+<h2>Inspect UMI per samples</h2>
+<p><img src="figure/01_QC_scRNA.Rmd/UMI%20vs%20Sample%20Groups-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/UMI%20vs%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inspect-genes-per-samples" class="section level2">
+<h2>Inspect Genes per samples</h2>
+<p><img src="figure/01_QC_scRNA.Rmd/Number%20of%20Genes%20vs%20Samples%20group-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Number%20of%20Genes%20vs%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Distribution%20of%20Genes%20vs%20Sample%20groups-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Distribution%20of%20Genes%20vs%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inspect-quality-per-samples" class="section level2">
+<h2>Inspect Quality per samples</h2>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="figure/01_QC_scRNA.Rmd/Mitochondrial%20Ratio-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Mito%20ratio-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Ribo%20ratio-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Complexity%20Genes%20per%20Umi-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="filter-and-quality-control" class="section level2">
+<h2>Filter and Quality Control</h2>
+<pre><code>Warning: replacing previous import &#39;data.table::shift&#39; by &#39;tictoc::shift&#39; when
+loading &#39;CelliD&#39;</code></pre>
+<pre><code>Centering and scaling data matrix</code></pre>
+<pre><code>PC_ 1 
+Positive:  BGN, PRRX1, COL6A3, IL1R1, COL14A1, COL1A1, IGF1, COL5A2, MGP, COL3A1 
+       PDGFRL, ADAMTS1, PDGFRA, FBLN1, TGFBI, MMP2, CRISPLD2, SERPINF1, RARRES1, LOXL2 
+       P4HA3, PCOLCE, PAPPA, LAMA4, THBS1, FHL2, COL5A1, ARHGAP28, SFRP2, BNC2 
+Negative:  CKB, GPM6A, TAGLN3, PTPRZ1, BEX1, TUBB3, STMN4, RTN1, NNAT, CD24 
+       STMN2, ELAVL3, JPT1, DNER, CHD7, KIF5C, DCX, HIST1H4C, POU3F2, ANK3 
+       NRXN1, TFPI2, LY6H, PCDH9, TMSB15A, GNG3, ATP1A2, C1orf61, PKIA, KIAA0408 
+PC_ 2 
+Positive:  FTL, RGCC, DLK1, IGFBP5, CALY, CDC42EP5, SULF2, NEFL, DIRAS3, PTGDS 
+       CRABP1, STMN2, ECEL1, PPP1R17, IFITM3, TCIM, SNCG, IFITM2, PRSS56, SPINT2 
+       HOXB7, PPP1R1B, TAGLN, SST, RASL10B, PAPPA2, FGD5, CAMK2N1, NTS, WNT4 
+Negative:  MKI67, ASPM, GTSE1, DLGAP5, BUB1, KNL1, KIF2C, CENPE, KIFC1, CENPF 
+       TTK, NUF2, SGO2, NDC80, TOP2A, CCNA2, TPX2, KIF4A, NEK2, CKAP2L 
+       PBK, NUSAP1, KIF20A, HJURP, CDCA2, SGO1, KIF11, CDCA8, BUB1B, CDC20 
+PC_ 3 
+Positive:  STMN2, NCAM1, DCX, INA, CRMP1, NSG2, ELAVL4, SCG3, MAPT, SOX4 
+       SEZ6L2, TUBB3, SRRM4, MYT1L, ELAVL3, GNG3, GABRB3, GRIA2, RTN1, SCN3B 
+       RNF165, GNG4, CELF4, IGFBPL1, KIAA0408, SOX11, ATCAY, CELF5, ELAVL2, ATP1A3 
+Negative:  TFPI2, CLU, FBLN5, DLK1, BHLHE41, NR4A3, COL23A1, IFI6, LY6H, RGCC 
+       IFITM2, AHNAK, CFI, ADAMTS9, ECEL1, ANGPT1, CP, ATP1A2, EDNRB, PPP1R17 
+       THSD4, GNAL, EMP2, COL4A5, CEBPD, IFITM1, DIRAS3, WNT2B, CCDC80, IFITM3 
+PC_ 4 
+Positive:  COL1A1, FTL, LGALS1, SST, TTR, MGP, TWIST2, MGST1, COL3A1, PRRX1 
+       ITM2A, IGF1, PDGFRL, EDNRA, SFRP2, COL6A3, BGN, HAS2, SPARCL1, PTTG1 
+       POSTN, DPT, CTSK, FRZB, LOXL2, TNFAIP6, DCN, PDGFRA, PRRX2, FABP5 
+Negative:  GNAL, ZFHX4, COL4A5, AKAP12, BMP5, HOXB7, PSD3, LIMCH1, RGS9, COL23A1 
+       CYFIP2, NRIP1, SH3BP5, HOXB8, HOXB9, PLEKHG4B, MAP7, SEMA3C, COL4A6, GALNT1 
+       SLC5A7, PRUNE2, ADGRB3, CDH11, KIF5C, PLS3, CEMIP2, ADAMTS9, MAL, SMAD2 
+PC_ 5 
+Positive:  RGCC, NMU, RAMP1, MAL, SCTR, CRABP1, ZFHX4, ECEL1, DLK1, HOXB7 
+       DOC2B, FGD5, PRSS56, NTS, F10, HOXB8, ENO3, SLC5A7, BMP5, TNFAIP3 
+       WNT4, CCBE1, HOXA4, HOXB9, HOXB5, PAPSS2, APCDD1L, TCIM, RGS9, TFPI2 
+Negative:  NKAIN3, SERPINE2, PTPRZ1, SPARCL1, GPM6A, NR2F1, MGST1, ECM2, GFAP, CRISPLD1 
+       NRCAM, LRRIQ1, CD36, HYDIN, SYNM, AQP4, EDNRB, SERPINI1, PCDH10, PIFO 
+       PCDH9, HMGCS1, PTN, TTC6, IRX1, FOXA1, GOLIM4, C8orf34, ITGA6, CFAP126 </code></pre>
+<pre><code>Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
+To use Python UMAP via reticulate, set umap.method to &#39;umap-learn&#39; and metric to &#39;correlation&#39;
+This message will be shown once per session</code></pre>
+<pre><code>17:47:53 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
+<pre><code>17:47:53 Read 12249 rows and found 10 numeric columns</code></pre>
+<pre><code>17:47:53 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
+<pre><code>17:47:53 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
+<pre><code>0%   10   20   30   40   50   60   70   80   90   100%</code></pre>
+<pre><code>[----|----|----|----|----|----|----|----|----|----|</code></pre>
+<pre><code>**************************************************|
+17:47:54 Writing NN index file to temp file /tmp/RtmpEo5fFs/filedeb38f22d87
+17:47:54 Searching Annoy index using 1 thread, search_k = 3000
+17:47:58 Annoy recall = 100%
+17:47:58 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+17:48:00 Initializing from normalized Laplacian + noise (using RSpectra)
+17:48:00 Commencing optimization for 200 epochs, with 494522 positive edges
+17:48:05 Optimization finished</code></pre>
+</div>
+<div id="samples-before-batch-correction" class="section level2">
+<h2>Samples before Batch correction</h2>
+<p><img src="figure/01_QC_scRNA.Rmd/Creating%20UMAP%20plots%20before%20Batch%20corr-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="batch-correction" class="section level2">
+<h2>Batch correction</h2>
+</div>
+</div>
+<div id="plotting-cellular-structure-after-qc-and-batch-corrections"
+class="section level1">
+<h1>Plotting Cellular Structure after QC and Batch Corrections</h1>
+<p><img src="figure/01_QC_scRNA.Rmd/Creating%20UMAP%20plots%20after%20QC-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre><code>snapshotDate(): 2022-10-31</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>require(&quot;ensembldb&quot;)</code></pre>
+<pre><code>Warning: The following features are not present in the object: UBR7, RFC2,
+RAD51, MCM2, TIPIN, MCM6, UNG, POLD3, WDR76, CDC45, MSH2, MCM5, POLA1, RPA2,
+CASP8AP2, E2F8, PCNA, BRIP1, DSCC1, CDCA7, CHAF1B, USP1, SLBP, RRM1, FEN1,
+EXO1, PRIM1, UHRF1, not searching for symbol synonyms</code></pre>
+<pre><code>Warning: The following features are not present in the object: CBX5, CTCF, not
+searching for symbol synonyms</code></pre>
+<div id="inspect-cell-cylce-phase" class="section level2">
+<h2>Inspect Cell Cylce Phase</h2>
+<p><img src="figure/01_QC_scRNA.Rmd/Phase%20by%20Cell-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Phase%20by%20Samples%20-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_QC_scRNA.Rmd/Phase%20by%20Genotype-1.png" width="768" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre><code>R version 4.2.2 (2022-10-31)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 22.04.1 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] ensembldb_2.22.0            AnnotationFilter_1.22.0    
+ [3] GenomicFeatures_1.50.4      randomcoloR_1.1.0.1        
+ [5] RCurl_1.98-1.10             RColorBrewer_1.1-3         
+ [7] data.table_1.14.6           forcats_1.0.0              
+ [9] stringr_1.5.0               dplyr_1.1.0                
+[11] purrr_1.0.1                 readr_2.1.3                
+[13] tidyr_1.3.0                 tibble_3.1.8               
+[15] tidyverse_1.3.2             SeuratObject_4.1.3         
+[17] Seurat_4.3.0                scater_1.26.1              
+[19] org.Hs.eg.db_3.16.0         AnnotationDbi_1.60.0       
+[21] AnnotationHub_3.6.0         BiocFileCache_2.6.0        
+[23] dbplyr_2.3.0                scuttle_1.8.4              
+[25] DropletUtils_1.18.1         SingleCellExperiment_1.20.0
+[27] SummarizedExperiment_1.28.0 Biobase_2.58.0             
+[29] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
+[31] IRanges_2.32.0              S4Vectors_0.36.1           
+[33] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
+[35] matrixStats_0.63.0          cowplot_1.1.1              
+[37] ggplot2_3.4.0               workflowr_1.7.0            
+
+loaded via a namespace (and not attached):
+  [1] rappdirs_0.3.3                rtracklayer_1.58.0           
+  [3] scattermore_0.8               R.methodsS3_1.8.2            
+  [5] bit64_4.0.5                   knitr_1.42                   
+  [7] irlba_2.3.5.1                 DelayedArray_0.24.0          
+  [9] R.utils_2.12.2                KEGGREST_1.38.0              
+ [11] generics_0.1.3                ScaledMatrix_1.6.0           
+ [13] callr_3.7.3                   RSQLite_2.2.20               
+ [15] RANN_2.6.1                    future_1.31.0                
+ [17] bit_4.0.5                     tzdb_0.3.0                   
+ [19] xml2_1.3.3                    spatstat.data_3.0-0          
+ [21] lubridate_1.9.1               httpuv_1.6.8                 
+ [23] assertthat_0.2.1              viridis_0.6.2                
+ [25] gargle_1.3.0                  xfun_0.37                    
+ [27] hms_1.1.2                     jquerylib_0.1.4              
+ [29] evaluate_0.20                 promises_1.2.0.1             
+ [31] restfulr_0.0.15               progress_1.2.2               
+ [33] fansi_1.0.4                   readxl_1.4.1                 
+ [35] igraph_1.3.5                  DBI_1.1.3                    
+ [37] htmlwidgets_1.6.1             spatstat.geom_3.0-6          
+ [39] RcppArmadillo_0.11.4.3.1      googledrive_2.0.0            
+ [41] ellipsis_0.3.2                RSpectra_0.16-1              
+ [43] backports_1.4.1               V8_4.2.2                     
+ [45] biomaRt_2.54.0                deldir_1.0-6                 
+ [47] sparseMatrixStats_1.10.0      vctrs_0.5.2                  
+ [49] ROCR_1.0-11                   abind_1.4-5                  
+ [51] cachem_1.0.6                  withr_2.5.0                  
+ [53] progressr_0.13.0              sctransform_0.3.5            
+ [55] GenomicAlignments_1.34.0      prettyunits_1.1.1            
+ [57] goftest_1.2-3                 cluster_2.1.4                
+ [59] lazyeval_0.2.2                crayon_1.5.2                 
+ [61] spatstat.explore_3.0-6        labeling_0.4.2               
+ [63] edgeR_3.40.2                  pkgconfig_2.0.3              
+ [65] ProtGenerics_1.30.0           nlme_3.1-162                 
+ [67] vipor_0.4.5                   rlang_1.0.6                  
+ [69] globals_0.16.2                lifecycle_1.0.3              
+ [71] miniUI_0.1.1.1                filelock_1.0.2               
+ [73] modelr_0.1.10                 rsvd_1.0.5                   
+ [75] cellranger_1.1.0              rprojroot_2.0.3              
+ [77] polyclip_1.10-4               lmtest_0.9-40                
+ [79] Matrix_1.5-3                  Rhdf5lib_1.20.0              
+ [81] zoo_1.8-11                    reprex_2.0.2                 
+ [83] beeswarm_0.4.0                whisker_0.4.1                
+ [85] ggridges_0.5.4                processx_3.8.0               
+ [87] googlesheets4_1.0.1           rjson_0.2.21                 
+ [89] png_0.1-8                     viridisLite_0.4.1            
+ [91] bitops_1.0-7                  getPass_0.2-2                
+ [93] R.oo_1.25.0                   KernSmooth_2.23-20           
+ [95] rhdf5filters_1.10.0           Biostrings_2.66.0            
+ [97] blob_1.2.3                    DelayedMatrixStats_1.20.0    
+ [99] parallelly_1.34.0             spatstat.random_3.1-3        
+[101] beachmat_2.14.0               scales_1.2.1                 
+[103] memoise_2.0.1                 magrittr_2.0.3               
+[105] plyr_1.8.8                    ica_1.0-3                    
+[107] zlibbioc_1.44.0               compiler_4.2.2               
+[109] BiocIO_1.8.0                  dqrng_0.3.0                  
+[111] fitdistrplus_1.1-8            Rsamtools_2.14.0             
+[113] cli_3.6.0                     XVector_0.38.0               
+[115] listenv_0.9.0                 patchwork_1.1.2              
+[117] pbapply_1.7-0                 ps_1.7.2                     
+[119] mgcv_1.8-41                   MASS_7.3-58.2                
+[121] tidyselect_1.2.0              stringi_1.7.12               
+[123] highr_0.10                    yaml_2.3.7                   
+[125] askpass_1.1                   BiocSingular_1.14.0          
+[127] locfit_1.5-9.7                ggrepel_0.9.3                
+[129] grid_4.2.2                    sass_0.4.5                   
+[131] fastmatch_1.1-3               tools_4.2.2                  
+[133] timechange_0.2.0              future.apply_1.10.0          
+[135] parallel_4.2.2                rstudioapi_0.14              
+[137] git2r_0.31.0                  gridExtra_2.3                
+[139] farver_2.1.1                  Rtsne_0.16                   
+[141] digest_0.6.31                 BiocManager_1.30.19          
+[143] shiny_1.7.4                   Rcpp_1.0.10                  
+[145] broom_1.0.3                   BiocVersion_3.16.0           
+[147] later_1.3.0                   RcppAnnoy_0.0.20             
+[149] httr_1.4.4                    colorspace_2.1-0             
+[151] XML_3.99-0.13                 rvest_1.0.3                  
+[153] fs_1.6.1                      tensor_1.5                   
+[155] reticulate_1.28               umap_0.2.10.0                
+[157] splines_4.2.2                 uwot_0.1.14                  
+[159] spatstat.utils_3.0-1          sp_1.6-0                     
+[161] CelliD_1.6.2                  plotly_4.10.1                
+[163] xtable_1.8-4                  jsonlite_1.8.4               
+[165] R6_2.5.1                      tictoc_1.1                   
+[167] pillar_1.8.1                  htmltools_0.5.4              
+[169] mime_0.12                     glue_1.6.2                   
+[171] fastmap_1.1.0                 BiocParallel_1.32.5          
+[173] BiocNeighbors_1.16.0          interactiveDisplayBase_1.36.0
+[175] codetools_0.2-19              fgsea_1.24.0                 
+[177] utf8_1.2.3                    lattice_0.20-45              
+[179] bslib_0.4.2                   spatstat.sparse_3.0-0        
+[181] curl_5.0.0                    ggbeeswarm_0.7.1             
+[183] leiden_0.4.3                  openssl_2.0.5                
+[185] survival_3.5-0                limma_3.54.1                 
+[187] rmarkdown_2.20                munsell_0.5.0                
+[189] rhdf5_2.42.0                  GenomeInfoDbData_1.2.9       
+[191] HDF5Array_1.26.0              haven_2.5.1                  
+[193] reshape2_1.4.4                gtable_0.3.1                 </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

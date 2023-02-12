@@ -1,0 +1,646 @@
+---
+title: "QC"
+author: "Afsheen"
+date: "2023-01-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# QC of the samples
+
+```{r Calling libraries, echo=FALSE, include=FALSE}
+library(ggplot2)
+library(cowplot)
+library(DropletUtils)
+library(SingleCellExperiment)
+library(scuttle)
+library(AnnotationHub)
+library(org.Hs.eg.db)
+library(scater)
+library(Seurat)
+library(tidyverse)
+library(data.table)
+library(RColorBrewer)
+library(RCurl)
+library(randomcoloR)
+
+```
+
+## Data Preparation
+
+
+```{r set colors and filebase}
+set.seed(42)
+
+home="/files/scRNA_Qualitycheck/data/"
+
+nb.cols <- 26
+Set26 <- colorRampPalette(brewer.pal(12, "Set3"))(nb.cols)
+names(Set26)=1:nb.cols-1
+
+
+SamplePalette =  c(awr925_CL3_TR1="#000000",
+                   awr925_CL3_TR2= "#808080",
+                   jem839_CL5_TR2 = "#3399FF", 
+                   nuc752_CL4_TR1 = "#FF3300",
+                   nuc752_CL4_TR2 = "#CC3300",
+                   nuc752_CL6_TR1  = "#990000",
+                   SK55_CL9_TR1 = "#FF00FF",
+                   SK55_CL9_TR2  = "#CC00CC",
+                   SK55_CL49C_TR1   = "#CC66CC",
+                   SK301_CL13_TR2  = "#3CB371")
+
+SampleGPalette = c(awr925="#000000", 
+                   jem839="#3399FF", 
+                   nuc752="#FF3300", SK55="#FF00FF", SK301="#3CB371")
+
+
+
+# scales::show_col(SetDark26)
+
+```
+
+
+```{r, define directories to be loaded, echo=FALSE, include=FALSE}
+
+edb <- keys(org.Hs.eg.db)
+
+datadirs = list.dirs(home,recursive = T)
+datadirs = datadirs[grepl("sample_feature_bc_matrix", datadirs)]
+
+Samples= data.frame(
+  SampleID= gsub("(.*per_sample_outs/)|(/count.*)", "", datadirs),
+  poolID=gsub("(.*/data/)|(/outs.*)", "", datadirs))
+
+
+Samples = Samples[order(Samples$SampleID),]
+dirs=c(paste0(home, "data/",Samples$poolID,"/outs/per_sample_outs/",Samples$SampleID,"/count/sample_feature_bc_matrix"))
+
+Samples$SampleID = gsub("nuc725", "nuc752", Samples$SampleID)
+Samples$SampleG = gsub("_CL.*", "", Samples$SampleID)
+
+genotypes=c(
+SK301 = "C/C",
+SK308 = "C/C",
+SK55 = "C/G",
+awr925 = "C/C",
+jem839 = "C/G",
+nuc752 = "C/G")
+
+Samples$Genotype = genotypes[Samples$SampleG]
+
+
+```
+
+## Data Loading
+```{r, Loading samples and performing basic QC, echo=FALSE}
+sce <- read10xCounts(dirs,compressed = T, type="sparse")
+symbols <- rowData(sce)$ID
+ens.id <- mapIds(org.Hs.eg.db, keys=symbols, keytype="ENSEMBL", column=c("SYMBOL"), multiVals = "first")
+ens.id <- ifelse(is.na(ens.id), symbols, ens.id)
+
+keep <- !duplicated(ens.id)
+sce <- sce[keep,]
+rownames(sce) <- ens.id[keep]
+rownames(sce) <- uniquifyFeatureNames(rowData(sce)$ID, rowData(sce)$Symbol)
+
+meta <- colData(sce)
+
+#simplify sample and batch name
+meta$BatchID <- gsub("(/outs/per.*)|(.*/data/)" ,"" , meta$Sample)
+meta$SampleID <- gsub("(/count/sa.*)|(.*sample_outs/)" ,"" , meta$Sample)
+meta$SampleG <- gsub("(_CL.*)|(.*sample_outs/)" ,"" , meta$Sample)
+
+# correct the typo
+meta$SampleID <- gsub("nuc725", "nuc752", meta$SampleID)
+meta$SampleG <- gsub("nuc725", "nuc752", meta$SampleG)
+
+colData(sce) <- meta
+
+
+
+#Look for spikes
+is.spike <- grepl("^ERCC", rownames(sce))
+sce <- splitAltExps(sce, ifelse(is.spike, "ERCC", "gene"))
+
+entrez.id <- mapIds(org.Hs.eg.db, keys=rowData(sce)$ID, 
+                    keytype="ENSEMBL", column=c("ENTREZID"), multiVals = "first")
+
+chromdb <- sapply(entrez.id, function(x){ifelse(is.na(x), NA, org.Hs.egCHR[[x]])})
+rowData(sce)<- cbind(rowData(sce), CHR=chromdb)
+
+is.mito <- grepl("MT", chromdb)
+sce <- splitAltExps(sce, ifelse(is.mito, "Mito", "gene"))
+
+is.cmo <- grepl("CMO", rowData(sce)$Symbol)
+sce <- splitAltExps(sce, ifelse(is.cmo, "Capture", "gene"))
+
+ave.counts <- calculateAverage(sce)
+num.cells <- nexprs(sce, byrow=TRUE)
+
+smoothScatter(log10(ave.counts), num.cells, ylab="Number of cells", 
+              xlab=expression(Log[10]~"average count"))
+
+unfiltered <- sce              
+
+## for each gene in each cell: is it expressed?
+## count cells where gene is expressed, -->
+## and ask if the number of cells is gt 5 -->
+## count genes in each class, not-detected and detected -->
+
+exprLogic <- counts(sce) > 0
+detectedGenes <- rowSums(exprLogic) > 5
+print("detected genes passing QC")
+table(detectedGenes) #FALSE  TRUE  8894  27634  
+sce <- sce[detectedGenes,] # removes genes but does not update QC metrics.
+
+# ribosomal protein genes will only be analyzed as a subset not as altExp
+is.ribo <- grepl("^RPS|^RPL", rownames(sce))
+
+stats <- perCellQCMetrics(sce, subset=list(Ribo=is.ribo))
+
+sce <- addPerCellQCMetrics(sce)
+
+reasons <- perCellQCFilters(stats, sub.fields=c("altexps_Mito_percent", "altexps_ERCC_percent"))
+
+colSums(as.matrix(reasons))
+
+sce <- sce[ ,!reasons$discard]
+
+colData(unfiltered) <- cbind(colData(unfiltered), stats, reasons)
+
+BatchID_samples<-cbind(sce$BatchID,sce$Sample)
+```
+
+## Data Inspection
+```{r, QCplot1, echo=FALSE, fig.height=8, fig.width=8}
+gridExtra::grid.arrange(
+  plotColData(unfiltered, x="SampleID", y="sum", colour_by="discard") +
+    scale_y_log10() + ggtitle("Total count") + theme_classic()+
+    theme(axis.text.x = element_text(angle = 90)),
+  plotColData(unfiltered, x="SampleID", y="detected", colour_by="discard") +
+    scale_y_log10() + ggtitle("Detected features") + theme_classic()+
+    theme(axis.text.x = element_text(angle = 90)),
+  plotColData(unfiltered, x="SampleID", y="altexps_ERCC_percent", colour_by="discard")+
+    scale_y_log10() + ggtitle("ERCC_percent")+ theme_classic()+
+    theme(axis.text.x = element_text(angle = 90)),
+  plotColData(unfiltered, x="SampleID", y="altexps_Mito_percent", colour_by="discard")+
+    scale_y_log10() + ggtitle("Mito_percent")+ theme_classic()+
+    theme(axis.text.x = element_text(angle = 90)),
+  ncol=2
+)
+
+```
+
+```{r, QCplot2, echo=FALSE, fig.height=4, fig.width=8}
+gridExtra::grid.arrange(
+  plotColData(unfiltered, x="sum", y="altexps_Mito_percent", colour_by="discard")+ theme_classic(), 
+  plotColData(unfiltered, x="altexps_ERCC_percent", y="altexps_Mito_percent", colour_by="discard")+ theme_classic(), 
+  ncol=2)
+```
+#Read QC samples only 
+
+```{r, Converting summarized experiment object to seurat for further processing, echo=FALSE}
+
+ExcludeSample <-  "SK301_CL1_TR|SK308_CL6"
+#SK301_CL1 is bad quality 
+#SK308 has not data
+
+dirs_selected <- dirs[ ! grepl(ExcludeSample, dirs)]
+names(dirs_selected) = gsub("(.*outs/)|(/count/s.*)", "", dirs_selected)
+
+seurat_raw = Read10X(dirs_selected)
+merged_seurat = CreateSeuratObject(counts = seurat_raw$`Gene Expression`, add.cell.id=T)
+
+
+#orig.ident: contains the sample identity if known
+#nCount_RNA: number of UMIs per cell
+#nFeature_RNA: number of genes detected per cell
+
+#number of genes detected per UMI: this metric with give us an idea of the complexity of our dataset 
+#(more genes detected per UMI, more complex our data)
+#mitochondrial ratio: this metric will give us a percentage of cell reads originating from the mitochondrial genes
+
+# Add number of genes per UMI for each cell to metadata
+merged_seurat$log10GenesPerUMI <- log10(merged_seurat$nFeature_RNA) / log10(merged_seurat$nCount_RNA)
+
+# Compute percent mito ratio
+merged_seurat$mitoRatio <- PercentageFeatureSet(object = merged_seurat, pattern = "^MT-")
+merged_seurat$mitoRatio <- merged_seurat@meta.data$mitoRatio / 100
+merged_seurat$percent.Ribosomal <- PercentageFeatureSet(object = merged_seurat,pattern="^RP[LS]")
+merged_seurat$percent.Ribosomal <- merged_seurat@meta.data$percent.Ribosomal / 100
+
+
+# Create metadata dataframe
+metadata <- merged_seurat@meta.data
+
+# Add cell IDs to metadata
+metadata$cells <- rownames(metadata)
+
+# Rename columns
+metadata <- metadata %>%
+  dplyr::rename(seq_folder = orig.ident,
+                nUMI = nCount_RNA,
+                nGene = nFeature_RNA)
+
+metadata$SampleID <- gsub(".{19}$", "",  metadata$cells)
+metadata$SampleID <- gsub("nuc725", "nuc752", metadata$SampleID)
+metadata$cells <- gsub("nuc725", "nuc752", metadata$cells)
+metadata$Sample <- metadata$SampleID
+metadata$sampleG <- gsub("_CL.*", "", metadata$SampleID)
+
+Samples <- Samples %>% remove_rownames() %>% column_to_rownames("SampleID")
+metadata$BatchID <- Samples[metadata$SampleID, "poolID"]
+Samples <- Samples %>% rownames_to_column("SampleID")
+
+
+
+```
+
+## Inspect Cells per samples 
+
+```{r, Sample group vs Ncells, fig.width=4, fig.height=4}
+pNcells <- metadata %>% 
+  ggplot(aes(x=sampleG, fill=sampleG,  color=sampleG)) + 
+  geom_bar(alpha=0.2) +
+  theme_classic()+
+  scale_fill_manual(values=SampleGPalette) + scale_color_manual(values=SampleGPalette) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  theme(plot.title = element_text(hjust=0.5, face="bold")) +
+  ggtitle("Number of Cells")+theme(legend.position = "none")
+
+pNcells
+```
+
+```{r Samples vs Ncells, fig.width=8, fig.height=4}
+metadata %>% 
+  ggplot(aes(x=Sample, fill=Sample, color=Sample)) + 
+  geom_bar(alpha=0.2) +
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  ggtitle("NCells")+
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG, scales = "free_x")+
+  theme(legend.position = "none")
+
+```
+
+## Inspect UMI per samples 
+
+```{r, UMI vs Sample Groups, fig.width=4, fig.height=4}
+metadata %>% 
+  ggplot(aes(color=sampleG, x=nUMI, fill= sampleG)) + 
+  geom_density(alpha = 0.2) + 
+  scale_x_log10() + 
+  ylab("Cell density") +
+  geom_vline(xintercept = 500) + theme_classic()+ggtitle("UMIs per Sample Group")+
+  scale_fill_manual(values=SampleGPalette) + scale_color_manual(values=SampleGPalette)
+
+```
+
+```{r, UMI vs Samples, fig.width=8, fig.height=4}
+m<-metadata %>% 
+  ggplot(aes(color=Sample, x=nUMI, fill= Sample)) + 
+  geom_density(alpha = 0.2) + 
+  scale_x_log10() + 
+  theme_classic() +
+  ylab("Cell density") +
+  geom_vline(xintercept = 500)
+m+ggtitle("Number of Cells")+
+  theme_classic()+
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG, scales = "free_x")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))
+
+```
+
+
+## Inspect Genes  per samples 
+
+```{r, Number of Genes vs Samples group, fig.width=4, fig.height=4}
+metadata %>% 
+  ggplot(aes(color=sampleG, x=nGene, fill= sampleG)) + 
+  geom_density(alpha = 0.2) + 
+  theme_classic() +
+  scale_x_log10() + 
+  geom_vline(xintercept = 300)+
+  theme_classic()+ggtitle("N Genes")+
+  scale_fill_manual(values=SampleGPalette) + scale_color_manual(values=SampleGPalette)
+
+```
+
+```{r, Number of Genes vs Samples, fig.width=8, fig.height=4}
+metadata %>% 
+  ggplot(aes(color=Sample, x=nGene, fill= Sample)) + 
+  geom_density(alpha = 0.2) + 
+  scale_x_log10() + 
+  geom_vline(xintercept = 300)+
+  theme_classic()+
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG, scales = "free_x")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))+
+  ggtitle("Number of genes")
+
+```
+
+```{r, Distribution of Genes vs Sample groups, fig.width=4, fig.height=4}
+metadata %>% 
+  ggplot(aes(x=sampleG, y=log10(nGene),color=sampleG, fill=sampleG)) + 
+  geom_boxplot(alpha=0.2) + 
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  ggtitle("N Genes")+
+  scale_fill_manual(values=SampleGPalette) + scale_color_manual(values=SampleGPalette)
+```
+
+```{r, Distribution of Genes vs Samples, echo=FALSE, fig.width=8, fig.height=4}
+metadata %>% 
+  ggplot(aes(x=Sample, y=log10(nGene), fill=Sample, color=Sample)) + 
+  geom_boxplot(alpha=0.2) + 
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG, scales = "free_x") +
+  ggtitle("NCells vs NGenes")
+
+```
+
+## Inspect Quality per samples 
+
+```{r, Mitochondrial Ratio, fig.height=8,fig.width=8}
+metadata %>% 
+  ggplot(aes(x=nUMI, y=nGene, color=Sample)) + 
+  geom_point() + 
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  stat_smooth(method=lm, color="blue") +
+  scale_x_log10() + 
+  scale_y_log10() + 
+  geom_vline(xintercept = 500) +
+  geom_hline(yintercept = 250) +
+  theme_classic()+
+  facet_wrap(~Sample)
+
+```
+
+```{r, Mito ratio, echo=FALSE, fig.width=8, fig.height=4}
+metadata %>% 
+  ggplot(aes(color=Sample, x=mitoRatio, fill=Sample)) + 
+  geom_density(alpha = 0.2) + 
+  scale_x_log10() + 
+  theme_classic() +
+  geom_vline(xintercept = 0.2) +
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG) 
+
+```
+
+```{r, Ribo ratio, echo=FALSE, fig.width=8, fig.height=4}
+metadata %>% 
+  ggplot(aes(color=Sample, x=percent.Ribosomal, fill=Sample)) + 
+  geom_density(alpha = 0.2) + 
+  scale_x_log10() + 
+  theme_classic() +
+  geom_vline(xintercept = 0.2) +
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG) 
+
+```
+
+```{r, Complexity Genes per Umi, echo=FALSE, fig.width=8, fig.height=4}
+metadata %>%
+  ggplot(aes(x=log10GenesPerUMI, color = Sample, fill=Sample)) +
+  geom_density(alpha = 0.2) +
+  theme_classic() +
+  geom_vline(xintercept = 0.8) +
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1)) +
+  scale_fill_manual(values=SamplePalette) + 
+  scale_color_manual(values=SamplePalette) +
+  facet_grid(~sampleG) 
+```
+
+## Filter and Quality Control
+
+```{r, QC seurat object, echo=FALSE}
+#metadata$BatchesID<-BatchIds
+merged_seurat@meta.data <- metadata
+# Filter out low quality reads using selected thresholds - these will change with experiment
+filtered_seurat <- subset(x = merged_seurat, 
+                          subset= (nUMI >= 500) & 
+                            (nGene >= 250) & 
+                            (log10GenesPerUMI > 0.80) & 
+                            (mitoRatio < 0.20))
+
+
+
+# Output a logical vector for every gene on whether the more than zero counts per cell
+# Extract counts
+counts <- GetAssayData(object = filtered_seurat, slot = "counts")
+# Output a logical vector for every gene on whether the more than zero counts per cell
+nonzero <- counts > 0
+# Sums all TRUE values and returns TRUE if more than 10 TRUE values per gene
+keep_genes <- Matrix::rowSums(nonzero) >= 10
+# Only keeping those genes expressed in more than 10 cells
+filtered_counts <- counts[keep_genes, ]
+# Reassign to filtered Seurat object
+filtered_seurat <- CreateSeuratObject(filtered_counts, meta.data = filtered_seurat@meta.data)
+
+# only include protein coding genes
+filtered_seurat <- filtered_seurat[rownames(filtered_seurat) %in% CelliD::HgProteinCodingGenes,]
+
+# Batch effect diagnosis
+# Normalize the counts
+seurat_phase <- NormalizeData(filtered_seurat)
+# Identify the most variable genes
+seurat_phase <- FindVariableFeatures(seurat_phase, 
+                                     selection.method = "vst",
+                                     nfeatures = 2000, 
+                                     verbose = FALSE)
+
+# Scale the counts
+seurat_phase <- ScaleData(object = seurat_phase)
+seurat_phase <- RunPCA(object = seurat_phase)
+seurat_phase <- RunUMAP(object = seurat_phase, dims = 1:10)
+
+
+```
+
+
+## Samples before Batch correction 
+
+```{r, Creating UMAP plots before Batch corr, fig.width=8, fig.height=4}
+a = DimPlot(seurat_phase, reduction = "umap", 
+            group.by = "Sample",
+            cols=SamplePalette)+theme_classic()
+b = DimPlot(seurat_phase, reduction = "umap", 
+            group.by = "BatchID")+theme_classic()
+
+a+b
+```
+
+## Batch correction 
+
+```{r, Performing batch correction per Sample, echo=FALSE, include=FALSE}
+
+# Split seurat object by samples to perform cell cycle scoring and SCT on all samples
+split_seurat <- SplitObject(seurat_phase, split.by = "Sample")
+
+split_seurat <- split_seurat[unique(metadata$SampleID)]
+
+for (i in 1:length(split_seurat)) {
+  split_seurat[[i]] <- NormalizeData(split_seurat[[i]], verbose = TRUE)
+  split_seurat[[i]] <- SCTransform(split_seurat[[i]], vars.to.regress = c("mitoRatio"))
+}
+
+
+# Select the most variable features to use for integration
+integ_features <- SelectIntegrationFeatures(object.list = split_seurat, 
+                                            nfeatures = 3000) 
+split_seurat <- PrepSCTIntegration(object.list = split_seurat, 
+                                   anchor.features = integ_features)
+
+integ_anchors <- FindIntegrationAnchors(object.list = split_seurat, 
+                                        normalization.method = "SCT", 
+                                        anchor.features = integ_features)
+
+# Integrate across conditions
+seurat_integrated <- IntegrateData(anchorset = integ_anchors, 
+                                   normalization.method = "SCT")
+
+#seurat_integrated <- SCTransform(seurat_integrated, ncells = 3000)
+seurat_integrated <- ScaleData(object = seurat_integrated)
+
+seurat_integrated <- RunPCA(object = seurat_integrated)
+
+ElbowPlot(object = seurat_integrated, 
+          ndims = 40)
+
+seurat_integrated <- RunUMAP(seurat_integrated, 
+                             dims = 1:40,
+                             reduction = "pca")
+seurat_integrated <- RunTSNE(seurat_integrated,
+                             reduction = "pca",dims= 1:40)
+
+seurat_integrated$Genotype = genotypes[seurat_integrated$sampleG]
+
+
+```
+
+
+# Plotting Cellular Structure after QC and Batch Corrections 
+
+```{r, Creating UMAP plots after QC, fig.width=12, fig.height=4}
+a = DimPlot(seurat_integrated, reduction = "umap", 
+            group.by = "Sample",
+            cols=SamplePalette)+theme_classic()
+b = DimPlot(seurat_integrated, reduction = "umap", 
+            group.by = "BatchID")+theme_classic()
+
+c= DimPlot(seurat_integrated, reduction = "umap", 
+            group.by = "Genotype")+theme_classic()
+
+
+a+b+c
+```
+
+```{r, Cell cycle scoring}
+# Download cell cycle genes for organism at https://github.com/hbc/tinyatlas/tree/master/cell_cycle. Read it in with:
+
+cc_file <- getURL("https://raw.githubusercontent.com/hbc/tinyatlas/master/cell_cycle/Homo_sapiens.csv") 
+cell_cycle_genes <- read.csv(text = cc_file)
+# Connect to AnnotationHub
+ah <- AnnotationHub()
+
+# Access the Ensembl database for organism
+ahDb <- query(ah, 
+              pattern = c("Homo sapiens", "EnsDb"), 
+              ignore.case = TRUE)
+
+# Acquire the latest annotation files
+id <- ahDb %>%
+  mcols() %>%
+  rownames() %>%
+  tail(n = 1)
+
+# Download the appropriate Ensembldb database
+edb <- ah[[id]]
+
+# Extract gene-level information from database
+annotations <- genes(edb, 
+                     return.type = "data.frame")
+
+
+# Select annotations of interest
+annotations <- annotations %>%
+  dplyr::select(gene_id, gene_name, seq_name, gene_biotype, description)
+
+# Get gene names for Ensembl IDs for each gene
+cell_cycle_markers <- dplyr::left_join(cell_cycle_genes, annotations, by = c("geneID" = "gene_id"))
+
+# Acquire the S phase genes
+s_genes <- cell_cycle_markers %>%
+  dplyr::filter(phase == "S") %>%
+  pull("gene_name")
+
+# Acquire the G2M phase genes        
+g2m_genes <- cell_cycle_markers %>%
+  dplyr::filter(phase == "G2/M") %>%
+  pull("gene_name")
+
+
+# Perform cell cycle scoring
+seurat_integrated <- CellCycleScoring(seurat_integrated,
+                                 g2m.features = g2m_genes,
+                                 s.features = s_genes)
+
+
+``` 
+
+## Inspect Cell Cylce Phase 
+
+```{r Phase by Cell, fig.width=4, fig.height=4}
+# Visualize the PCA, grouping by cell cycle phase
+DimPlot(seurat_integrated,
+        reduction = "umap",
+        group.by= "Phase") + theme_classic()
+
+```
+
+```{r Phase by Samples , fig.width=8, fig.height=8}
+DimPlot(seurat_integrated,
+        reduction = "umap",
+        group.by= "Phase",
+        split.by = "SampleID", ncol=3)+ theme_classic()
+
+```
+
+
+```{r Phase by Genotype, fig.width=8, fig.height=4}
+DimPlot(seurat_integrated,
+        reduction = "umap",
+        group.by= "Phase",
+        split.by = "Genotype", ncol=3)+ theme_classic()
+
+```
+
+
+
+```{r}
+save(seurat_integrated, file = "/files/scRNA_Qualitycheck/output/01_QC_scRNA_seurat_integrated.Rdata")
+```
+
+
