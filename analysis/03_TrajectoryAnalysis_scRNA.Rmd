@@ -82,6 +82,8 @@ names(embedded) = linages
 ```
 
 
+## Pseudotime plots by lineage 
+
 ```{r pseudotime UMAP plots, fig.width=12, fig.height=4}
 
 gga <- plotUMAP(sce_sling, colour_by=I(shared.pseudo))
