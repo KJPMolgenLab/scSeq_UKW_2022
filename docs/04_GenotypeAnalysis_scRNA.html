@@ -382,13 +382,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-02-11
+<strong>Last updated:</strong> 2023-02-13
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scRNA_Qualitycheck/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -534,6 +531,14 @@ relative
 output/03_Trajectory_scRNA_seurat_sling.Rdata
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+/files/scRNA_Qualitycheck/output/04_GenotypeAnalysis_scRNA_Output.Rdata
+</td>
+<td style="text-align:left;">
+output/04_GenotypeAnalysis_scRNA_Output.Rdata
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -542,13 +547,15 @@ output/03_Trajectory_scRNA_seurat_sling.Rdata
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong10f1473">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree29bb9a872472efdc32855e47bed6fb3d682f976btargetblank29bb9a8a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 10f1473
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/29bb9a872472efdc32855e47bed6fb3d682f976b" target="_blank">29bb9a8</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong10f1473"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree29bb9a872472efdc32855e47bed6fb3d682f976btargetblank29bb9a8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -557,7 +564,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 10f1473.
+The results in this page were generated with repository version
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/29bb9a872472efdc32855e47bed6fb3d682f976b" target="_blank">29bb9a8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -572,24 +580,11 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/01_QC_scRNA.Rmd
-    Untracked:  analysis/02_Clustering_scRNA.Rmd
-    Untracked:  analysis/03_TrajectoryAnalysis_scRNA.Rmd
-    Untracked:  analysis/04_GenotypeAnalysis_scRNA.Rmd
-    Untracked:  code/wflow_helper.R
     Untracked:  data/data/
-    Untracked:  output/01_QC_scRNA_Output.Rdata
     Untracked:  output/01_QC_scRNA_seurat_integrated.Rdata
-    Untracked:  output/02_Clusterig_scRNA.Rdata
     Untracked:  output/02_Clustering_scRNA_seurat_clustered.Rdata
     Untracked:  output/03_Trajectory_scRNA_seurat_sling.Rdata
-    Untracked:  output/BatchCorrection_pools_samples/
-    Untracked:  output/Cellcycle_allSamples/
-    Untracked:  output/Chisquares_Samples.txt
-    Untracked:  output/Cluster_Labels.txt
     Untracked:  output/Cluster_markers.txt
-    Untracked:  output/Comparison_Ps.txt
-    Untracked:  output/Enrichment_cluster.txt
     Untracked:  output/GO_termsCluster.xlsx
     Untracked:  output/Lineage1_comparison.xlsx
     Untracked:  output/Lineage2_comparison.xlsx
@@ -597,17 +592,12 @@ Untracked files:
     Untracked:  output/Lineage4_comparison.xlsx
     Untracked:  output/Lineage5_comparison.xlsx
     Untracked:  output/Lineage6_comparison.xlsx
-    Untracked:  output/Markers_Clusters.txt
-    Untracked:  output/Markers_upregulated_clusters.txt
-    Untracked:  output/Number_Per_cluster.txt
-    Untracked:  output/PS_comparison.txt
     Untracked:  output/PS_comparison.xlsx
-    Untracked:  output/Wilcoxin_test_PseudoCompare.txt
     Untracked:  output/shared.pseudo_comparison.xlsx
+    Untracked:  output/tmp.txt
 
 Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/index.Rmd
+    Deleted:    output/README.md
 
 </code></pre>
 <p>
@@ -622,17 +612,230 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/04_GenotypeAnalysis_scRNA.Rmd</code>) and HTML
+(<code>docs/04_GenotypeAnalysis_scRNA.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/d0a0fecaa31930a06d83e6230177302eecded002/analysis/04_GenotypeAnalysis_scRNA.Rmd" target="_blank">d0a0fec</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+wflow_publish(c("./analysis/<em>", "./docs/</em>", "./code/*"))
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/analysis/04_GenotypeAnalysis_scRNA.Rmd" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+initial commit MVP Analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KJPMolgenlab/scSeq_UKW_2022/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/04_GenotypeAnalysis_scRNA.html" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+initial commit MVP Analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <pre class="r"><code>load(file = &quot;/files/scRNA_Qualitycheck/output/03_Trajectory_scRNA_seurat_sling.Rdata&quot;)</code></pre>
-<pre class="r"><code>print(&quot;end&quot;)</code></pre>
-<pre><code>[1] &quot;end&quot;</code></pre>
+<pre class="r"><code>coldata = seurat_integrated@meta.data
+countdata = as.matrix(seurat_integrated@assays$SCT@scale.data)
+coldata$TR = gsub(&quot;.*(TR.)&quot;, &quot;\\1&quot;, coldata$SampleID)
+
+model = as.formula(&quot;x ~ Genotype+(1|TR)&quot;)
+
+runlmer = function(i, mod, gdata, cdata){
+  #cat(i, end=&quot;\r&quot;)
+  cdata$x=gdata[i,]
+  res = suppressMessages(lmer(mod, data=cdata, verbose = 0))
+  res = summary(res)
+  return(res$coefficients[2,])
+}
+
+reslmer &lt;- lapply(1:nrow(countdata), function(i){
+  runlmer(i, gdata = countdata, mod = model, cdata = coldata)})
+names(reslmer) = rownames(countdata)
+reslmer &lt;- do.call(rbind, reslmer)
+reslmer &lt;- as.data.frame(reslmer)
+reslmer$p.value = 2*pt(abs(reslmer$`t value`), df=ncol(countdata)-1, lower=FALSE)
+reslmer$adj.p = p.adjust(reslmer$p, method=&quot;BH&quot;)
+
+ggplot(reslmer, aes(x=Estimate, y=p.value, fill=p.value))+
+  geom_point()</code></pre>
+<p><img src="figure/04_GenotypeAnalysis_scRNA.Rmd/identify%20markers-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Idents(seurat_integrated) = &quot;Genotype&quot;
+
+Genotype.Markers= FindMarkers(seurat_integrated, 
+                              assay = &quot;integrated&quot;,
+                              test.use = &quot;wilcox&quot;,
+                              ident.1 = &quot;C/C&quot;, only.pos = F)
+
+Genotype.Markers &lt;- Genotype.Markers[Genotype.Markers$p_val_adj&lt;0.05,]
+Genotype.Markers %&gt;%
+  top_n(n = 20, wt = abs(avg_log2FC)) -&gt; top10Genotype.Markers
+
+Genotype.Markers = Genotype.Markers[order(Genotype.Markers$avg_log2FC),]
+DoHeatmap(seurat_integrated, features = rownames(top10Genotype.Markers), 
+          group.by = &quot;Genotype&quot;, assay = &quot;integrated&quot;)</code></pre>
+<p><img src="figure/04_GenotypeAnalysis_scRNA.Rmd/identify%20markers-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#Calculating the percentages of cell per cluster
+number_perCluster&lt;- as.data.frame.matrix(table(Samples=seurat_integrated$SampleID, 
+                                               Clusters=scRNA.sce$seurat_clusters))
+prop_per_Sample&lt;- prop.table(table(Samples=scRNA.sce$Sample, 
+                                   Clusters=scRNA.sce$seurat_clusters), margin = 1)
+
+SampleData = unique(coldata[,c(&quot;SampleID&quot;, &quot;BatchID&quot;, &quot;Genotype&quot;, &quot;TR&quot;)])
+
+
+res = apply(prop_per_Sample, 2, function(x){summary(lmer(x~Genotype+(1|TR), data=SampleData))})</code></pre>
+<pre><code>boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)
+boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<pre class="r"><code>ResFreq &lt;- lapply(res, function(x) x$coefficients[2,]) %&gt;% do.call(rbind,.) %&gt;% as.data.frame()
+
+ResFreq$pvalue = 2*pt(abs(ResFreq$`t value`), df=10, lower.tail = F)
+ResFreq$p.adj = p.adjust(ResFreq$pvalue)</code></pre>
+<div id="gene-based-cluster-based" class="section level2">
+<h2>gene based cluster based</h2>
+<pre class="r"><code>reslist.by.cluster=list()
+for(i in unique(seurat_integrated$seurat_clusters)){
+  #print(i)
+  cellidx=coldata$seurat_clusters==i
+  countdata.subset=countdata[,cellidx]
+  reslmer &lt;- lapply(1:nrow(countdata), function(i){
+    runlmer(i, gdata = countdata.subset, mod = model, cdata = coldata[cellidx,])})
+  reslmer &lt;- do.call(rbind, reslmer)
+  reslmer &lt;- as.data.frame(reslmer)
+  reslmer$p.value = 2*pt(abs(reslmer$`t value`), df=ncol(countdata)-1, lower=FALSE)
+  reslmer$adj.p = p.adjust(reslmer$p, method=&quot;BH&quot;)
+  row.names(reslmer) = rownames(countdata)
+  reslist.by.cluster[[i]] = reslmer
+  
+}</code></pre>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+Model failed to converge with max|grad| = 0.00243745 (tol = 0.002, component 1)</code></pre>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+Model failed to converge with max|grad| = 0.00289909 (tol = 0.002, component 1)</code></pre>
+<pre class="r"><code>reslist.by.cluster = reslist.by.cluster[as.character(sort(unique(seurat_integrated$seurat_clusters)))]
+
+lapply(seq_along(reslist.by.cluster), function(x){
+  df = reslist.by.cluster[[x]]
+  df = df[order(df$adj.p, decreasing = F),]
+  DT::datatable(df, extensions = &quot;Buttons&quot;,
+                filter=&quot;top&quot;,
+                caption = paste0(&quot;Genewise results cluster &quot;,names(reslist.by.cluster)[x]),
+                options = list(
+                  pageLength = 10,
+                  info = FALSE,
+                  lengthMenu = list(c(15,50, 100, -1),
+                                    c(&quot;15&quot;,&quot;50&quot;, &quot;100&quot; ,&quot;All&quot;)
+                  ),dom = &#39;Blfrtip&#39;,
+                  buttons = c(&#39;copy&#39;, &#39;csv&#39;, &#39;excel&#39;, &#39;pdf&#39;)
+                ))
+  })</code></pre>
+<pre><code>[[1]]
+
+[[2]]
+
+[[3]]
+
+[[4]]
+
+[[5]]
+
+[[6]]
+
+[[7]]
+
+[[8]]
+
+[[9]]
+
+[[10]]
+
+[[11]]
+
+[[12]]
+
+[[13]]
+
+[[14]]
+
+[[15]]</code></pre>
+<pre class="r"><code>save(reslist.by.cluster, ResFreq, Genotype.Markers, reslmer, seurat_integrated, scRNA.sce, Cellpalette, SampleGPalette, SamplePalette, prop_per_Sample, file = &quot;/files/scRNA_Qualitycheck/output/04_GenotypeAnalysis_scRNA_Output.Rdata&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -663,28 +866,29 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] gprofiler2_0.2.1            viridis_0.6.2              
- [3] viridisLite_0.4.1           cowplot_1.1.1              
- [5] randomcoloR_1.1.0.1         RCurl_1.98-1.10            
- [7] RColorBrewer_1.1-3          data.table_1.14.6          
- [9] lubridate_1.9.1             forcats_1.0.0              
-[11] stringr_1.5.0               dplyr_1.1.0                
-[13] purrr_1.0.1                 readr_2.1.3                
-[15] tidyr_1.3.0                 tibble_3.1.8               
-[17] tidyverse_1.3.2             scater_1.26.1              
-[19] org.Hs.eg.db_3.16.0         AnnotationDbi_1.60.0       
-[21] AnnotationHub_3.6.0         BiocFileCache_2.6.0        
-[23] dbplyr_2.3.0                celldex_1.8.0              
-[25] scuttle_1.8.4               ggplot2_3.4.0              
-[27] slingshot_2.6.0             TrajectoryUtils_1.6.0      
-[29] princurve_2.1.6             SeuratObject_4.1.3         
-[31] Seurat_4.3.0                DropletUtils_1.18.1        
-[33] SingleCellExperiment_1.20.0 SingleR_2.0.0              
-[35] SummarizedExperiment_1.28.0 Biobase_2.58.0             
-[37] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
-[39] IRanges_2.32.0              S4Vectors_0.36.1           
-[41] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
-[43] matrixStats_0.63.0          workflowr_1.7.0            
+ [1] lme4_1.1-31                 Matrix_1.5-3               
+ [3] gprofiler2_0.2.1            viridis_0.6.2              
+ [5] viridisLite_0.4.1           cowplot_1.1.1              
+ [7] randomcoloR_1.1.0.1         RCurl_1.98-1.10            
+ [9] RColorBrewer_1.1-3          data.table_1.14.6          
+[11] lubridate_1.9.1             forcats_1.0.0              
+[13] stringr_1.5.0               dplyr_1.1.0                
+[15] purrr_1.0.1                 readr_2.1.3                
+[17] tidyr_1.3.0                 tibble_3.1.8               
+[19] tidyverse_1.3.2             scater_1.26.1              
+[21] org.Hs.eg.db_3.16.0         AnnotationDbi_1.60.0       
+[23] AnnotationHub_3.6.0         BiocFileCache_2.6.0        
+[25] dbplyr_2.3.0                celldex_1.8.0              
+[27] scuttle_1.8.4               ggplot2_3.4.0              
+[29] slingshot_2.6.0             TrajectoryUtils_1.6.0      
+[31] princurve_2.1.6             SeuratObject_4.1.3         
+[33] Seurat_4.3.0                DropletUtils_1.18.1        
+[35] SingleCellExperiment_1.20.0 SingleR_2.0.0              
+[37] SummarizedExperiment_1.28.0 Biobase_2.58.0             
+[39] GenomicRanges_1.50.2        GenomeInfoDb_1.34.9        
+[41] IRanges_2.32.0              S4Vectors_0.36.1           
+[43] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      
+[45] matrixStats_0.63.0          workflowr_1.7.0            
 
 loaded via a namespace (and not attached):
   [1] rappdirs_0.3.3                scattermore_0.8              
@@ -704,74 +908,78 @@ loaded via a namespace (and not attached):
  [29] readxl_1.4.1                  igraph_1.3.5                 
  [31] DBI_1.1.3                     htmlwidgets_1.6.1            
  [33] spatstat.geom_3.0-6           googledrive_2.0.0            
- [35] ellipsis_0.3.2                backports_1.4.1              
- [37] V8_4.2.2                      deldir_1.0-6                 
- [39] sparseMatrixStats_1.10.0      vctrs_0.5.2                  
- [41] ROCR_1.0-11                   abind_1.4-5                  
- [43] cachem_1.0.6                  withr_2.5.0                  
- [45] progressr_0.13.0              sctransform_0.3.5            
- [47] goftest_1.2-3                 cluster_2.1.4                
- [49] ExperimentHub_2.6.0           lazyeval_0.2.2               
- [51] crayon_1.5.2                  spatstat.explore_3.0-6       
- [53] edgeR_3.40.2                  pkgconfig_2.0.3              
- [55] nlme_3.1-162                  vipor_0.4.5                  
- [57] rlang_1.0.6                   globals_0.16.2               
- [59] lifecycle_1.0.3               miniUI_0.1.1.1               
- [61] filelock_1.0.2                modelr_0.1.10                
- [63] rsvd_1.0.5                    cellranger_1.1.0             
- [65] rprojroot_2.0.3               polyclip_1.10-4              
- [67] lmtest_0.9-40                 Matrix_1.5-3                 
- [69] Rhdf5lib_1.20.0               zoo_1.8-11                   
- [71] reprex_2.0.2                  beeswarm_0.4.0               
- [73] googlesheets4_1.0.1           whisker_0.4.1                
- [75] ggridges_0.5.4                processx_3.8.0               
- [77] png_0.1-8                     bitops_1.0-7                 
- [79] getPass_0.2-2                 R.oo_1.25.0                  
- [81] KernSmooth_2.23-20            rhdf5filters_1.10.0          
- [83] Biostrings_2.66.0             blob_1.2.3                   
- [85] DelayedMatrixStats_1.20.0     parallelly_1.34.0            
- [87] spatstat.random_3.1-3         beachmat_2.14.0              
- [89] scales_1.2.1                  memoise_2.0.1                
- [91] magrittr_2.0.3                plyr_1.8.8                   
- [93] ica_1.0-3                     zlibbioc_1.44.0              
- [95] compiler_4.2.2                dqrng_0.3.0                  
- [97] fitdistrplus_1.1-8            cli_3.6.0                    
- [99] XVector_0.38.0                listenv_0.9.0                
-[101] patchwork_1.1.2               pbapply_1.7-0                
-[103] ps_1.7.2                      MASS_7.3-58.2                
-[105] tidyselect_1.2.0              stringi_1.7.12               
-[107] highr_0.10                    yaml_2.3.7                   
-[109] BiocSingular_1.14.0           locfit_1.5-9.7               
-[111] ggrepel_0.9.3                 grid_4.2.2                   
-[113] sass_0.4.5                    timechange_0.2.0             
-[115] tools_4.2.2                   future.apply_1.10.0          
-[117] parallel_4.2.2                rstudioapi_0.14              
-[119] git2r_0.31.0                  gridExtra_2.3                
-[121] Rtsne_0.16                    digest_0.6.31                
-[123] BiocManager_1.30.19           shiny_1.7.4                  
-[125] Rcpp_1.0.10                   broom_1.0.3                  
-[127] BiocVersion_3.16.0            later_1.3.0                  
-[129] RcppAnnoy_0.0.20              httr_1.4.4                   
-[131] colorspace_2.1-0              rvest_1.0.3                  
-[133] fs_1.6.1                      tensor_1.5                   
-[135] reticulate_1.28               splines_4.2.2                
-[137] uwot_0.1.14                   spatstat.utils_3.0-1         
-[139] sp_1.6-0                      plotly_4.10.1                
-[141] xtable_1.8-4                  jsonlite_1.8.4               
-[143] R6_2.5.1                      pillar_1.8.1                 
-[145] htmltools_0.5.4               mime_0.12                    
-[147] glue_1.6.2                    fastmap_1.1.0                
-[149] BiocParallel_1.32.5           BiocNeighbors_1.16.0         
-[151] interactiveDisplayBase_1.36.0 codetools_0.2-19             
-[153] utf8_1.2.3                    lattice_0.20-45              
-[155] bslib_0.4.2                   spatstat.sparse_3.0-0        
-[157] curl_5.0.0                    ggbeeswarm_0.7.1             
-[159] leiden_0.4.3                  survival_3.5-0               
-[161] limma_3.54.1                  rmarkdown_2.20               
-[163] munsell_0.5.0                 rhdf5_2.42.0                 
-[165] GenomeInfoDbData_1.2.9        HDF5Array_1.26.0             
-[167] haven_2.5.1                   reshape2_1.4.4               
-[169] gtable_0.3.1                 </code></pre>
+ [35] ellipsis_0.3.2                crosstalk_1.2.0              
+ [37] backports_1.4.1               V8_4.2.2                     
+ [39] deldir_1.0-6                  sparseMatrixStats_1.10.0     
+ [41] vctrs_0.5.2                   ROCR_1.0-11                  
+ [43] abind_1.4-5                   cachem_1.0.6                 
+ [45] withr_2.5.0                   progressr_0.13.0             
+ [47] sctransform_0.3.5             goftest_1.2-3                
+ [49] cluster_2.1.4                 ExperimentHub_2.6.0          
+ [51] lazyeval_0.2.2                crayon_1.5.2                 
+ [53] spatstat.explore_3.0-6        labeling_0.4.2               
+ [55] edgeR_3.40.2                  pkgconfig_2.0.3              
+ [57] nlme_3.1-162                  vipor_0.4.5                  
+ [59] rlang_1.0.6                   globals_0.16.2               
+ [61] lifecycle_1.0.3               miniUI_0.1.1.1               
+ [63] filelock_1.0.2                modelr_0.1.10                
+ [65] rsvd_1.0.5                    cellranger_1.1.0             
+ [67] rprojroot_2.0.3               polyclip_1.10-4              
+ [69] lmtest_0.9-40                 boot_1.3-28.1                
+ [71] Rhdf5lib_1.20.0               zoo_1.8-11                   
+ [73] reprex_2.0.2                  beeswarm_0.4.0               
+ [75] googlesheets4_1.0.1           whisker_0.4.1                
+ [77] ggridges_0.5.4                processx_3.8.0               
+ [79] png_0.1-8                     bitops_1.0-7                 
+ [81] getPass_0.2-2                 R.oo_1.25.0                  
+ [83] KernSmooth_2.23-20            rhdf5filters_1.10.0          
+ [85] Biostrings_2.66.0             blob_1.2.3                   
+ [87] DelayedMatrixStats_1.20.0     parallelly_1.34.0            
+ [89] spatstat.random_3.1-3         beachmat_2.14.0              
+ [91] scales_1.2.1                  memoise_2.0.1                
+ [93] magrittr_2.0.3                plyr_1.8.8                   
+ [95] ica_1.0-3                     zlibbioc_1.44.0              
+ [97] compiler_4.2.2                dqrng_0.3.0                  
+ [99] fitdistrplus_1.1-8            cli_3.6.0                    
+[101] XVector_0.38.0                listenv_0.9.0                
+[103] patchwork_1.1.2               pbapply_1.7-0                
+[105] ps_1.7.2                      MASS_7.3-58.2                
+[107] tidyselect_1.2.0              stringi_1.7.12               
+[109] highr_0.10                    yaml_2.3.7                   
+[111] BiocSingular_1.14.0           locfit_1.5-9.7               
+[113] ggrepel_0.9.3                 grid_4.2.2                   
+[115] sass_0.4.5                    timechange_0.2.0             
+[117] tools_4.2.2                   future.apply_1.10.0          
+[119] parallel_4.2.2                rstudioapi_0.14              
+[121] git2r_0.31.0                  gridExtra_2.3                
+[123] farver_2.1.1                  Rtsne_0.16                   
+[125] digest_0.6.31                 BiocManager_1.30.19          
+[127] shiny_1.7.4                   Rcpp_1.0.10                  
+[129] broom_1.0.3                   BiocVersion_3.16.0           
+[131] later_1.3.0                   RcppAnnoy_0.0.20             
+[133] httr_1.4.4                    colorspace_2.1-0             
+[135] rvest_1.0.3                   fs_1.6.1                     
+[137] tensor_1.5                    reticulate_1.28              
+[139] splines_4.2.2                 uwot_0.1.14                  
+[141] spatstat.utils_3.0-1          sp_1.6-0                     
+[143] plotly_4.10.1                 xtable_1.8-4                 
+[145] nloptr_2.0.3                  jsonlite_1.8.4               
+[147] R6_2.5.1                      pillar_1.8.1                 
+[149] htmltools_0.5.4               mime_0.12                    
+[151] DT_0.27                       minqa_1.2.5                  
+[153] glue_1.6.2                    fastmap_1.1.0                
+[155] BiocParallel_1.32.5           BiocNeighbors_1.16.0         
+[157] interactiveDisplayBase_1.36.0 codetools_0.2-19             
+[159] utf8_1.2.3                    lattice_0.20-45              
+[161] bslib_0.4.2                   spatstat.sparse_3.0-0        
+[163] curl_5.0.0                    ggbeeswarm_0.7.1             
+[165] leiden_0.4.3                  survival_3.5-0               
+[167] limma_3.54.1                  rmarkdown_2.20               
+[169] munsell_0.5.0                 rhdf5_2.42.0                 
+[171] GenomeInfoDbData_1.2.9        HDF5Array_1.26.0             
+[173] haven_2.5.1                   reshape2_1.4.4               
+[175] gtable_0.3.1                 </code></pre>
+</div>
 </div>
 
 

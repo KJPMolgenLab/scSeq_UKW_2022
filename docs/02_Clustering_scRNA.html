@@ -400,13 +400,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-02-11
+<strong>Last updated:</strong> 2023-02-13
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scRNA_Qualitycheck/</code> <span
@@ -429,21 +429,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -600,13 +597,15 @@ output/02_Clustering_scRNA_seurat_clustered.Rdata
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong10f1473">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree29bb9a872472efdc32855e47bed6fb3d682f976btargetblank29bb9a8a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 10f1473
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/29bb9a872472efdc32855e47bed6fb3d682f976b" target="_blank">29bb9a8</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong10f1473"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree29bb9a872472efdc32855e47bed6fb3d682f976btargetblank29bb9a8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -615,7 +614,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 10f1473.
+The results in this page were generated with repository version
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/29bb9a872472efdc32855e47bed6fb3d682f976b" target="_blank">29bb9a8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -630,42 +630,12 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/01_QC_scRNA.Rmd
-    Untracked:  analysis/02_Clustering_scRNA.Rmd
-    Untracked:  analysis/03_TrajectoryAnalysis_scRNA.Rmd
-    Untracked:  analysis/04_GenotypeAnalysis_scRNA.Rmd
-    Untracked:  code/wflow_helper.R
     Untracked:  data/data/
-    Untracked:  output/01_QC_scRNA_Output.Rdata
     Untracked:  output/01_QC_scRNA_seurat_integrated.Rdata
-    Untracked:  output/02_Clusterig_scRNA.Rdata
-    Untracked:  output/02_Clustering_scRNA_seurat_clustered.Rdata
-    Untracked:  output/03_Trajectory_scRNA_seurat_sling.Rdata
-    Untracked:  output/BatchCorrection_pools_samples/
-    Untracked:  output/Cellcycle_allSamples/
-    Untracked:  output/Chisquares_Samples.txt
-    Untracked:  output/Cluster_Labels.txt
-    Untracked:  output/Cluster_markers.txt
-    Untracked:  output/Comparison_Ps.txt
-    Untracked:  output/Enrichment_cluster.txt
-    Untracked:  output/GO_termsCluster.xlsx
-    Untracked:  output/Lineage1_comparison.xlsx
-    Untracked:  output/Lineage2_comparison.xlsx
-    Untracked:  output/Lineage3_comparison.xlsx
-    Untracked:  output/Lineage4_comparison.xlsx
-    Untracked:  output/Lineage5_comparison.xlsx
-    Untracked:  output/Lineage6_comparison.xlsx
-    Untracked:  output/Markers_Clusters.txt
-    Untracked:  output/Markers_upregulated_clusters.txt
-    Untracked:  output/Number_Per_cluster.txt
-    Untracked:  output/PS_comparison.txt
-    Untracked:  output/PS_comparison.xlsx
-    Untracked:  output/Wilcoxin_test_PseudoCompare.txt
-    Untracked:  output/shared.pseudo_comparison.xlsx
+    Untracked:  output/tmp.txt
 
 Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/index.Rmd
+    Deleted:    output/README.md
 
 </code></pre>
 <p>
@@ -680,10 +650,91 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/02_Clustering_scRNA.Rmd</code>)
+and HTML (<code>docs/02_Clustering_scRNA.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/d0a0fecaa31930a06d83e6230177302eecded002/analysis/02_Clustering_scRNA.Rmd" target="_blank">d0a0fec</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+wflow_publish(c("./analysis/<em>", "./docs/</em>", "./code/*"))
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/analysis/02_Clustering_scRNA.Rmd" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+initial commit MVP Analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KJPMolgenlab/scSeq_UKW_2022/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/02_Clustering_scRNA.html" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+initial commit MVP Analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -750,7 +801,7 @@ Number of communities: 23
 Elapsed time: 1 seconds</code></pre>
 <pre class="r"><code># Assign identity of clusters at various thresholds
 
-Idents(object = seurat_integrated) &lt;- &quot;SCT_snn_res.0.2&quot;
+Idents(object = seurat_integrated) &lt;- &quot;integrated_snn_res.0.2&quot;
 a&lt;- DimPlot(seurat_integrated,
             reduction = &quot;umap&quot;,
             label = TRUE,cols = Set26,
@@ -758,7 +809,7 @@ a&lt;- DimPlot(seurat_integrated,
   theme_classic()+
   theme(legend.position = &quot;none&quot;)+ggtitle(&quot;res.0.2&quot;)
 
-Idents(object = seurat_integrated) &lt;- &quot;SCT_snn_res.0.4&quot;
+Idents(object = seurat_integrated) &lt;- &quot;integrated_snn_res.0.4&quot;
 b&lt;- DimPlot(seurat_integrated,
             reduction = &quot;umap&quot;,
             label = TRUE,cols = Set26,
@@ -766,7 +817,7 @@ b&lt;- DimPlot(seurat_integrated,
   theme_classic()+
   theme(legend.position = &quot;none&quot;)+ggtitle(&quot;res.0.4&quot;)
 
-Idents(object = seurat_integrated) &lt;- &quot;SCT_snn_res.0.6&quot;
+Idents(object = seurat_integrated) &lt;- &quot;integrated_snn_res.0.6&quot;
 d&lt;- DimPlot(seurat_integrated,
             reduction = &quot;umap&quot;,
             label = TRUE,cols = Set26,
@@ -774,7 +825,7 @@ d&lt;- DimPlot(seurat_integrated,
   theme_classic()+
   theme(legend.position = &quot;none&quot;)+ggtitle(&quot;res.0.6&quot;)
 
-Idents(object = seurat_integrated) &lt;- &quot;SCT_snn_res.0.8&quot;
+Idents(object = seurat_integrated) &lt;- &quot;integrated_snn_res.0.8&quot;
 e&lt;- DimPlot(seurat_integrated,
             reduction = &quot;umap&quot;,
             label = TRUE,cols = Set26,
@@ -782,7 +833,7 @@ e&lt;- DimPlot(seurat_integrated,
   theme_classic()+
   theme(legend.position = &quot;none&quot;)+ggtitle(&quot;res.0.8&quot;)
 
-Idents(object = seurat_integrated) &lt;- &quot;SCT_snn_res.1.2&quot;
+Idents(object = seurat_integrated) &lt;- &quot;integrated_snn_res.1.2&quot;
 f&lt;- DimPlot(seurat_integrated,
             reduction = &quot;umap&quot;,
             label = TRUE,cols = Set26,
@@ -790,7 +841,7 @@ f&lt;- DimPlot(seurat_integrated,
   theme_classic()+
   theme(legend.position = &quot;none&quot;)+ggtitle(&quot;res.1.2&quot;)
 
-Idents(object = seurat_integrated) &lt;- &quot;SCT_snn_res.1.4&quot;
+Idents(object = seurat_integrated) &lt;- &quot;integrated_snn_res.1.4&quot;
 g&lt;- DimPlot(seurat_integrated,
             reduction = &quot;umap&quot;,
             label = TRUE,cols = Set26,
@@ -800,6 +851,44 @@ g&lt;- DimPlot(seurat_integrated,
 
 ggpubr::ggarrange(a,b,d,e,f,g)</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/UMAP%20Clustering%20after%20batch%20correction-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-UMAP-Clustering-after-batch-correction-1">
+Past versions of "UMAP Clustering after batch correction-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-UMAP-Clustering-after-batch-correction-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/UMAP Clustering after batch correction-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>seurat_integrated &lt;- FindClusters(object = seurat_integrated,
                                   resolution =0.6)</code></pre>
 <pre><code>Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
@@ -824,6 +913,43 @@ corrmap = cor(n_cells %&gt;% column_to_rownames(&quot;SampleID&quot;) %&gt;%  t(
 
 pheatmap::pheatmap(corrmap, main = &quot;Correlation Cell distribution&quot;, breaks = seq(-1,1,length.out=100))</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/unnamed-chunk-1-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/unnamed-chunk-1-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>long &lt;- melt(n_cells, value.name = &quot;ncells&quot;, variable.name=&quot;cluster&quot;)</code></pre>
 <pre><code>Warning in melt(n_cells, value.name = &quot;ncells&quot;, variable.name = &quot;cluster&quot;): The
 melt generic in data.table has been passed a data.frame and will attempt to
@@ -856,8 +982,82 @@ d&lt;-DimPlot(seurat_integrated,
 
 a+b</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/unnamed-chunk-1-2.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-2">
+Past versions of unnamed-chunk-1-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/unnamed-chunk-1-2.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>d</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/unnamed-chunk-1-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-3">
+Past versions of unnamed-chunk-1-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/unnamed-chunk-1-3.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>metrics &lt;-  c(&quot;nUMI&quot;, &quot;nGene&quot;, &quot;S.Score&quot;, &quot;G2M.Score&quot;, &quot;mitoRatio&quot;)
 
 
@@ -870,6 +1070,43 @@ FeaturePlot(seurat_integrated,
             min.cutoff = &#39;q10&#39;,
             label = TRUE)</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Feature%20plots%20tsne%20and%20umap-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Feature-plots-tsne-and-umap-1">
+Past versions of "Feature plots tsne and umap-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Feature-plots-tsne-and-umap-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Feature plots tsne and umap-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Defining the information in the seurat object of interest
 columns &lt;- c(paste0(&quot;PC_&quot;, 1:16),
              &quot;ident&quot;,
@@ -901,6 +1138,43 @@ map(paste0(&quot;PC_&quot;, 1:16), function(pc){
 <pre><code>Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
 ℹ Please use tidy evaluation ideoms with `aes()`</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Feature%20plots%20PCA-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Feature-plots-PCA-1">
+Past versions of "Feature plots PCA-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Feature-plots-PCA-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Feature plots PCA-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>#based on cluster resolution of 0,6
 markers &lt;- FindAllMarkers(object = seurat_integrated, 
                           only.pos = TRUE,
@@ -929,6 +1203,43 @@ markers %&gt;%
 
 DoHeatmap(seurat_integrated, features = top10$gene, group.by = &quot;seurat_clusters&quot;, group.colors = Set26) + NoLegend()</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Identifying%20markers-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Identifying-markers-1">
+Past versions of "Identifying markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Identifying-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Identifying markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="neuroepithelial-marker" class="section level2">
 <h2>Neuroepithelial marker</h2>
 <pre class="r"><code>RidgePlot(seurat_integrated, features = c(&quot;NES&quot;, &quot;SOX2&quot;, &quot;NOTCH1&quot;, &quot;OCT4&quot;), ncol = 2, cols = Set26)</code></pre>
@@ -938,6 +1249,43 @@ following requested variables were not found: OCT4</code></pre>
 <pre><code>Picking joint bandwidth of 0.254</code></pre>
 <pre><code>Picking joint bandwidth of 0.182</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Neuroepithelial%20markers-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Neuroepithelial-markers-1">
+Past versions of "Neuroepithelial markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Neuroepithelial-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Neuroepithelial markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="radial-glia-marker" class="section level2">
 <h2>Radial glia marker</h2>
@@ -947,6 +1295,43 @@ following requested variables were not found: OCT4</code></pre>
 <pre><code>Picking joint bandwidth of 0.182</code></pre>
 <pre><code>Picking joint bandwidth of 0.231</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Radial%20markers-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Radial-markers-1">
+Past versions of "Radial markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Radial-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Radial markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="intermediate-progen-marker" class="section level2">
 <h2>Intermediate Progen marker</h2>
@@ -955,6 +1340,43 @@ following requested variables were not found: OCT4</code></pre>
 following requested variables were not found: TBR2</code></pre>
 <pre><code>Picking joint bandwidth of 0.268</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Intermediate%20markers-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Intermediate-markers-1">
+Past versions of "Intermediate markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Intermediate-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Intermediate markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="immature-neurons-marker" class="section level2">
 <h2>Immature Neurons marker</h2>
@@ -964,6 +1386,43 @@ following requested variables were not found: TBR2</code></pre>
 <pre><code>Picking joint bandwidth of 0.0488</code></pre>
 <pre><code>Picking joint bandwidth of 0.291</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Immature%20markers-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Immature-markers-1">
+Past versions of "Immature markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Immature-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Immature markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="oligodendrocytes-precurser-marker" class="section level2">
 <h2>Oligodendrocytes precurser marker</h2>
@@ -974,9 +1433,46 @@ default. We will not include these in the final data frame: CSPG4</code></pre>
 following requested variables were not found: CSPG4</code></pre>
 <pre><code>Picking joint bandwidth of 0.0709</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Oligodendrocytes%20markers-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Oligodendrocytes-markers-1">
+Past versions of "Oligodendrocytes markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Oligodendrocytes-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Oligodendrocytes markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="oligodendrocytes-mature-marker" class="section level2">
-<h2>## Oligodendrocytes mature marker</h2>
+<h2>Oligodendrocytes mature marker</h2>
 <pre class="r"><code>RidgePlot(seurat_integrated, features = c(&quot;OLIG1&quot;, &quot;MBP&quot;, &quot;SOX10&quot;, &quot;LRP5&quot;), ncol = 2, cols = Set26)</code></pre>
 <pre><code>Warning: Found the following features in more than one assay, excluding the
 default. We will not include these in the final data frame: OLIG1, LRP5</code></pre>
@@ -987,9 +1483,47 @@ following requested variables were not found: OLIG1, LRP5</code></pre>
 <pre><code>Picking joint bandwidth of 0.0721</code></pre>
 <pre><code>Picking joint bandwidth of 2.55e-06</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Oligodendrocytes%20mature%20markers-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Oligodendrocytes-mature-markers-1">
+Past versions of "Oligodendrocytes mature markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Oligodendrocytes-mature-markers-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Oligodendrocytes mature markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="schwann-cell-marker" class="section level2">
-<h2>## Schwann Cell marker</h2>
+<h2>Schwann Cell marker</h2>
 <pre class="r"><code># RidgePlot(seurat_integrated, features = c(&quot;NCAM&quot;, &quot;MPZ&quot;, &quot;S100&quot;, &quot;MOG&quot;), ncol = 2, cols = Set26)
 # none detectable</code></pre>
 </div>
@@ -1002,8 +1536,48 @@ assay instead</code></pre>
 <pre><code>Picking joint bandwidth of 0.182</code></pre>
 <pre><code>Picking joint bandwidth of 0.214</code></pre>
 <pre><code>Picking joint bandwidth of 2.55e-06</code></pre>
-<p><img src="figure/02_Clustering_scRNA.Rmd/Astrocytes%20markers-1.png" width="768" style="display: block; margin: auto;" />
-## Microglia marker none detected</p>
+<p><img src="figure/02_Clustering_scRNA.Rmd/Astrocytes%20markers-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Astrocytes-markers-1">
+Past versions of "Astrocytes markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Astrocytes-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Astrocytes markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="microglia-marker" class="section level2">
+<h2>Microglia marker</h2>
+<p>none detected</p>
 <pre class="r"><code>#RidgePlot(seurat_integrated, features = c(&quot;ITGAM&quot;, &quot;PTPRC&quot;, &quot;SCARD1&quot;, &quot;TNFRSF5&quot;), ncol = 2, cols = Set26)
 # none detectable</code></pre>
 </div>
@@ -1017,6 +1591,43 @@ following requested variables were not found: DLG4</code></pre>
 <pre><code>Picking joint bandwidth of 0.241</code></pre>
 <pre><code>Picking joint bandwidth of 0.253</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Mature%20Neurons%20markers-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Mature-Neurons-markers-1">
+Past versions of "Mature Neurons markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Mature-Neurons-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Mature Neurons markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="glutamtergic-neurons-marker" class="section level2">
 <h2>Glutamtergic Neurons marker</h2>
@@ -1028,6 +1639,43 @@ GLUD1</code></pre>
 following requested variables were not found: SLC17A7, SLC17A6, GLUD1</code></pre>
 <pre><code>Picking joint bandwidth of 0.184</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Glutamtergic%20markers-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Glutamtergic-markers-1">
+Past versions of "Glutamtergic markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Glutamtergic-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Glutamtergic markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="gabaergic-neurons-marker" class="section level2">
 <h2>GABAergic Neurons marker</h2>
@@ -1039,6 +1687,43 @@ following requested variables were not found: SLC17A6, GAD67</code></pre>
 <pre><code>Picking joint bandwidth of 0.147</code></pre>
 <pre><code>Picking joint bandwidth of 0.187</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/GABAergic%20markers-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-GABAergic-markers-1">
+Past versions of "GABAergic markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-GABAergic-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/GABAergic markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="dopaminergic-neurons-marker" class="section level2">
 <h2>Dopaminergic Neurons marker</h2>
@@ -1055,6 +1740,43 @@ default. We will not include these in the final data frame: SLC6A4, TPH1</code><
 following requested variables were not found: SLC6A4, TPH1</code></pre>
 <pre><code>Picking joint bandwidth of 0.0514</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Serotonergic%20markers-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Serotonergic-markers-1">
+Past versions of "Serotonergic markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Serotonergic-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Serotonergic markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># none detected</code></pre>
 </div>
 <div id="cholinergicneurons-marker" class="section level2">
@@ -1065,8 +1787,47 @@ default. We will not include these in the final data frame: CHAT, SLC18A3</code>
 <pre><code>Warning in FetchData.Seurat(object = object, vars = features, slot = slot): The
 following requested variables were not found: CHAT, SLC18A3</code></pre>
 <pre><code>Picking joint bandwidth of 0.113</code></pre>
-<p><img src="figure/02_Clustering_scRNA.Rmd/Cholinergicneurons%20markers-1.png" width="384" style="display: block; margin: auto;" />
-## GO terms of clusters</p>
+<p><img src="figure/02_Clustering_scRNA.Rmd/Cholinergicneurons%20markers-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Cholinergicneurons-markers-1">
+Past versions of "Cholinergicneurons markers-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Cholinergicneurons-markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Cholinergicneurons markers-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="go-terms-of-clusters" class="section level2">
+<h2>GO terms of clusters</h2>
 <pre class="r"><code>genelist = list()
 for( i in unique(markers$cluster)){
   genelist[[i]] = markers$gene[markers$cluster == i ]
@@ -1142,6 +1903,43 @@ scRNA.sce$UMAP1&lt;-as.numeric(scRNA.sce$UMAP1$reducedDim.scRNA.sce....1.)
 scRNA.sce$UMAP2&lt;-as.numeric(scRNA.sce$UMAP2$reducedDim.scRNA.sce....2.)</code></pre>
 <pre class="r"><code>plotScoreHeatmap(pred.hesc)</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/plot%20Celltype-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-Celltype-1">
+Past versions of "plot Celltype-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-Celltype-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/plot Celltype-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cowplot::plot_grid(
   scater::plotReducedDim(scRNA.sce, &#39;UMAP&#39;, colour_by = &#39;HPCA100.label&#39;) + scale_fill_manual(values=Cellpalette, aesthetics=&quot;colour&quot;, name=&quot;Celltype&quot;),
   scater::plotReducedDim(scRNA.sce, &#39;UMAP&#39;, colour_by = &#39;seurat_clusters&#39;, text_by = &#39;seurat_clusters&#39;)+ scale_fill_manual(values=Set26, aesthetics=&quot;colour&quot;,  name=&quot;Clusters&quot;))</code></pre>
@@ -1150,19 +1948,198 @@ Adding another scale for colour, which will replace the existing scale.
 Scale for colour is already present.
 Adding another scale for colour, which will replace the existing scale.</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/plot%20Celltype-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-Celltype-2">
+Past versions of "plot Celltype-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-plot-Celltype-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/plot Celltype-2.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>p&lt;-plotColData(scRNA.sce, x=&quot;HPCA100.label&quot;, y=&quot;SampleID&quot;, colour_by=&quot;seurat_clusters&quot;)+
   scale_fill_manual(values=Set26, aesthetics=&quot;colour&quot;)</code></pre>
 <pre><code>Scale for colour is already present.
 Adding another scale for colour, which will replace the existing scale.</code></pre>
 <pre class="r"><code>p + guides(color=guide_legend(title=&quot;Clusters&quot;)) + theme(axis.text.x = element_text(angle=90))</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/unnamed-chunk-2-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>p&lt;-plotColData(scRNA.sce, x=&quot;SampleID&quot;, y=&quot;seurat_clusters&quot;, colour_by=&quot;HPCA100.label&quot;)+
   scale_fill_manual(values=Cellpalette, aesthetics=&quot;colour&quot;)</code></pre>
 <pre><code>Scale for colour is already present.
 Adding another scale for colour, which will replace the existing scale.</code></pre>
 <pre class="r"><code>p + guides(color=guide_legend(title=&quot;Cell Type&quot;))+theme(axis.text.x = element_text(angle=90))</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/unnamed-chunk-3-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>#  Prepare a counts matrix with labeled rows and columns. 
+# sce &lt;- logcounts(sce)  # access log-transformed counts matrix
+# cellLabels &lt;- as.factor(scRNA.sce$HumanPrimaryCellAtlas.label)
+# colnames(scRNA.sce) &lt;- cellLabels
+
+#Calculating the percentages of cell per cluster
+number_perCluster&lt;- as.data.frame.matrix(table(Samples=scRNA.sce$Sample, 
+                                               Clusters=scRNA.sce$seurat_clusters))
+prop_per_Sample&lt;- prop.table(table(Samples=scRNA.sce$Sample, 
+                                               Clusters=scRNA.sce$seurat_clusters), margin = 1)
+
+pheatmap::pheatmap(prop_per_Sample)</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Cluster%20Comparison%20per%20Sample-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Cluster-Comparison-per-Sample-1">
+Past versions of "Cluster Comparison per Sample-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Cluster-Comparison-per-Sample-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Cluster Comparison per Sample-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>#Group comparisons
+chisqmatrix &lt;- function(x) {
+  names = colnames(x);  
+  num = length(names)
+  m = matrix(nrow=num,ncol=num,dimnames=list(names,names))
+  for (i in names) {
+    for (j in names) {
+      m[i,j] = chisq.test((x[,c(i,j)]))$p.value
+    }
+  }
+  diag(m)=NA
+  m[lower.tri(m)]=NA
+  colnames(m)=names
+  rownames(m)=names
+  return (m)
+}
+
+mat = chisqmatrix(t(number_perCluster))</code></pre>
 <pre><code>Warning in chisq.test((x[, c(i, j)])): Chi-squared approximation may be
 incorrect
 
@@ -1192,14 +2169,116 @@ incorrect
 
 Warning in chisq.test((x[, c(i, j)])): Chi-squared approximation may be
 incorrect</code></pre>
+<pre class="r"><code>cormat = matrix(data = p.adjust(mat, method = &quot;BH&quot;), 
+       nrow = nrow(mat), ncol=ncol(mat))
+
+pheatmap::pheatmap(prop_per_Sample)</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/Cluster%20Comparison%20per%20Sample-2.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Cluster-Comparison-per-Sample-2">
+Past versions of "Cluster Comparison per Sample-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-Cluster-Comparison-per-Sample-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/Cluster Comparison per Sample-2.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>#Enrichment Analysis
+colDatasetDF=colData(scRNA.sce)
+
+#CC&lt;-read.table(&quot;CellType_cluster.txt&quot;)
+res = list()
+for( i in unique(colDatasetDF$seurat_clusters)){
+    for(j in unique(colDatasetDF$HPCA100.label)){
+    ft = fisher.test(table(factor(colDatasetDF$seurat_clusters==i,
+                                  levels=c(&quot;TRUE&quot;,&quot;FALSE&quot;)),
+                           factor(colDatasetDF$HPCA100.label==j,
+                                  levels=c(&quot;TRUE&quot;,&quot;FALSE&quot;))))
+    res[[paste0(i,&quot;_&quot;,j)]] = c(estiamte=ft$estimate, pvalue=ft$p.value)
+  }
+}
+
+df &lt;- data.frame(matrix(unlist(res), nrow=length(res), byrow=TRUE))
+rownames(df)&lt;-names(res)
+colnames(df)&lt;-c(&quot;estimate&quot;,&quot;p-value&quot;)
+df$Cluster=unlist(lapply(strsplit(names(res), &quot;_&quot;), function(x) x[1]))
+df$Celltype=unlist(lapply(strsplit(names(res), &quot;_&quot;), function(x) x[2]))
+
+enrichmentMap = log(reshape2::acast(df, Cluster~Celltype, value.var = &quot;estimate&quot;))
+enrichmentMap[enrichmentMap&lt;0]=0
+pheatmap::pheatmap(enrichmentMap)</code></pre>
 <p><img src="figure/02_Clustering_scRNA.Rmd/##%20Enrichment%20analysis-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-Enrichment-analysis-1">
+Past versions of "## Enrichment analysis-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-Enrichment-analysis-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/02_Clustering_scRNA.Rmd/## Enrichment analysis-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="map-to-neuronal-subtypes" class="section level2">
-<h2>Map to neuronal Subtypes</h2>
 </div>
-<div id="models-not-copnverging" class="section level2">
-<h2>models not copnverging</h2>
+</div>
+<div id="map-to-neuronal-subtypes" class="section level1">
+<h1>Map to neuronal Subtypes</h1>
+<div id="models-not-copnverging" class="section level3">
+<h3>models not copnverging</h3>
 <pre class="r"><code># allen_reference  = readRDS(&quot;/files/scRNA_Qualitycheck/data/data/refData/allen_cortex.rds&quot;)
 # 
 # tmp&lt;- as.SingleCellExperiment(allen_reference)
@@ -1431,6 +2510,7 @@ loaded via a namespace (and not attached):
 [177] rhdf5_2.42.0                  GenomeInfoDbData_1.2.9       
 [179] HDF5Array_1.26.0              haven_2.5.1                  
 [181] reshape2_1.4.4                gtable_0.3.1                 </code></pre>
+</div>
 </div>
 </div>
 

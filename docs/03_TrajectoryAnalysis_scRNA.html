@@ -382,13 +382,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-02-11
+<strong>Last updated:</strong> 2023-02-13
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scRNA_Qualitycheck/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -574,13 +571,15 @@ output/03_Trajectory_scRNA_seurat_sling.Rdata
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong10f1473">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree29bb9a872472efdc32855e47bed6fb3d682f976btargetblank29bb9a8a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 10f1473
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/29bb9a872472efdc32855e47bed6fb3d682f976b" target="_blank">29bb9a8</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong10f1473"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree29bb9a872472efdc32855e47bed6fb3d682f976btargetblank29bb9a8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -589,7 +588,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 10f1473.
+The results in this page were generated with repository version
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/29bb9a872472efdc32855e47bed6fb3d682f976b" target="_blank">29bb9a8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -604,42 +604,15 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/01_QC_scRNA.Rmd
-    Untracked:  analysis/02_Clustering_scRNA.Rmd
-    Untracked:  analysis/03_TrajectoryAnalysis_scRNA.Rmd
-    Untracked:  analysis/04_GenotypeAnalysis_scRNA.Rmd
-    Untracked:  code/wflow_helper.R
     Untracked:  data/data/
-    Untracked:  output/01_QC_scRNA_Output.Rdata
     Untracked:  output/01_QC_scRNA_seurat_integrated.Rdata
-    Untracked:  output/02_Clusterig_scRNA.Rdata
     Untracked:  output/02_Clustering_scRNA_seurat_clustered.Rdata
-    Untracked:  output/03_Trajectory_scRNA_seurat_sling.Rdata
-    Untracked:  output/BatchCorrection_pools_samples/
-    Untracked:  output/Cellcycle_allSamples/
-    Untracked:  output/Chisquares_Samples.txt
-    Untracked:  output/Cluster_Labels.txt
     Untracked:  output/Cluster_markers.txt
-    Untracked:  output/Comparison_Ps.txt
-    Untracked:  output/Enrichment_cluster.txt
     Untracked:  output/GO_termsCluster.xlsx
-    Untracked:  output/Lineage1_comparison.xlsx
-    Untracked:  output/Lineage2_comparison.xlsx
-    Untracked:  output/Lineage3_comparison.xlsx
-    Untracked:  output/Lineage4_comparison.xlsx
-    Untracked:  output/Lineage5_comparison.xlsx
-    Untracked:  output/Lineage6_comparison.xlsx
-    Untracked:  output/Markers_Clusters.txt
-    Untracked:  output/Markers_upregulated_clusters.txt
-    Untracked:  output/Number_Per_cluster.txt
-    Untracked:  output/PS_comparison.txt
-    Untracked:  output/PS_comparison.xlsx
-    Untracked:  output/Wilcoxin_test_PseudoCompare.txt
-    Untracked:  output/shared.pseudo_comparison.xlsx
+    Untracked:  output/tmp.txt
 
 Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/index.Rmd
+    Deleted:    output/README.md
 
 </code></pre>
 <p>
@@ -654,10 +627,75 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/03_TrajectoryAnalysis_scRNA.Rmd</code>) and HTML
+(<code>docs/03_TrajectoryAnalysis_scRNA.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/analysis/03_TrajectoryAnalysis_scRNA.Rmd" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+initial commit MVP Analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KJPMolgenlab/scSeq_UKW_2022/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/03_TrajectoryAnalysis_scRNA.html" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+<td>
+initial commit MVP Analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -690,38 +728,956 @@ ggc &lt;- ggc + ggtitle(&quot;Trajectory-Celltype&quot;)+ scale_fill_manual(valu
 Adding another scale for colour, which will replace the existing scale.</code></pre>
 <pre class="r"><code>gga+ggb+ggc</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/pseudotime%20UMAP%20plots-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-pseudotime-UMAP-plots-1">
+Past versions of "pseudotime UMAP plots-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-pseudotime-UMAP-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/pseudotime UMAP plots-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20individual-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-individual-1">
+Past versions of "## 08-Trajectory Lineages individual-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-individual-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages individual-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-1">
+Past versions of "## 08-Trajectory Lineages Samples-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 2931 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-2.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-2">
+Past versions of "## 08-Trajectory Lineages Samples-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-2.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 4368 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-3">
+Past versions of "## 08-Trajectory Lineages Samples-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-3.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 5205 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-4.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-4">
+Past versions of "## 08-Trajectory Lineages Samples-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-4.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 5165 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-5.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-5">
+Past versions of "## 08-Trajectory Lineages Samples-5.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-5"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-5.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 5845 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-6.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-6">
+Past versions of "## 08-Trajectory Lineages Samples-6.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-6"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-6.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 7264 rows containing non-finite values (`stat_density()`).</code></pre>
-<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-7.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-8.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-7.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-7">
+Past versions of "## 08-Trajectory Lineages Samples-7.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-7"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-7.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-8.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-8">
+Past versions of "## 08-Trajectory Lineages Samples-8.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-8"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-8.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 2931 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-9.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-9">
+Past versions of "## 08-Trajectory Lineages Samples-9.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-9"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-9.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 4368 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-10.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-10">
+Past versions of "## 08-Trajectory Lineages Samples-10.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-10"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-10.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 5205 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-11.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-11">
+Past versions of "## 08-Trajectory Lineages Samples-11.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-11"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-11.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 5165 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-12.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-12">
+Past versions of "## 08-Trajectory Lineages Samples-12.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-12"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-12.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 5845 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-13.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-13">
+Past versions of "## 08-Trajectory Lineages Samples-13.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-13"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-13.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 7264 rows containing non-finite values (`stat_density()`).</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20Lineages%20Samples-14.png" width="768" style="display: block; margin: auto;" /></p>
-<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-1.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-2.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-3.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-4.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-5.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-6.png" width="768" style="display: block; margin: auto;" /><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-7.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-Lineages-Samples-14">
+Past versions of "## 08-Trajectory Lineages Samples-14.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-Lineages-Samples-14"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-14.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-1">
+Past versions of "## 08-Trajectory analysis compare linages-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-2.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-2">
+Past versions of "## 08-Trajectory analysis compare linages-2.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-2"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-2.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-3.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-3">
+Past versions of "## 08-Trajectory analysis compare linages-3.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-3"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-3.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-4.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-4">
+Past versions of "## 08-Trajectory analysis compare linages-4.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-4"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-4.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-5.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-5">
+Past versions of "## 08-Trajectory analysis compare linages-5.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-5"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-5.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-6.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-6">
+Past versions of "## 08-Trajectory analysis compare linages-6.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-6"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-6.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-7.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-7">
+Past versions of "## 08-Trajectory analysis compare linages-7.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-7"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-7.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Scale for colour is already present.
 Adding another scale for colour, which will replace the existing scale.</code></pre>
 <pre><code>Warning: Removed 2931 rows containing non-finite values (`stat_ydensity()`).</code></pre>
 <pre><code>Warning: Removed 2951 rows containing missing values.</code></pre>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20plot%20dist-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-plot-dist-1">
+Past versions of "## 08-Trajectory analysis plot dist-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-plot-dist-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis plot dist-1.png" target="_blank">e16a087</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = &quot;/files/scRNA_Qualitycheck/output/03_Trajectory_scRNA_seurat_sling.Rdata&quot;)</code></pre>
 <br>
 <p>
