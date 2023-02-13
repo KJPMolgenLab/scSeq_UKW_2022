@@ -13,5 +13,5 @@ if(mode=="setup"){
 
 wflow_build()
 
-wflow_publish(c("./analysis/*", "./docs/*","./code/*"))
+workflowr::wflow_publish(c("./analysis/*", "./docs/*","./code/*"))
 
