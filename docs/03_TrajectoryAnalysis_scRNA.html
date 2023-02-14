@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +386,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>scRNA_Qualitycheck/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has staged changes. To know which version of the
-R Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree834af321365d38cd3095b1757ff714fe8309cfa5targetblank834af32a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree565e37d99eac77883b25e4009db2dd084278479etargetblank565e37da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/834af321365d38cd3095b1757ff714fe8309cfa5" target="_blank">834af32</a>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/565e37d99eac77883b25e4009db2dd084278479e" target="_blank">565e37d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree834af321365d38cd3095b1757ff714fe8309cfa5targetblank834af32a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree565e37d99eac77883b25e4009db2dd084278479etargetblank565e37da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/834af321365d38cd3095b1757ff714fe8309cfa5" target="_blank">834af32</a>.
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/565e37d99eac77883b25e4009db2dd084278479e" target="_blank">565e37d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -549,7 +546,7 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    analysis/figure/
+    Ignored:    .Rproj.user/
 
 Untracked files:
     Untracked:  data/data/
@@ -570,17 +567,8 @@ Untracked files:
     Untracked:  output/tmp.txt
 
 Unstaged changes:
-    Modified:   analysis/01_QC_scRNA.Rmd
-    Modified:   analysis/02_Clustering_scRNA.Rmd
-    Modified:   analysis/03_TrajectoryAnalysis_scRNA.Rmd
-    Modified:   analysis/04_GenotypeAnalysis_scRNA.Rmd
+    Modified:   _workflowr.yml
     Deleted:    output/README.md
-
-Staged changes:
-    Modified:   analysis/01_QC_scRNA.Rmd
-    Modified:   analysis/02_Clustering_scRNA.Rmd
-    Modified:   analysis/03_TrajectoryAnalysis_scRNA.Rmd
-    Modified:   analysis/04_GenotypeAnalysis_scRNA.Rmd
 
 </code></pre>
 <p>
@@ -627,6 +615,42 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/analysis/03_TrajectoryAnalysis_scRNA.Rmd" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+<td>
+workflowr::wflow_publish(c("./analysis/<em>", "./docs/</em>",
+"./code/*"))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KJPMolgenlab/scSeq_UKW_2022/565e37d99eac77883b25e4009db2dd084278479e/docs/03_TrajectoryAnalysis_scRNA.html" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+<td>
+workflowr::wflow_publish(c("./analysis/<em>", "./docs/</em>",
+"./code/*"))
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -841,6 +865,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-1.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-1.png" target="_blank">e16a087</a>
 </td>
 <td>
@@ -887,6 +922,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-2.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory Lineages Samples-2.png" target="_blank">e16a087</a>
 </td>
 <td>
@@ -924,6 +970,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-1.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-1.png" target="_blank">e16a087</a>
@@ -965,6 +1022,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-2.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-2.png" target="_blank">e16a087</a>
 </td>
 <td>
@@ -1002,6 +1070,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-3.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-3.png" target="_blank">e16a087</a>
@@ -1043,6 +1122,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-4.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-4.png" target="_blank">e16a087</a>
 </td>
 <td>
@@ -1080,6 +1170,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-5.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-5.png" target="_blank">e16a087</a>
@@ -1121,6 +1222,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-6.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-6.png" target="_blank">e16a087</a>
 </td>
 <td>
@@ -1160,6 +1272,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-7.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-7.png" target="_blank">e16a087</a>
 </td>
 <td>
@@ -1174,6 +1297,44 @@ achiocch
 </div>
 </div>
 <p><img src="figure/03_TrajectoryAnalysis_scRNA.Rmd/##%2008-Trajectory%20analysis%20compare%20linages-8.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-##-08-Trajectory-analysis-compare-linages-8">
+Past versions of "## 08-Trajectory analysis compare linages-8.png"
+</button>
+</p>
+<div id="fig-no-spaces-##-08-Trajectory-analysis-compare-linages-8"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/565e37d99eac77883b25e4009db2dd084278479e/docs/figure/03_TrajectoryAnalysis_scRNA.Rmd/## 08-Trajectory analysis compare linages-8.png" target="_blank">565e37d</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Scale for colour is already present.
 Adding another scale for colour, which will replace the existing scale.</code></pre>
 <pre><code>Warning: Removed 2931 rows containing non-finite values (`stat_ydensity()`).</code></pre>
@@ -1271,6 +1432,7 @@ other attached packages:
 [41] GenomeInfoDb_1.34.9         IRanges_2.32.0             
 [43] S4Vectors_0.36.1            BiocGenerics_0.44.0        
 [45] MatrixGenerics_1.10.0       matrixStats_0.63.0         
+[47] workflowr_1.7.0            
 
 loaded via a namespace (and not attached):
   [1] rappdirs_0.3.3                scattermore_0.8              
@@ -1278,87 +1440,89 @@ loaded via a namespace (and not attached):
   [5] knitr_1.42                    irlba_2.3.5.1                
   [7] DelayedArray_0.24.0           R.utils_2.12.2               
   [9] KEGGREST_1.38.0               generics_0.1.3               
- [11] ScaledMatrix_1.6.0            RSQLite_2.2.20               
- [13] RANN_2.6.1                    future_1.31.0                
- [15] tzdb_0.3.0                    bit_4.0.5                    
- [17] xml2_1.3.3                    spatstat.data_3.0-0          
- [19] httpuv_1.6.8                  assertthat_0.2.1             
- [21] gargle_1.3.0                  xfun_0.37                    
- [23] hms_1.1.2                     jquerylib_0.1.4              
- [25] evaluate_0.20                 promises_1.2.0.1             
- [27] fansi_1.0.4                   readxl_1.4.1                 
- [29] igraph_1.3.5                  DBI_1.1.3                    
- [31] htmlwidgets_1.6.1             spatstat.geom_3.0-6          
- [33] googledrive_2.0.0             ellipsis_0.3.2               
- [35] ggpubr_0.5.0                  backports_1.4.1              
- [37] V8_4.2.2                      deldir_1.0-6                 
- [39] sparseMatrixStats_1.10.0      vctrs_0.5.2                  
- [41] ROCR_1.0-11                   abind_1.4-5                  
- [43] cachem_1.0.6                  withr_2.5.0                  
- [45] progressr_0.13.0              sctransform_0.3.5            
- [47] goftest_1.2-3                 cluster_2.1.4                
- [49] ExperimentHub_2.6.0           lazyeval_0.2.2               
- [51] crayon_1.5.2                  spatstat.explore_3.0-6       
- [53] labeling_0.4.2                edgeR_3.40.2                 
- [55] pkgconfig_2.0.3               nlme_3.1-162                 
- [57] vipor_0.4.5                   rlang_1.0.6                  
- [59] globals_0.16.2                lifecycle_1.0.3              
- [61] miniUI_0.1.1.1                filelock_1.0.2               
- [63] modelr_0.1.10                 rsvd_1.0.5                   
- [65] cellranger_1.1.0              rprojroot_2.0.3              
- [67] polyclip_1.10-4               lmtest_0.9-40                
- [69] Matrix_1.5-3                  carData_3.0-5                
- [71] Rhdf5lib_1.20.0               zoo_1.8-11                   
- [73] reprex_2.0.2                  beeswarm_0.4.0               
- [75] pheatmap_1.0.12               whisker_0.4.1                
- [77] ggridges_0.5.4                googlesheets4_1.0.1          
- [79] png_0.1-8                     bitops_1.0-7                 
- [81] R.oo_1.25.0                   KernSmooth_2.23-20           
- [83] rhdf5filters_1.10.0           Biostrings_2.66.0            
- [85] blob_1.2.3                    DelayedMatrixStats_1.20.0    
- [87] workflowr_1.7.0               parallelly_1.34.0            
- [89] spatstat.random_3.1-3         rstatix_0.7.2                
- [91] ggsignif_0.6.4                beachmat_2.14.0              
- [93] scales_1.2.1                  memoise_2.0.1                
- [95] magrittr_2.0.3                plyr_1.8.8                   
- [97] ica_1.0-3                     zlibbioc_1.44.0              
- [99] compiler_4.2.2                dqrng_0.3.0                  
-[101] fitdistrplus_1.1-8            cli_3.6.0                    
-[103] XVector_0.38.0                listenv_0.9.0                
-[105] patchwork_1.1.2               pbapply_1.7-0                
-[107] MASS_7.3-58.2                 tidyselect_1.2.0             
-[109] stringi_1.7.12                highr_0.10                   
-[111] yaml_2.3.7                    BiocSingular_1.14.0          
-[113] locfit_1.5-9.7                ggrepel_0.9.3                
-[115] grid_4.2.2                    sass_0.4.5                   
-[117] timechange_0.2.0              tools_4.2.2                  
-[119] future.apply_1.10.0           parallel_4.2.2               
-[121] rstudioapi_0.14               git2r_0.31.0                 
-[123] farver_2.1.1                  Rtsne_0.16                   
-[125] digest_0.6.31                 BiocManager_1.30.19          
-[127] shiny_1.7.4                   Rcpp_1.0.10                  
-[129] car_3.1-1                     broom_1.0.3                  
-[131] writexl_1.4.2                 BiocVersion_3.16.0           
-[133] later_1.3.0                   RcppAnnoy_0.0.20             
-[135] httr_1.4.4                    colorspace_2.1-0             
-[137] rvest_1.0.3                   fs_1.6.1                     
-[139] tensor_1.5                    reticulate_1.28              
-[141] splines_4.2.2                 uwot_0.1.14                  
-[143] spatstat.utils_3.0-1          sp_1.6-0                     
-[145] xtable_1.8-4                  jsonlite_1.8.4               
-[147] R6_2.5.1                      pillar_1.8.1                 
-[149] mime_0.12                     glue_1.6.2                   
-[151] fastmap_1.1.0                 BiocParallel_1.32.5          
-[153] BiocNeighbors_1.16.0          interactiveDisplayBase_1.36.0
-[155] codetools_0.2-19              utf8_1.2.3                   
-[157] lattice_0.20-45               bslib_0.4.2                  
-[159] spatstat.sparse_3.0-0         curl_5.0.0                   
-[161] ggbeeswarm_0.7.1              leiden_0.4.3                 
-[163] survival_3.5-0                limma_3.54.1                 
-[165] rmarkdown_2.20                munsell_0.5.0                
-[167] rhdf5_2.42.0                  GenomeInfoDbData_1.2.9       
-[169] HDF5Array_1.26.0              haven_2.5.1                  
-[171] reshape2_1.4.4                gtable_0.3.1                 </code></pre>
+ [11] ScaledMatrix_1.6.0            callr_3.7.3                  
+ [13] RSQLite_2.2.20                RANN_2.6.1                   
+ [15] future_1.31.0                 tzdb_0.3.0                   
+ [17] bit_4.0.5                     xml2_1.3.3                   
+ [19] spatstat.data_3.0-0           httpuv_1.6.8                 
+ [21] assertthat_0.2.1              gargle_1.3.0                 
+ [23] xfun_0.37                     hms_1.1.2                    
+ [25] jquerylib_0.1.4               evaluate_0.20                
+ [27] promises_1.2.0.1              fansi_1.0.4                  
+ [29] readxl_1.4.1                  igraph_1.3.5                 
+ [31] DBI_1.1.3                     htmlwidgets_1.6.1            
+ [33] spatstat.geom_3.0-6           googledrive_2.0.0            
+ [35] ellipsis_0.3.2                ggpubr_0.5.0                 
+ [37] backports_1.4.1               V8_4.2.2                     
+ [39] deldir_1.0-6                  sparseMatrixStats_1.10.0     
+ [41] vctrs_0.5.2                   ROCR_1.0-11                  
+ [43] abind_1.4-5                   cachem_1.0.6                 
+ [45] withr_2.5.0                   progressr_0.13.0             
+ [47] sctransform_0.3.5             goftest_1.2-3                
+ [49] cluster_2.1.4                 ExperimentHub_2.6.0          
+ [51] lazyeval_0.2.2                crayon_1.5.2                 
+ [53] spatstat.explore_3.0-6        labeling_0.4.2               
+ [55] edgeR_3.40.2                  pkgconfig_2.0.3              
+ [57] nlme_3.1-162                  vipor_0.4.5                  
+ [59] rlang_1.0.6                   globals_0.16.2               
+ [61] lifecycle_1.0.3               miniUI_0.1.1.1               
+ [63] filelock_1.0.2                modelr_0.1.10                
+ [65] rsvd_1.0.5                    cellranger_1.1.0             
+ [67] rprojroot_2.0.3               polyclip_1.10-4              
+ [69] lmtest_0.9-40                 Matrix_1.5-3                 
+ [71] carData_3.0-5                 Rhdf5lib_1.20.0              
+ [73] zoo_1.8-11                    reprex_2.0.2                 
+ [75] beeswarm_0.4.0                pheatmap_1.0.12              
+ [77] googlesheets4_1.0.1           whisker_0.4.1                
+ [79] ggridges_0.5.4                processx_3.8.0               
+ [81] png_0.1-8                     bitops_1.0-7                 
+ [83] getPass_0.2-2                 R.oo_1.25.0                  
+ [85] KernSmooth_2.23-20            rhdf5filters_1.10.0          
+ [87] Biostrings_2.66.0             blob_1.2.3                   
+ [89] DelayedMatrixStats_1.20.0     parallelly_1.34.0            
+ [91] spatstat.random_3.1-3         rstatix_0.7.2                
+ [93] ggsignif_0.6.4                beachmat_2.14.0              
+ [95] scales_1.2.1                  memoise_2.0.1                
+ [97] magrittr_2.0.3                plyr_1.8.8                   
+ [99] ica_1.0-3                     zlibbioc_1.44.0              
+[101] compiler_4.2.2                dqrng_0.3.0                  
+[103] fitdistrplus_1.1-8            cli_3.6.0                    
+[105] XVector_0.38.0                listenv_0.9.0                
+[107] patchwork_1.1.2               pbapply_1.7-0                
+[109] ps_1.7.2                      MASS_7.3-58.2                
+[111] tidyselect_1.2.0              stringi_1.7.12               
+[113] highr_0.10                    yaml_2.3.7                   
+[115] BiocSingular_1.14.0           locfit_1.5-9.7               
+[117] ggrepel_0.9.3                 grid_4.2.2                   
+[119] sass_0.4.5                    timechange_0.2.0             
+[121] tools_4.2.2                   future.apply_1.10.0          
+[123] parallel_4.2.2                rstudioapi_0.14              
+[125] git2r_0.31.0                  farver_2.1.1                 
+[127] Rtsne_0.16                    digest_0.6.31                
+[129] BiocManager_1.30.19           shiny_1.7.4                  
+[131] Rcpp_1.0.10                   car_3.1-1                    
+[133] broom_1.0.3                   writexl_1.4.2                
+[135] BiocVersion_3.16.0            later_1.3.0                  
+[137] RcppAnnoy_0.0.20              httr_1.4.4                   
+[139] colorspace_2.1-0              rvest_1.0.3                  
+[141] fs_1.6.1                      tensor_1.5                   
+[143] reticulate_1.28               splines_4.2.2                
+[145] uwot_0.1.14                   spatstat.utils_3.0-1         
+[147] sp_1.6-0                      xtable_1.8-4                 
+[149] jsonlite_1.8.4                R6_2.5.1                     
+[151] pillar_1.8.1                  mime_0.12                    
+[153] glue_1.6.2                    fastmap_1.1.0                
+[155] BiocParallel_1.32.5           BiocNeighbors_1.16.0         
+[157] interactiveDisplayBase_1.36.0 codetools_0.2-19             
+[159] utf8_1.2.3                    lattice_0.20-45              
+[161] bslib_0.4.2                   spatstat.sparse_3.0-0        
+[163] curl_5.0.0                    ggbeeswarm_0.7.1             
+[165] leiden_0.4.3                  survival_3.5-0               
+[167] limma_3.54.1                  rmarkdown_2.20               
+[169] munsell_0.5.0                 rhdf5_2.42.0                 
+[171] GenomeInfoDbData_1.2.9        HDF5Array_1.26.0             
+[173] haven_2.5.1                   reshape2_1.4.4               
+[175] gtable_0.3.1                 </code></pre>
 </div>
 </div>
 
