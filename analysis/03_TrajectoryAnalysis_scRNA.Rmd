@@ -170,7 +170,7 @@ ggpubr::ggarrange(plotlist=plotlist)
 
 
 
-```{r 08-Trajectory analysis compare linages,echo=FALSE, fig.width=8, fig.height=8}
+```{r 08-Trajectory analysis compare linages,echo=FALSE, fig.width=4, fig.height=4}
 
 PS_compare<-PS[,c("Sample", linages)] %>%
   group_by(Sample) %>%
@@ -203,9 +203,10 @@ Resmatrix[Resmatrix<10e-50] = 10e-50
 
 pheatmap::pheatmap(log10(Resmatrix), 
                    #cluster_rows = T, 
+                   color = viridis(100,direction = -1),
                    legend_labels = "-log10(adj.p)",
                    #cluster_cols = F, 
-                   main ="shared.pseudotime")
+                   main = "log10(p-val shared.pseudotime")
 
 
 pheatmaps = list()
@@ -225,17 +226,16 @@ for(lin in linages){
   
   Resmatrix[lower.tri(Resmatrix)]=t(Resmatrix[upper.tri(Resmatrix)])
   Resmatrix[Resmatrix<10e-50] = 10e-50
-  pheatmaps [[lin]] <- pheatmap::pheatmap(-log10(Resmatrix), cluster_rows = F, cluster_cols = F, main = lin)[[4]]
+  pheatmaps [[lin]] <- pheatmap::pheatmap(log10(Resmatrix), color = viridis(100,direction = -1),
+                                          cluster_rows = T, cluster_cols = T, main = paste("log10(p-val)",lin))[[4]]
   Tcomp [[lin]] = Comparison_PseudoTime
 }
 
 
-do.call(grid.arrange, pheatmaps)
-
 ```
 
 
-
+```{r}
 
 p<-plotColData(sce_sling, x="SampleID", y="slingPseudotime_1", colour_by="HumanPrimaryCellAtlas.label")+
   theme(axis.text.x = element_text(angle = 90)) +
