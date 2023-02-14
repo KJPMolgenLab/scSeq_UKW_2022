@@ -1,7 +1,9 @@
 ---
 title: "Cell type annotation"
-date: 2023-01-12
-output: html_document
+date: "2023-01-12"
+output:
+  pdf_document: default
+  html_document: default
 ---
 ```{r Calling libraries, echo=FALSE, include=FALSE}
 library(SingleR)
@@ -49,7 +51,7 @@ names(Set26)=1:nb.cols-1
 
 ```{r load data, include = FALSE}
 # Annotating cell Type
-load("/files/scRNA_Qualitycheck/output/01_QC_scRNA_seurat_integrated.Rdata")
+load("./output/01_QC_scRNA_seurat_integrated.Rdata")
 ```
 
 
@@ -221,7 +223,7 @@ markers <- FindAllMarkers(object = seurat_integrated,
 
 
 
-write.table(markers,"/files/scRNA_Qualitycheck/output/Cluster_markers.txt",sep="\t")
+write.table(markers,"./output/Cluster_markers.txt",sep="\t")
 DefaultAssay(seurat_integrated) = "integrated"
 
 markers %>%
@@ -349,7 +351,7 @@ DT::datatable(tablegostres, extensions = "Buttons",
                       buttons = c('copy', 'csv', 'excel', 'pdf')
                     ))
 
-writexl::write_xlsx(gostres$result, path =  "/files/scRNA_Qualitycheck/output/GO_termsCluster.xlsx")
+writexl::write_xlsx(gostres$result, path =  "./output/GO_termsCluster.xlsx")
 
 ```
 
@@ -560,7 +562,7 @@ pheatmap::pheatmap(enrichmentMap)
 ### models not copnverging 
 ```{r}
 
-# allen_reference  = readRDS("/files/scRNA_Qualitycheck/data/data/refData/allen_cortex.rds")
+# allen_reference  = readRDS("./data/data/refData/allen_cortex.rds")
 # 
 # tmp<- as.SingleCellExperiment(allen_reference)
 # 
@@ -644,10 +646,10 @@ pheatmap::pheatmap(enrichmentMap)
 # 
 # seurat_clustered = as.Seurat(scRNA.sce)
 # 
-# save.image("/files/scRNA_Qualitycheck/output/Clustering_step_2.RData")
+# save.image("./output/Clustering_step_2.RData")
 
 
-save(scRNA.sce, seurat_integrated, Cellpalette, file = "/files/scRNA_Qualitycheck/output/02_Clustering_scRNA_seurat_clustered.Rdata")
+save(scRNA.sce, seurat_integrated, Cellpalette, file = "./output/02_Clustering_scRNA_seurat_clustered.Rdata")
 
 ```
 

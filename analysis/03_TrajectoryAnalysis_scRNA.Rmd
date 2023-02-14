@@ -2,7 +2,9 @@
 title: "03_TrajectoryAnalysis"
 author: "Afsheen"
 date: "2023-01-12"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r Calling libraries, echo=FALSE, include=FALSE}
@@ -26,7 +28,9 @@ library(randomcoloR)
 library(cowplot)
 library(viridis)
 library(gprofiler2)
-
+library(htmltools)
+library(plotly)
+library(gridExtra)
 
 SamplePalette =  c(awr925_CL3_TR1="#000000",
                    awr925_CL3_TR2= "#808080",
@@ -52,7 +56,7 @@ names(Set26)=1:nb.cols-1
 ```
 
 ```{r}
-load(file = "/files/scRNA_Qualitycheck/output/02_Clustering_scRNA_seurat_clustered.Rdata")
+load(file = "./output/02_Clustering_scRNA_seurat_clustered.Rdata")
 ```
 
 
@@ -132,38 +136,47 @@ ggpubr::ggarrange(plotlist=plots)
 
 ```
 
+```{r ## 08-Trajectory Lineages Samples,echo=FALSE, fig.width=16, fig.height=8}
 
-```{r ## 08-Trajectory Lineages Samples,echo=FALSE, fig.width=8, fig.height=8}
 
+# plot look very similar. but I don't see any error in plotting 
+
+plotlist=list()
 for( lin in c("shared.pseudo",linages)){
   ggp2 <- ggplot(PS, aes(x = get(lin), color=Sample)) + 
     geom_density() + 
     facet_wrap(~ sampleG, scales="free_y")+
     scale_fill_manual(values=SamplePalette, aesthetics="colour")+
-    theme_classic()+ ggtitle(lin)
-  print(ggp2 )
+    theme_classic()+ ggtitle(lin)+xlab("pseudotime")
+ plotlist[[lin]]<-ggp2
 }
 
+ggpubr::ggarrange(plotlist=plotlist)
 
+plotlist=list()
 for( lin in c("shared.pseudo",linages)){
   ggp2 <- ggplot(PS, aes(x = get(lin), color=Sample)) + 
     geom_density() + 
     scale_fill_manual(values=SamplePalette, aesthetics="colour")+
-    theme_classic()+ ggtitle(lin)
-  print(ggp2 )
+    theme_classic()+ ggtitle(lin)+xlab("pseudotime")
+  plotlist[[lin]]<-ggp2
 }
+ggpubr::ggarrange(plotlist=plotlist)
+
+
+
 
 ```
 
 
 
-```{r ## 08-Trajectory analysis compare linages,echo=FALSE, fig.width=8, fig.height=5}
+```{r ## 08-Trajectory analysis compare linages,echo=FALSE, fig.width=8, fig.height=8}
 
 PS_compare<-PS[,c("Sample", linages)] %>%
   group_by(Sample) %>%
   ggpubr::get_summary_stats(type = "full")
 
-writexl::write_xlsx(PS_compare,"/files/scRNA_Qualitycheck/output/PS_comparison.xlsx")
+writexl::write_xlsx(PS_compare,"./output/PS_comparison.xlsx")
 
 Tcomp = list()
 nsamples = length(unique(PS$SampleID))
@@ -174,7 +187,7 @@ colnames(Resmatrix) = rownames(Resmatrix) = unique(PS$SampleID)
 Comparison_PseudoTime<-rstatix::pairwise_t_test(data = PS, 
                                                 formula = as.formula("shared.pseudo ~ Sample"))
 Tcomp [["shared.pseudo"]] = Comparison_PseudoTime
-writexl::write_xlsx(Comparison_PseudoTime, path = "/files/scRNA_Qualitycheck/output/shared.pseudo_comparison.xlsx")
+writexl::write_xlsx(Comparison_PseudoTime, path = "./output/shared.pseudo_comparison.xlsx")
 
 for(i in unique(PS$SampleID)){
   for(j in unique(PS$SampleID)){
@@ -195,11 +208,12 @@ pheatmap::pheatmap(log10(Resmatrix),
                    main ="shared.pseudotime")
 
 
+pheatmaps = list()
 for(lin in linages){
   Comparison_PseudoTime<-rstatix::pairwise_t_test(data = PS, 
                                                   formula = as.formula(paste0(lin, "~ Sample")))
   
-writexl::write_xlsx(Comparison_PseudoTime, path =paste0( "/files/scRNA_Qualitycheck/output/",lin,"_comparison.xlsx"))
+  writexl::write_xlsx(Comparison_PseudoTime, path =paste0( "./output/",lin,"_comparison.xlsx"))
   for(i in unique(PS$SampleID)){
     for(j in unique(PS$SampleID)){
       idx = Comparison_PseudoTime$group1==i&Comparison_PseudoTime$group2==j
@@ -211,12 +225,15 @@ writexl::write_xlsx(Comparison_PseudoTime, path =paste0( "/files/scRNA_Qualitych
   
   Resmatrix[lower.tri(Resmatrix)]=t(Resmatrix[upper.tri(Resmatrix)])
   Resmatrix[Resmatrix<10e-50] = 10e-50
-  pheatmap::pheatmap(-log10(Resmatrix), cluster_rows = F, cluster_cols = F, main = lin)
+  pheatmaps [[lin]] <- pheatmap::pheatmap(-log10(Resmatrix), cluster_rows = F, cluster_cols = F, main = lin)[[4]]
   Tcomp [[lin]] = Comparison_PseudoTime
 }
 
 
+do.call(grid.arrange, pheatmaps)
+
 ```
+
 
 
 
@@ -232,7 +249,7 @@ p + guides(color=guide_legend(title="Cell Types"))
 
 ```{r}
 
-save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = "/files/scRNA_Qualitycheck/output/03_Trajectory_scRNA_seurat_sling.Rdata")
+save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = "./output/03_Trajectory_scRNA_seurat_sling.Rdata")
 
 ```
 

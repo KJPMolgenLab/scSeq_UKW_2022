@@ -2,11 +2,14 @@
 title: "QC"
 author: "Afsheen"
 date: "2023-01-11"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
 ```
 
 # QC of the samples
@@ -32,10 +35,10 @@ library(randomcoloR)
 ## Data Preparation
 
 
-```{r set colors and filebase}
+```{r set colors and filebase, echo = FALSE}
 set.seed(42)
 
-home="/files/scRNA_Qualitycheck/data/"
+home=getwd()
 
 nb.cols <- 26
 Set26 <- colorRampPalette(brewer.pal(12, "Set3"))(nb.cols)
@@ -68,7 +71,7 @@ SampleGPalette = c(awr925="#000000",
 
 edb <- keys(org.Hs.eg.db)
 
-datadirs = list.dirs(home,recursive = T)
+datadirs = list.dirs(home,recursive = T, full.names = T)
 datadirs = datadirs[grepl("sample_feature_bc_matrix", datadirs)]
 
 Samples= data.frame(
@@ -77,7 +80,7 @@ Samples= data.frame(
 
 
 Samples = Samples[order(Samples$SampleID),]
-dirs=c(paste0(home, "data/",Samples$poolID,"/outs/per_sample_outs/",Samples$SampleID,"/count/sample_feature_bc_matrix"))
+dirs=c(paste0(path.expand(home), "/data/data/",Samples$poolID,"/outs/per_sample_outs/",Samples$SampleID,"/count/sample_feature_bc_matrix"))
 
 Samples$SampleID = gsub("nuc725", "nuc752", Samples$SampleID)
 Samples$SampleG = gsub("_CL.*", "", Samples$SampleID)
@@ -640,7 +643,7 @@ DimPlot(seurat_integrated,
 
 
 ```{r}
-save(seurat_integrated, file = "/files/scRNA_Qualitycheck/output/01_QC_scRNA_seurat_integrated.Rdata")
+save(seurat_integrated, file = "./output/01_QC_scRNA_seurat_integrated.Rdata")
 ```
 
 
