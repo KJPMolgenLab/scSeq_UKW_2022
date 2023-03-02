@@ -382,7 +382,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-02-14
+<strong>Last updated:</strong> 2023-03-02
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -513,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022treed10bd8227024ee44305dceb8d7b3e4e6b3575ecatargetblankd10bd82a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree9decf3c5f486c4741cada13f7996675ca23b7ffatargetblank9decf3ca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/d10bd8227024ee44305dceb8d7b3e4e6b3575eca" target="_blank">d10bd82</a>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/9decf3c5f486c4741cada13f7996675ca23b7ffa" target="_blank">9decf3c</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022treed10bd8227024ee44305dceb8d7b3e4e6b3575ecatargetblankd10bd82a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomKJPMolgenlabscSeqUKW2022tree9decf3c5f486c4741cada13f7996675ca23b7ffatargetblank9decf3ca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/d10bd8227024ee44305dceb8d7b3e4e6b3575eca" target="_blank">d10bd82</a>.
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/tree/9decf3c5f486c4741cada13f7996675ca23b7ffa" target="_blank">9decf3c</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -546,14 +546,12 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
 
 Untracked files:
+    Untracked:  core
     Untracked:  data/data/
-    Untracked:  output/01_QC_scRNA_seurat_integrated.Rdata
-    Untracked:  output/02_Clustering_scRNA_seurat_clustered.Rdata
-    Untracked:  output/03_Trajectory_scRNA_seurat_sling.Rdata
-    Untracked:  output/04_GenotypeAnalysis_scRNA_Output.Rdata
     Untracked:  output/Cluster_markers.txt
     Untracked:  output/GO_termsCluster.xlsx
     Untracked:  output/Lineage1_comparison.xlsx
@@ -563,8 +561,8 @@ Untracked files:
     Untracked:  output/Lineage5_comparison.xlsx
     Untracked:  output/Lineage6_comparison.xlsx
     Untracked:  output/PS_comparison.xlsx
+    Untracked:  output/scRNA_seurat_integrated.Rdata
     Untracked:  output/shared.pseudo_comparison.xlsx
-    Untracked:  output/tmp.txt
 
 Unstaged changes:
     Modified:   _workflowr.yml
@@ -614,6 +612,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/9decf3c5f486c4741cada13f7996675ca23b7ffa/analysis/01_QC_scRNA.Rmd" target="_blank">9decf3c</a>
+</td>
+<td>
+Afsheen Kumar
+</td>
+<td>
+2023-03-02
+</td>
+<td>
+workflowr::wflow_publish(c("./analysis/<em>", "./docs/</em>",
+"./code/*"))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/KJPMolgenlab/scSeq_UKW_2022/6cebe83c66d630009b45ba153004273d3f78656f/docs/01_QC_scRNA.html" target="_blank">6cebe83</a>
+</td>
+<td>
+achiocch
+</td>
+<td>
+2023-02-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -747,50 +780,23 @@ initial commit MVP Analysis
 <div id="data-preparation" class="section level2">
 <h2>Data Preparation</h2>
 </div>
+<div id="sample-calling" class="section level2">
+<h2>Sample calling</h2>
+</div>
 <div id="data-loading" class="section level2">
 <h2>Data Loading</h2>
 <pre><code>as(&lt;dgTMatrix&gt;, &quot;dgCMatrix&quot;) is deprecated since Matrix 1.5-0; do as(., &quot;CsparseMatrix&quot;) instead</code></pre>
 <pre><code>&#39;select()&#39; returned 1:many mapping between keys and columns
 &#39;select()&#39; returned 1:many mapping between keys and columns</code></pre>
-<p><img src="figure/01_QC_scRNA.Rmd/Loading%20samples%20and%20performing%20basic%20QC-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Loading-samples-and-performing-basic-QC-1">
-Past versions of "Loading samples and performing basic QC-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-1-1.png" alt="Smooth scatter plot of average counts" width="768" />
+<p class="caption">
+Smooth scatter plot of average counts
 </p>
-<div id="fig-no-spaces-Loading-samples-and-performing-basic-QC-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Loading samples and performing basic QC-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
+<div id="applying-qc-thresholds" class="section level2">
+<h2>Applying QC thresholds</h2>
 <pre><code>[1] &quot;detected genes passing QC&quot;</code></pre>
 <pre><code>detectedGenes
 FALSE  TRUE 
@@ -802,49 +808,18 @@ high_altexps_ERCC_percent                   discard
 </div>
 <div id="data-inspection" class="section level2">
 <h2>Data Inspection</h2>
-<pre><code>Warning: Transformation introduced infinite values in continuous y-axis
-Transformation introduced infinite values in continuous y-axis</code></pre>
-<pre><code>Warning: Removed 6815 rows containing non-finite values (`stat_ydensity()`).</code></pre>
-<pre><code>Warning: Removed 6815 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="figure/01_QC_scRNA.Rmd/QCplot1-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-QCplot1-1">
-Past versions of QCplot1-1.png
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-2-1.png" alt="QCplot1 showing the outliers" width="768" />
+<p class="caption">
+QCplot1 showing the outliers
 </p>
-<div id="fig-QCplot1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/QCplot1-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/QCplot2-1.png" alt="QC plot showing outliers based on the mitochondrial percentage" width="768" />
+<p class="caption">
+QC plot showing outliers based on the mitochondrial percentage
+</p>
 </div>
-<p><img src="figure/01_QC_scRNA.Rmd/QCplot2-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-QCplot2-1">
 Past versions of QCplot2-1.png
@@ -887,398 +862,70 @@ achiocch
 </div>
 <div id="inspect-cells-per-samples" class="section level2">
 <h2>Inspect Cells per samples</h2>
-<p><img src="figure/01_QC_scRNA.Rmd/Sample%20group%20vs%20Ncells-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Sample-group-vs-Ncells-1">
-Past versions of "Sample group vs Ncells-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-3-1.png" alt="Sample groups vs number of cells" width="384" />
+<p class="caption">
+Sample groups vs number of cells
 </p>
-<div id="fig-no-spaces-Sample-group-vs-Ncells-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Sample group vs Ncells-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Samples%20vs%20Ncells-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Samples-vs-Ncells-1">
-Past versions of "Samples vs Ncells-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-4-1.png" alt="Samples vs number of cells" width="768" />
+<p class="caption">
+Samples vs number of cells
 </p>
-<div id="fig-no-spaces-Samples-vs-Ncells-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Samples vs Ncells-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div id="inspect-umi-per-samples" class="section level2">
 <h2>Inspect UMI per samples</h2>
-<p><img src="figure/01_QC_scRNA.Rmd/UMI%20vs%20Sample%20Groups-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-UMI-vs-Sample-Groups-1">
-Past versions of "UMI vs Sample Groups-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-5-1.png" alt="Inspect UMI per Sample" width="384" />
+<p class="caption">
+Inspect UMI per Sample
 </p>
-<div id="fig-no-spaces-UMI-vs-Sample-Groups-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/UMI vs Sample Groups-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/UMI%20vs%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-UMI-vs-Samples-1">
-Past versions of "UMI vs Samples-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-UMI-vs-Samples-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/UMI vs Samples-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="inspect-genes-per-samples" class="section level2">
 <h2>Inspect Genes per samples</h2>
-<p><img src="figure/01_QC_scRNA.Rmd/Number%20of%20Genes%20vs%20Samples%20group-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Number-of-Genes-vs-Samples-group-1">
-Past versions of "Number of Genes vs Samples group-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-7-1.png" alt="Number of Genes vs Samples group" width="384" />
+<p class="caption">
+Number of Genes vs Samples group
 </p>
-<div id="fig-no-spaces-Number-of-Genes-vs-Samples-group-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Number of Genes vs Samples group-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Number%20of%20Genes%20vs%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Number-of-Genes-vs-Samples-1">
-Past versions of "Number of Genes vs Samples-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-8-1.png" alt="Number of Genes vs Samples" width="768" />
+<p class="caption">
+Number of Genes vs Samples
 </p>
-<div id="fig-no-spaces-Number-of-Genes-vs-Samples-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Number of Genes vs Samples-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Distribution%20of%20Genes%20vs%20Sample%20groups-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Distribution-of-Genes-vs-Sample-groups-1">
-Past versions of "Distribution of Genes vs Sample groups-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-9-1.png" alt="Distribution of Genes vs Sample groups" width="384" />
+<p class="caption">
+Distribution of Genes vs Sample groups
 </p>
-<div id="fig-no-spaces-Distribution-of-Genes-vs-Sample-groups-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Distribution of Genes vs Sample groups-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Distribution%20of%20Genes%20vs%20Samples-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Distribution-of-Genes-vs-Samples-1">
-Past versions of "Distribution of Genes vs Samples-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-10-1.png" alt="Distribution of Genes vs Samples" width="768" />
+<p class="caption">
+Distribution of Genes vs Samples
 </p>
-<div id="fig-no-spaces-Distribution-of-Genes-vs-Samples-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Distribution of Genes vs Samples-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div id="inspect-quality-per-samples" class="section level2">
 <h2>Inspect Quality per samples</h2>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="figure/01_QC_scRNA.Rmd/Mitochondrial%20Ratio-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Mitochondrial-Ratio-1">
-Past versions of "Mitochondrial Ratio-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-11-1.png" alt="Number of UMI vs Gene" width="768" />
+<p class="caption">
+Number of UMI vs Gene
 </p>
-<div id="fig-no-spaces-Mitochondrial-Ratio-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Mitochondrial Ratio-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Mito%20ratio-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Mito-ratio-1">
-Past versions of "Mito ratio-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-12-1.png" alt="Mitochndrial ratio" width="768" />
+<p class="caption">
+Mitochndrial ratio
 </p>
-<div id="fig-no-spaces-Mito-ratio-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Mito ratio-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 <p><img src="figure/01_QC_scRNA.Rmd/Ribo%20ratio-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
@@ -1318,49 +965,24 @@ achiocch
 </table>
 </div>
 </div>
-<p><img src="figure/01_QC_scRNA.Rmd/Complexity%20Genes%20per%20Umi-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Complexity-Genes-per-Umi-1">
-Past versions of "Complexity Genes per Umi-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-13-1.png" alt="Complexity Genes per UMI" width="768" />
+<p class="caption">
+Complexity Genes per UMI
 </p>
-<div id="fig-no-spaces-Complexity-Genes-per-Umi-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Complexity Genes per Umi-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div id="filter-and-quality-control" class="section level2">
 <h2>Filter and Quality Control</h2>
-<pre><code>Warning: replacing previous import &#39;data.table::shift&#39; by &#39;tictoc::shift&#39; when
-loading &#39;CelliD&#39;</code></pre>
+<pre><code>When using repel, set xnudge and ynudge to 0 for optimal results</code></pre>
+<pre><code>Warning: ggrepel: 9 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-14-1.png" alt="Variable feature plot showing top 20 variable genes" width="768" />
+<p class="caption">
+Variable feature plot showing top 20 variable genes
+</p>
+</div>
 <pre><code>Centering and scaling data matrix</code></pre>
 <pre><code>PC_ 1 
 Positive:  BGN, PRRX1, COL6A3, IL1R1, COL14A1, COL1A1, IGF1, COL5A2, MGP, COL3A1 
@@ -1400,108 +1022,45 @@ Negative:  NKAIN3, SERPINE2, PTPRZ1, SPARCL1, GPM6A, NR2F1, MGST1, ECM2, GFAP, C
 <pre><code>Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
 To use Python UMAP via reticulate, set umap.method to &#39;umap-learn&#39; and metric to &#39;correlation&#39;
 This message will be shown once per session</code></pre>
-<pre><code>16:05:03 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
-<pre><code>16:05:03 Read 12249 rows and found 10 numeric columns</code></pre>
-<pre><code>16:05:03 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
-<pre><code>16:05:03 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
+<pre><code>12:29:14 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
+<pre><code>12:29:14 Read 12249 rows and found 10 numeric columns</code></pre>
+<pre><code>12:29:14 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
+<pre><code>12:29:14 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
 <pre><code>0%   10   20   30   40   50   60   70   80   90   100%</code></pre>
 <pre><code>[----|----|----|----|----|----|----|----|----|----|</code></pre>
 <pre><code>**************************************************|
-16:05:04 Writing NN index file to temp file /tmp/RtmpDfzcND/file80104cbfda24
-16:05:04 Searching Annoy index using 1 thread, search_k = 3000
-16:05:08 Annoy recall = 100%
-16:05:08 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-16:05:10 Initializing from normalized Laplacian + noise (using RSpectra)
-16:05:10 Commencing optimization for 200 epochs, with 494522 positive edges
-16:05:16 Optimization finished</code></pre>
+12:29:15 Writing NN index file to temp file /tmp/RtmpxzXuFo/file49bd98bdb7
+12:29:15 Searching Annoy index using 1 thread, search_k = 3000
+12:29:18 Annoy recall = 100%
+12:29:19 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+12:29:21 Initializing from normalized Laplacian + noise (using RSpectra)
+12:29:21 Commencing optimization for 200 epochs, with 494522 positive edges
+12:29:26 Optimization finished</code></pre>
 </div>
 <div id="samples-before-batch-correction" class="section level2">
 <h2>Samples before Batch correction</h2>
-<p><img src="figure/01_QC_scRNA.Rmd/Creating%20UMAP%20plots%20before%20Batch%20corr-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Creating-UMAP-plots-before-Batch-corr-1">
-Past versions of "Creating UMAP plots before Batch corr-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-15-1.png" alt="Creating UMAP plots before Batch correction" width="768" />
+<p class="caption">
+Creating UMAP plots before Batch correction
 </p>
-<div id="fig-no-spaces-Creating-UMAP-plots-before-Batch-corr-1"
-class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Creating UMAP plots before Batch corr-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 </div>
 <div id="batch-correction" class="section level2">
 <h2>Batch correction</h2>
 </div>
-</div>
 <div id="plotting-cellular-structure-after-qc-and-batch-corrections"
-class="section level1">
-<h1>Plotting Cellular Structure after QC and Batch Corrections</h1>
-<p><img src="figure/01_QC_scRNA.Rmd/Creating%20UMAP%20plots%20after%20QC-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Creating-UMAP-plots-after-QC-1">
-Past versions of "Creating UMAP plots after QC-1.png"
-</button>
+class="section level2">
+<h2>Plotting Cellular Structure after QC and Batch Corrections</h2>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-16-1.png" alt="Creating UMAP plots after QC" width="1152" />
+<p class="caption">
+Creating UMAP plots after QC
 </p>
-<div id="fig-no-spaces-Creating-UMAP-plots-after-QC-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Creating UMAP plots after QC-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
+<div id="cell-cycle-scoring" class="section level2">
+<h2>Cell cycle scoring</h2>
 <pre><code>snapshotDate(): 2022-10-31</code></pre>
 <pre><code>loading from cache</code></pre>
 <pre><code>require(&quot;ensembldb&quot;)</code></pre>
@@ -1511,121 +1070,26 @@ CASP8AP2, E2F8, PCNA, BRIP1, DSCC1, CDCA7, CHAF1B, USP1, SLBP, RRM1, FEN1,
 EXO1, PRIM1, UHRF1, not searching for symbol synonyms</code></pre>
 <pre><code>Warning: The following features are not present in the object: CBX5, CTCF, not
 searching for symbol synonyms</code></pre>
+</div>
 <div id="inspect-cell-cylce-phase" class="section level2">
 <h2>Inspect Cell Cylce Phase</h2>
-<p><img src="figure/01_QC_scRNA.Rmd/Phase%20by%20Cell-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Phase-by-Cell-1">
-Past versions of "Phase by Cell-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-17-1.png" alt="Phase by Cell" width="384" />
+<p class="caption">
+Phase by Cell
 </p>
-<div id="fig-no-spaces-Phase-by-Cell-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Phase by Cell-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Phase%20by%20Samples%20-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Phase-by-Samples--1">
-Past versions of "Phase by Samples -1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-18-1.png" alt="Phase by Samples" width="768" />
+<p class="caption">
+Phase by Samples
 </p>
-<div id="fig-no-spaces-Phase-by-Samples--1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Phase by Samples -1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-<p><img src="figure/01_QC_scRNA.Rmd/Phase%20by%20Genotype-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Phase-by-Genotype-1">
-Past versions of "Phase by Genotype-1.png"
-</button>
+<div class="figure" style="text-align: center">
+<img src="figure/01_QC_scRNA.Rmd/unnamed-chunk-19-1.png" alt="Phase by Genotype" width="768" />
+<p class="caption">
+Phase by Genotype
 </p>
-<div id="fig-no-spaces-Phase-by-Genotype-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/KJPMolgenlab/scSeq_UKW_2022/blob/e16a087fa43b0e6bfad43c91f3910196b75f1d3e/docs/figure/01_QC_scRNA.Rmd/Phase by Genotype-1.png" target="_blank">e16a087</a>
-</td>
-<td>
-achiocch
-</td>
-<td>
-2023-02-12
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 <br>
 <p>
