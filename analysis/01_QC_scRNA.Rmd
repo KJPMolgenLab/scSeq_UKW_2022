@@ -66,6 +66,7 @@ SampleGPalette = c(awr925="#000000",
 
 ```
 
+## Sample calling
 
 ```{r, define directories to be loaded, echo=FALSE, include=FALSE}
 
@@ -143,10 +144,14 @@ sce <- splitAltExps(sce, ifelse(is.cmo, "Capture", "gene"))
 
 ave.counts <- calculateAverage(sce)
 num.cells <- nexprs(sce, byrow=TRUE)
+```
 
+```{r,fig.cap="Smooth scatter plot of average counts", echo=FALSE, fig.height=8, fig.width=8}
 smoothScatter(log10(ave.counts), num.cells, ylab="Number of cells", 
               xlab=expression(Log[10]~"average count"))
-
+```
+## Applying QC thresholds 
+```{r, Applying QC thresholds, echo=FALSE}
 unfiltered <- sce              
 
 ## for each gene in each cell: is it expressed?
@@ -179,7 +184,7 @@ BatchID_samples<-cbind(sce$BatchID,sce$Sample)
 ```
 
 ## Data Inspection
-```{r, QCplot1, echo=FALSE, fig.height=8, fig.width=8}
+```{r, fig.cap= "QCplot1 showing the outliers", echo=FALSE, fig.height=8, fig.width=8,warning=FALSE}
 gridExtra::grid.arrange(
   plotColData(unfiltered, x="SampleID", y="sum", colour_by="discard") +
     scale_y_log10() + ggtitle("Total count") + theme_classic()+
@@ -198,7 +203,7 @@ gridExtra::grid.arrange(
 
 ```
 
-```{r, QCplot2, echo=FALSE, fig.height=4, fig.width=8}
+```{r, QCplot2,fig.cap="QC plot showing outliers based on the mitochondrial percentage", echo=FALSE, fig.height=4, fig.width=8}
 gridExtra::grid.arrange(
   plotColData(unfiltered, x="sum", y="altexps_Mito_percent", colour_by="discard")+ theme_classic(), 
   plotColData(unfiltered, x="altexps_ERCC_percent", y="altexps_Mito_percent", colour_by="discard")+ theme_classic(), 
@@ -206,7 +211,7 @@ gridExtra::grid.arrange(
 ```
 #Read QC samples only 
 
-```{r, Converting summarized experiment object to seurat for further processing, echo=FALSE}
+```{r, Converting summarized experiment object to seurat for further processing, echo=FALSE,warning=FALSE}
 
 ExcludeSample <-  "SK301_CL1_TR|SK308_CL6"
 #SK301_CL1 is bad quality 
@@ -265,7 +270,7 @@ Samples <- Samples %>% rownames_to_column("SampleID")
 
 ## Inspect Cells per samples 
 
-```{r, Sample group vs Ncells, fig.width=4, fig.height=4}
+```{r, fig.cap="Sample groups vs number of cells", fig.width=4, fig.height=4}
 pNcells <- metadata %>% 
   ggplot(aes(x=sampleG, fill=sampleG,  color=sampleG)) + 
   geom_bar(alpha=0.2) +
@@ -278,7 +283,7 @@ pNcells <- metadata %>%
 pNcells
 ```
 
-```{r Samples vs Ncells, fig.width=8, fig.height=4}
+```{r,fig.cap="Samples vs number of cells", fig.width=8, fig.height=4}
 metadata %>% 
   ggplot(aes(x=Sample, fill=Sample, color=Sample)) + 
   geom_bar(alpha=0.2) +
@@ -294,7 +299,7 @@ metadata %>%
 
 ## Inspect UMI per samples 
 
-```{r, UMI vs Sample Groups, fig.width=4, fig.height=4}
+```{r, fig.cap="UMI vs Sample Groups", fig.cap="Inspect UMI per Sample", fig.width=4, fig.height=4}
 metadata %>% 
   ggplot(aes(color=sampleG, x=nUMI, fill= sampleG)) + 
   geom_density(alpha = 0.2) + 
@@ -305,7 +310,7 @@ metadata %>%
 
 ```
 
-```{r, UMI vs Samples, fig.width=8, fig.height=4}
+```{r, fig.caption="UMI vs Samples", fig.width=8, fig.height=4}
 m<-metadata %>% 
   ggplot(aes(color=Sample, x=nUMI, fill= Sample)) + 
   geom_density(alpha = 0.2) + 
@@ -325,7 +330,7 @@ m+ggtitle("Number of Cells")+
 
 ## Inspect Genes  per samples 
 
-```{r, Number of Genes vs Samples group, fig.width=4, fig.height=4}
+```{r, fig.cap="Number of Genes vs Samples group", fig.width=4, fig.height=4}
 metadata %>% 
   ggplot(aes(color=sampleG, x=nGene, fill= sampleG)) + 
   geom_density(alpha = 0.2) + 
@@ -337,7 +342,7 @@ metadata %>%
 
 ```
 
-```{r, Number of Genes vs Samples, fig.width=8, fig.height=4}
+```{r,fig.cap="Number of Genes vs Samples", fig.width=8, fig.height=4}
 metadata %>% 
   ggplot(aes(color=Sample, x=nGene, fill= Sample)) + 
   geom_density(alpha = 0.2) + 
@@ -352,7 +357,7 @@ metadata %>%
 
 ```
 
-```{r, Distribution of Genes vs Sample groups, fig.width=4, fig.height=4}
+```{r, fig.cap="Distribution of Genes vs Sample groups", fig.width=4, fig.height=4}
 metadata %>% 
   ggplot(aes(x=sampleG, y=log10(nGene),color=sampleG, fill=sampleG)) + 
   geom_boxplot(alpha=0.2) + 
@@ -362,7 +367,7 @@ metadata %>%
   scale_fill_manual(values=SampleGPalette) + scale_color_manual(values=SampleGPalette)
 ```
 
-```{r, Distribution of Genes vs Samples, echo=FALSE, fig.width=8, fig.height=4}
+```{r, fig.cap="Distribution of Genes vs Samples", echo=FALSE, fig.width=8, fig.height=4}
 metadata %>% 
   ggplot(aes(x=Sample, y=log10(nGene), fill=Sample, color=Sample)) + 
   geom_boxplot(alpha=0.2) + 
@@ -377,7 +382,7 @@ metadata %>%
 
 ## Inspect Quality per samples 
 
-```{r, Mitochondrial Ratio, fig.height=8,fig.width=8}
+```{r, fig.cap="Number of UMI vs Gene", fig.height=8,fig.width=8,warning=FALSE}
 metadata %>% 
   ggplot(aes(x=nUMI, y=nGene, color=Sample)) + 
   geom_point() + 
@@ -393,7 +398,7 @@ metadata %>%
 
 ```
 
-```{r, Mito ratio, echo=FALSE, fig.width=8, fig.height=4}
+```{r, fig.cap="Mitochndrial ratio", echo=FALSE, fig.width=8, fig.height=4}
 metadata %>% 
   ggplot(aes(color=Sample, x=mitoRatio, fill=Sample)) + 
   geom_density(alpha = 0.2) + 
@@ -423,7 +428,7 @@ metadata %>%
 
 ```
 
-```{r, Complexity Genes per Umi, echo=FALSE, fig.width=8, fig.height=4}
+```{r, fig.cap="Complexity Genes per UMI", echo=FALSE, fig.width=8, fig.height=4}
 metadata %>%
   ggplot(aes(x=log10GenesPerUMI, color = Sample, fill=Sample)) +
   geom_density(alpha = 0.2) +
@@ -438,7 +443,7 @@ metadata %>%
 
 ## Filter and Quality Control
 
-```{r, QC seurat object, echo=FALSE}
+```{r, QC seurat object, echo=FALSE,warning=FALSE}
 #metadata$BatchesID<-BatchIds
 merged_seurat@meta.data <- metadata
 # Filter out low quality reads using selected thresholds - these will change with experiment
@@ -473,6 +478,16 @@ seurat_phase <- FindVariableFeatures(seurat_phase,
                                      selection.method = "vst",
                                      nfeatures = 2000, 
                                      verbose = FALSE)
+top20 <- head(x = VariableFeatures(object = seurat_phase),n =20)
+```
+
+
+```{r, fig.cap="Variable feature plot showing top 20 variable genes", fig.width=8, fig.height=4}
+plot1<-VariableFeaturePlot(object = seurat_phase)
+
+LabelPoints(plot = plot1, 
+            points = top20, 
+            repel = TRUE)
 
 # Scale the counts
 seurat_phase <- ScaleData(object = seurat_phase)
@@ -485,7 +500,7 @@ seurat_phase <- RunUMAP(object = seurat_phase, dims = 1:10)
 
 ## Samples before Batch correction 
 
-```{r, Creating UMAP plots before Batch corr, fig.width=8, fig.height=4}
+```{r, fig.cap="Creating UMAP plots before Batch correction", fig.width=8, fig.height=4}
 a = DimPlot(seurat_phase, reduction = "umap", 
             group.by = "Sample",
             cols=SamplePalette)+theme_classic()
@@ -544,9 +559,9 @@ seurat_integrated$Genotype = genotypes[seurat_integrated$sampleG]
 ```
 
 
-# Plotting Cellular Structure after QC and Batch Corrections 
+## Plotting Cellular Structure after QC and Batch Corrections 
 
-```{r, Creating UMAP plots after QC, fig.width=12, fig.height=4}
+```{r, fig.cap="Creating UMAP plots after QC", fig.width=12, fig.height=4}
 a = DimPlot(seurat_integrated, reduction = "umap", 
             group.by = "Sample",
             cols=SamplePalette)+theme_classic()
@@ -559,6 +574,8 @@ c= DimPlot(seurat_integrated, reduction = "umap",
 
 a+b+c
 ```
+
+## Cell cycle scoring
 
 ```{r, Cell cycle scoring}
 # Download cell cycle genes for organism at https://github.com/hbc/tinyatlas/tree/master/cell_cycle. Read it in with:
@@ -615,7 +632,7 @@ seurat_integrated <- CellCycleScoring(seurat_integrated,
 
 ## Inspect Cell Cylce Phase 
 
-```{r Phase by Cell, fig.width=4, fig.height=4}
+```{r, fig.cap="Phase by Cell", fig.width=4, fig.height=4}
 # Visualize the PCA, grouping by cell cycle phase
 DimPlot(seurat_integrated,
         reduction = "umap",
@@ -623,7 +640,7 @@ DimPlot(seurat_integrated,
 
 ```
 
-```{r Phase by Samples , fig.width=8, fig.height=8}
+```{r,fig.cap="Phase by Samples", fig.width=8, fig.height=8}
 DimPlot(seurat_integrated,
         reduction = "umap",
         group.by= "Phase",
@@ -632,7 +649,7 @@ DimPlot(seurat_integrated,
 ```
 
 
-```{r Phase by Genotype, fig.width=8, fig.height=4}
+```{r,fig.cap="Phase by Genotype", fig.width=8, fig.height=4}
 DimPlot(seurat_integrated,
         reduction = "umap",
         group.by= "Phase",
@@ -643,7 +660,7 @@ DimPlot(seurat_integrated,
 
 
 ```{r}
-save(seurat_integrated, file = "./output/01_QC_scRNA_seurat_integrated.Rdata")
+save(seurat_integrated, file = "./output/scRNA_seurat_integrated.Rdata")
 ```
 
 

@@ -54,15 +54,17 @@ names(Set26)=1:nb.cols-1
 ```
 
 ```{r load files}
-recalc=F
+
+recalc=T
 if(recalc){
-  load(file = "./output/03_Trajectory_scRNA_seurat_sling.Rdata")}
+  load(file = "./output/scRNA_seurat_integrated.Rdata")}
 if(!recalc){
-  load(file = "./output/04_GenotypeAnalysis_scRNA_Output.Rdata")
+  load(file = "./output/scRNA_seurat_integrated.Rdata")
 }
 
 ```
 
+## Identifying markers LMER
 ```{r identify markers LMER}
 
   coldata = seurat_integrated@meta.data
@@ -93,11 +95,12 @@ if(recalc){
 ```
 
 
-```{r plot markers LMER}
+```{r,fig.cap="Plot markers LMER"}
 ggplot(reslmer, aes(x=Estimate, y=-log10(p.value), col=(adj.p<0.05)))+
   geom_point()
 ```
 
+## Identifying markers for Genotypes
 
 ```{r identify markers for Genotype}
 if(recalc){
@@ -117,13 +120,13 @@ if(recalc){
 ```
 
 
-```{r plot markers for Genotype}
+```{r,fig.cap="Heatmap grouped by Genotype"}
 DoHeatmap(seurat_integrated, features = rownames(top10Genotype.Markers), 
           group.by = "Genotype", assay = "integrated")
 
 ```
 
-
+## Calculating cell percentages
 
 ```{r Calculating the percentages of cell per cluster}
 #Calculating the percentages of cell per cluster
@@ -154,7 +157,7 @@ DT::datatable(ResFreq, extensions = "Buttons",
               ))
 ```
 
-## gene based cluster based
+## Genewise based cell cluster
 ```{r genewise by cell cluster, warning=FALSE}
 
 if(recalc){
@@ -558,7 +561,7 @@ gostplot(Gost.reslist.by.cluster[[x]])
 
 
 ```{r save}
-save(reslist.by.cluster, DEX.reslist.by.cluster, top10Genotype.Markers, Gost.reslist.by.cluster, ResFreq, Genotype.Markers, reslmer, seurat_integrated, scRNA.sce, Cellpalette, SampleGPalette, SamplePalette, prop_per_Sample, file = "./output/04_GenotypeAnalysis_scRNA_Output.Rdata")
+save(reslist.by.cluster, DEX.reslist.by.cluster, top10Genotype.Markers, Gost.reslist.by.cluster, ResFreq, Genotype.Markers, reslmer, seurat_integrated, scRNA.sce, Cellpalette, SampleGPalette, SamplePalette, prop_per_Sample, file = "./output/scRNA_seurat_integrated.Rdata")
 
 ```
 

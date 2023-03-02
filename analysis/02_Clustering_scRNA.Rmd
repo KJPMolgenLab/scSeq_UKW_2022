@@ -5,6 +5,9 @@ output:
   pdf_document: default
   html_document: default
 ---
+
+# Clustering Analysis
+
 ```{r Calling libraries, echo=FALSE, include=FALSE}
 library(SingleR)
 library(DropletUtils)
@@ -51,12 +54,12 @@ names(Set26)=1:nb.cols-1
 
 ```{r load data, include = FALSE}
 # Annotating cell Type
-load("./output/01_QC_scRNA_seurat_integrated.Rdata")
+load("./output/scRNA_seurat_integrated.Rdata")
 ```
 
+## Clustering after batch correction
 
-
-```{r, Clustering after batch correction}
+```{r, Clustering after batch correction,warning=FALSE}
 seurat_integrated <- FindNeighbors(object = seurat_integrated, 
                                    dims = 1:10)
 seurat_integrated <- FindClusters(object = seurat_integrated,
@@ -64,7 +67,7 @@ seurat_integrated <- FindClusters(object = seurat_integrated,
 ```
 
 
-```{r, UMAP Clustering after batch correction, fig.width=8, fig.height=8}
+```{r,fig.cap="UMAP Clustering after batch correction at different resolutions", fig.width=8, fig.height=8}
 # Assign identity of clusters at various thresholds
 
 Idents(object = seurat_integrated) <- "integrated_snn_res.0.2"
@@ -119,6 +122,7 @@ ggpubr::ggarrange(a,b,d,e,f,g)
 
 ```
 
+## Identification of clusters
 
 ```{r, fig.width=8, fig.height=4}
 seurat_integrated <- FindClusters(object = seurat_integrated,
@@ -133,9 +137,11 @@ n_cells <- FetchData(seurat_integrated,
 
 n_cells[is.na(n_cells)]=0
 
+```
+
+
+```{r,fig.cap="UMAP Clustering after batch correction at different resolutions", fig.width=8, fig.height=8}
 corrmap = cor(n_cells %>% column_to_rownames("SampleID") %>%  t(),method = "spearman")
-
-
 pheatmap::pheatmap(corrmap, main = "Correlation Cell distribution", breaks = seq(-1,1,length.out=100))
 
 long <- melt(n_cells, value.name = "ncells", variable.name="cluster")
@@ -166,7 +172,7 @@ d
 ```
 
 
-```{r, Feature plots tsne and umap,fig.width=8,fig.height=8}
+```{r, fig.cap="Feature plots UMAP",fig.width=8,fig.height=8}
 metrics <-  c("nUMI", "nGene", "S.Score", "G2M.Score", "mitoRatio")
 
 
@@ -182,7 +188,7 @@ FeaturePlot(seurat_integrated,
 ```
 
 
-```{r, Feature plots PCA, fig.width=8, fig.height=8}
+```{r, fig.cap="Feature plots PCA", fig.width=8, fig.height=8}
 # Defining the information in the seurat object of interest
 columns <- c(paste0("PC_", 1:16),
              "ident",
@@ -214,6 +220,7 @@ map(paste0("PC_", 1:16), function(pc){
 
 ```
 
+## Markers identification and visualization
 
 ```{r, Identifying markers, fig.height=12, fig.width=12}
 #based on cluster resolution of 0,6
@@ -230,104 +237,110 @@ markers %>%
     group_by(cluster) %>%
     top_n(n = 10, wt = avg_log2FC) -> top10
 
-DoHeatmap(seurat_integrated, features = top10$gene, group.by = "seurat_clusters", group.colors = Set26) + NoLegend()
 ```
 
-## Neuroepithelial marker
+```{r, fig.cap="Heatmap of top 10 genes in each cluster", fig.width=8, fig.height=8}
+DoHeatmap(seurat_integrated, features = top10$gene, group.by = "seurat_clusters", group.colors = Set26) + NoLegend() +  theme(text = element_text(size = 6))
+```
+## Visualizing the expression of marker genes with respect to different cell types
 
-```{r, Neuroepithelial markers, fig.height=8, fig.width=8}
+### Neuroepithelial marker
+
+```{r, Neuroepithelial markers, fig.height=8, fig.width=8,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("NES", "SOX2", "NOTCH1", "OCT4"), ncol = 2, cols = Set26)
 ```
 
-## Radial glia marker
+### Radial glia marker
 
-```{r, Radial markers,  fig.height=8, fig.width=8}
+```{r, Radial markers,  fig.height=8, fig.width=8,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("GFAP", "PAX6", "SLC1A3", "HES1"), ncol = 2, cols = Set26)
 ```
 
-## Intermediate Progen marker
+### Intermediate Progenitor marker
 
-```{r, Intermediate markers, fig.height=4, fig.width=4}
+```{r, Intermediate markers, fig.height=4, fig.width=4,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("TBR2", "ASCL1"), ncol = 2, cols = Set26)
 ```
 
-## Immature Neurons marker
+### Immature Neurons marker
 
-```{r, Immature markers, fig.height=8, fig.width=8}
+```{r, Immature markers, fig.height=8, fig.width=8,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("DCX", "TUBB3", "NEUROD1", "STMN1"), ncol = 2, cols = Set26)
 ```
 
-## Oligodendrocytes precurser  marker
+### Oligodendrocytes precurser  marker
 
-```{r, Oligodendrocytes markers, fig.height=4, fig.width=4}
+```{r, Oligodendrocytes markers, fig.height=4, fig.width=4,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("PDGFRA", "CSPG4"), ncol = 2, cols = Set26)
 ```
 
-## Oligodendrocytes mature  marker
+### Oligodendrocytes mature  marker
 
-```{r, Oligodendrocytes mature markers, fig.height=4, fig.width=4}
+```{r, Oligodendrocytes mature markers, fig.height=4, fig.width=4,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("OLIG1", "MBP", "SOX10", "LRP5"), ncol = 2, cols = Set26)
 ```
 
-## Schwann Cell  marker
+### Schwann Cell  marker
 
-```{r, Schwann markers, fig.height=4, fig.width=8}
+```{r, Schwann markers, fig.height=4, fig.width=8,warning=FALSE}
 # RidgePlot(seurat_integrated, features = c("NCAM", "MPZ", "S100", "MOG"), ncol = 2, cols = Set26)
 # none detectable
 ```
 
-## Astrocytes  marker
+### Astrocytes  marker
 
-```{r, Astrocytes markers, fig.height=8, fig.width=8}
+```{r, Astrocytes markers, fig.height=8, fig.width=8,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("GFAP", "SLC1A3", "SLC1A2", "SOX10"), ncol = 2, cols = Set26)
 ```
-## Microglia  marker
+### Microglia  marker
  none detected
 
-```{r, Microglia markers, fig.height=4, fig.width=8}
+```{r, Microglia markers, fig.height=4, fig.width=8,warning=FALSE}
 #RidgePlot(seurat_integrated, features = c("ITGAM", "PTPRC", "SCARD1", "TNFRSF5"), ncol = 2, cols = Set26)
 # none detectable
 ```
-##  Mature Neurons  marker
+###  Mature Neurons  marker
 
-```{r, Mature Neurons markers, fig.height=4, fig.width=8}
+```{r, fig.cap="Mature Neurons markers", fig.height=4, fig.width=8,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("MAP2", "DLG4", "NEFM"), ncol = 2, cols = Set26)
 ```
 
-##  Glutamtergic Neurons  marker
+###  Glutamtergic Neurons  marker
 
-```{r, Glutamtergic markers, fig.height=4, fig.width=4}
+```{r, fig.cap="Glutamtergic markers", fig.height=4, fig.width=4,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("SLC17A7", "SLC17A6", "GRIN2B", "GLUD1"), ncol = 2, cols = Set26)
 ```
 
-##  GABAergic Neurons  marker
+###  GABAergic Neurons  marker
 
-```{r, GABAergic markers, fig.height=4, fig.width=8}
+```{r,fig.cap="GABAergic markers", fig.height=4, fig.width=8,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("SLC6A1", "SLC17A6", "GABBR1", "GAD67"), ncol = 2, cols = Set26)
 ```
 
-##  Dopaminergic Neurons  marker
+###  Dopaminergic Neurons  marker
 
 none detected
-```{r, Dopaminergic markers, fig.height=4, fig.width=8}
+```{r, Dopaminergic markers, fig.height=4, fig.width=8,warning=FALSE}
 # RidgePlot(seurat_integrated, features = c("GIRK2", "TH", "DAT1", "DRD2"), ncol = 2, cols = Set26)
 # none detected
 ```
 
-##  Serotonergic Neurons  marker
+###  Serotonergic Neurons  marker
 
-```{r, Serotonergic markers, fig.height=4, fig.width=4}
+```{r, fig.cap="Serotonergic markers", fig.height=4, fig.width=4,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("SLC6A4", "TPH1", "HTR2A"), ncol = 2, cols = Set26)
 # none detected
 ```
-## Cholinergicneurons marker
-```{r, Cholinergicneurons markers, fig.width=4., fig.height=4}
+
+### Cholinergicneurons marker
+
+```{r, fig.cap="Cholinergicneurons markers", fig.width=4., fig.height=4,warning=FALSE}
 RidgePlot(seurat_integrated, features = c("CHAT", "SLC18A3", "ACHE"), ncol = 2, cols = Set26)
 
 ```
 ## GO terms of clusters 
 
-```{r GO res analysis, fig.height=8}
+```{r GO res analysis, fig.height=8,warning=FALSE}
 
 genelist = list()
 for( i in unique(markers$cluster)){
@@ -355,12 +368,9 @@ writexl::write_xlsx(gostres$result, path =  "./output/GO_termsCluster.xlsx")
 
 ```
 
-
-
-
 ## Map to Human primary cell atlas
 
-```{r load data for Prediction, include = FALSE}
+```{r, load data for Prediction, include = FALSE,warning=FALSE}
 ## 1) Converting query data to single cell experiment
 scRNA.sce <- as.SingleCellExperiment(seurat_integrated)
 counts(scRNA.sce) <- expm1(logcounts(scRNA.sce))
@@ -369,7 +379,7 @@ counts(scRNA.sce) <- expm1(logcounts(scRNA.sce))
 ```
 
 
-```{r Calling and processing reference data, include = FALSE}
+```{r,Calling and processing reference data, include = FALSE,warning=FALSE}
 hpca <-HumanPrimaryCellAtlasData()
 
 tmp<- as(hpca, "SingleCellExperiment")
@@ -399,7 +409,7 @@ tmp <- splitAltExps(tmp, ifelse(is.mito, "Mito", "gene"))
 is.ribo <- grepl("^RPS|^RPL", rownames(tmp))
 stats <- perCellQCMetrics(tmp, subset=list(Ribo=is.ribo))
 tmp <- addPerCellQCMetrics(tmp)
-reasons <- perCellQCFilters(stats, sub.fields = T)
+reasons <- perCellQCFilters(stats, sub.fields = c())
 
 colSums(as.matrix(reasons))
 
@@ -412,7 +422,9 @@ rm(tmp)
 rm(hpca)
 ```
 
-```{r Mapping reference data to query data}
+## Mapping reference data to query data
+
+```{r, Mapping reference data to query data,warning=FALSE}
 #3) Mapping reference data to query data
 pred.hesc <- SingleR(test = scRNA.sce, 
                      ref = hpca.se, 
@@ -442,7 +454,7 @@ colData(scRNA.sce) = cdata
 
 ```
 
-```{r Adding reduced dims to the seurat converted object}
+```{r, Adding reduced dims to the seurat converted object,warning=FALSE}
 # Adding reduced dims to the seurat converted object
 
 umap<-Embeddings(seurat_integrated,"umap")[,]
@@ -463,7 +475,7 @@ scRNA.sce$UMAP2<-as.numeric(scRNA.sce$UMAP2$reducedDim.scRNA.sce....2.)
 
 ```
 
-```{r plot Celltype, fig.width=12, fig.height=4}
+```{r,fig.cap="Celltypes", fig.width=12, fig.height=4}
 plotScoreHeatmap(pred.hesc)
 
 cowplot::plot_grid(
@@ -473,21 +485,21 @@ cowplot::plot_grid(
 ```
 
 
-```{r,fig.width=8,fig.height=8}
+```{r,fig.cap="HPCA clusters",fig.width=8,fig.height=8}
 p<-plotColData(scRNA.sce, x="HPCA100.label", y="SampleID", colour_by="seurat_clusters")+
   scale_fill_manual(values=Set26, aesthetics="colour")
 p + guides(color=guide_legend(title="Clusters")) + theme(axis.text.x = element_text(angle=90))
 ```
 
 
-```{r,fig.width=8,fig.height=8}
+```{r,fig.cap="Sample IDs for each seurat clusters",fig.width=8,fig.height=8}
 p<-plotColData(scRNA.sce, x="SampleID", y="seurat_clusters", colour_by="HPCA100.label")+
   scale_fill_manual(values=Cellpalette, aesthetics="colour")
 p + guides(color=guide_legend(title="Cell Type"))+theme(axis.text.x = element_text(angle=90))
 ```
 
-
-```{r Cluster Comparison per Sample, fig.width=8, fig.height=5}
+## Comparing clusters
+```{r Cluster Comparison per Sample, fig.width=8, fig.height=5,warning=FALSE}
 #  Prepare a counts matrix with labeled rows and columns. 
 # sce <- logcounts(sce)  # access log-transformed counts matrix
 # cellLabels <- as.factor(scRNA.sce$HumanPrimaryCellAtlas.label)
@@ -499,7 +511,6 @@ number_perCluster<- as.data.frame.matrix(table(Samples=scRNA.sce$Sample,
 prop_per_Sample<- prop.table(table(Samples=scRNA.sce$Sample, 
                                                Clusters=scRNA.sce$seurat_clusters), margin = 1)
 
-pheatmap::pheatmap(prop_per_Sample)
 
 #Group comparisons
 chisqmatrix <- function(x) {
@@ -522,11 +533,16 @@ mat = chisqmatrix(t(number_perCluster))
 
 cormat = matrix(data = p.adjust(mat, method = "BH"), 
        nrow = nrow(mat), ncol=ncol(mat))
+```
 
+
+
+```{r,fig.cap="Proportion per sample",fig.width=8,fig.height=8}
 pheatmap::pheatmap(prop_per_Sample)
 
 ```
 
+## Enrichment analysis
 
 ```{r ## Enrichment analysis, fig.width=8, fig.height=5}
 #Enrichment Analysis
@@ -649,7 +665,7 @@ pheatmap::pheatmap(enrichmentMap)
 # save.image("./output/Clustering_step_2.RData")
 
 
-save(scRNA.sce, seurat_integrated, Cellpalette, file = "./output/02_Clustering_scRNA_seurat_clustered.Rdata")
+save(scRNA.sce, seurat_integrated, Cellpalette, file = "./output/scRNA_seurat_integrated.Rdata")
 
 ```
 

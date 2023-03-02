@@ -56,10 +56,10 @@ names(Set26)=1:nb.cols-1
 ```
 
 ```{r}
-load(file = "./output/02_Clustering_scRNA_seurat_clustered.Rdata")
+load(file = "./output/scRNA_seurat_integrated.Rdata")
 ```
 
-
+## Calculating Pseudotimes and lineages
 
 ```{r 08-Trajectory analysis Calc Pseudtime,echo=FALSE, fig.width=8, fig.height=5}
 
@@ -88,7 +88,7 @@ names(embedded) = linages
 
 ## Pseudotime plots by lineage 
 
-```{r pseudotime UMAP plots, fig.width=12, fig.height=4}
+```{r,fig.cap="pseudotime UMAP plots", fig.width=12, fig.height=4}
 
 gga <- plotUMAP(sce_sling, colour_by=I(shared.pseudo))
 for (path in embedded) {
@@ -120,9 +120,9 @@ gga+ggb+ggc
 ```
 
 
+## Plots for Trajectory Lineages individual
 
-
-```{r 08-Trajectory Lineages individual,echo=FALSE, fig.width=8, fig.height=8}
+```{r,fig.cap="Trajectory Lineages individual",echo=FALSE, fig.width=8, fig.height=8}
 plots=list()
 for(lin in linages){
   ind = !is.na(PS[,lin])
@@ -136,7 +136,8 @@ ggpubr::ggarrange(plotlist=plots)
 
 ```
 
-```{r 08-Trajectory Lineages Samples,echo=FALSE, fig.width=16, fig.height=8}
+## Plots for Trajectory Lineages Samples
+```{r,fig.cap="Trajectory Lineages Samples",echo=FALSE, fig.width=16, fig.height=8}
 
 
 # plot look very similar. but I don't see any error in plotting 
@@ -170,7 +171,7 @@ ggpubr::ggarrange(plotlist=plotlist)
 
 
 
-```{r 08-Trajectory analysis compare linages,echo=FALSE, fig.width=4, fig.height=4}
+```{r,fig.cap="Trajectory analysis compare lineages",echo=FALSE, fig.width=4, fig.height=4}
 
 PS_compare<-PS[,c("Sample", linages)] %>%
   group_by(Sample) %>%
@@ -235,7 +236,7 @@ for(lin in linages){
 ```
 
 
-```{r}
+```{r,fig.cap="Trajectory analysis compare lineages",warning=FALSE}
 
 p<-plotColData(sce_sling, x="SampleID", y="slingPseudotime_1", colour_by="HumanPrimaryCellAtlas.label")+
   theme(axis.text.x = element_text(angle = 90)) +
@@ -248,7 +249,7 @@ p + guides(color=guide_legend(title="Cell Types"))
 
 ```{r}
 
-save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = "./output/03_Trajectory_scRNA_seurat_sling.Rdata")
+save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = "./output/scRNA_seurat_integrated.Rdata")
 
 ```
 
