@@ -17,6 +17,7 @@ editor_options:
 2. [Identification of Cell clusters](02_Clustering_scRNA.html)
 3. [Pseudotime Analysis](03_TrajectoryAnalysis_scRNA.html)
 4. [Genotype Analysis](04_GenotypeAnalysis_scRNA.html)
+5. [Diagnosis Analysis](05_GroupAnalysis_scRNA.html)
 
 
 

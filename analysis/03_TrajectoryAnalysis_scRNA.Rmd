@@ -241,13 +241,13 @@ for(lin in linages){
 p<-plotColData(sce_sling, x="SampleID", y="slingPseudotime_1", colour_by="HumanPrimaryCellAtlas.label")+
   theme(axis.text.x = element_text(angle = 90)) +
   scale_fill_manual(values= Cellpalette, aesthetics="colour")+
-  xlab("UMAP1") + ylab("Timepoint")
+  xlab("Samples") + ylab("Timepoint")
 p + guides(color=guide_legend(title="Cell Types"))
 
 ```
 
 
-```{r}
+```{r save}
 
 save(scRNA.sce, sce_sling, seurat_integrated, Cellpalette, file = "./output/scRNA_seurat_integrated.Rdata")
 

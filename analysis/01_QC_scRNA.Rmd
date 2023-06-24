@@ -94,8 +94,18 @@ awr925 = "C/C",
 jem839 = "C/G",
 nuc752 = "C/G")
 
-Samples$Genotype = genotypes[Samples$SampleG]
 
+diagn=c(
+SK301 = "Ctrl",
+SK308 = "Ctrl",
+SK55 = "Ctrl",
+awr925 = "ADHD",
+jem839 = "ADHD",
+nuc752 = "ADHD")
+
+
+Samples$Genotype = genotypes[Samples$SampleG]
+Samples$Diagnosis = diagn[Samples$SampleG]
 
 ```
 
@@ -122,9 +132,11 @@ meta$SampleG <- gsub("(_CL.*)|(.*sample_outs/)" ,"" , meta$Sample)
 meta$SampleID <- gsub("nuc725", "nuc752", meta$SampleID)
 meta$SampleG <- gsub("nuc725", "nuc752", meta$SampleG)
 
+#add diagnosis
+meta$Diagnosis <- diagn[meta$SampleG]
+
+# update coldata 
 colData(sce) <- meta
-
-
 
 #Look for spikes
 is.spike <- grepl("^ERCC", rownames(sce))
@@ -136,12 +148,15 @@ entrez.id <- mapIds(org.Hs.eg.db, keys=rowData(sce)$ID,
 chromdb <- sapply(entrez.id, function(x){ifelse(is.na(x), NA, org.Hs.egCHR[[x]])})
 rowData(sce)<- cbind(rowData(sce), CHR=chromdb)
 
+# mitochondrial genes
 is.mito <- grepl("MT", chromdb)
 sce <- splitAltExps(sce, ifelse(is.mito, "Mito", "gene"))
 
+# Capture probes
 is.cmo <- grepl("CMO", rowData(sce)$Symbol)
 sce <- splitAltExps(sce, ifelse(is.cmo, "Capture", "gene"))
 
+# calculate metavalues
 ave.counts <- calculateAverage(sce)
 num.cells <- nexprs(sce, byrow=TRUE)
 ```
@@ -259,6 +274,7 @@ metadata$SampleID <- gsub("nuc725", "nuc752", metadata$SampleID)
 metadata$cells <- gsub("nuc725", "nuc752", metadata$cells)
 metadata$Sample <- metadata$SampleID
 metadata$sampleG <- gsub("_CL.*", "", metadata$SampleID)
+metadata$Diagnosis <- diagn[metadata$sampleG]
 
 Samples <- Samples %>% remove_rownames() %>% column_to_rownames("SampleID")
 metadata$BatchID <- Samples[metadata$SampleID, "poolID"]
@@ -494,7 +510,6 @@ seurat_phase <- ScaleData(object = seurat_phase)
 seurat_phase <- RunPCA(object = seurat_phase)
 seurat_phase <- RunUMAP(object = seurat_phase, dims = 1:10)
 
-
 ```
 
 
@@ -507,7 +522,10 @@ a = DimPlot(seurat_phase, reduction = "umap",
 b = DimPlot(seurat_phase, reduction = "umap", 
             group.by = "BatchID")+theme_classic()
 
-a+b
+c = DimPlot(seurat_phase, reduction = "umap", 
+            group.by = "Diagnosis")+theme_classic()
+
+a+b+c
 ```
 
 ## Batch correction 
@@ -571,8 +589,11 @@ b = DimPlot(seurat_integrated, reduction = "umap",
 c= DimPlot(seurat_integrated, reduction = "umap", 
             group.by = "Genotype")+theme_classic()
 
+d= DimPlot(seurat_integrated, reduction = "umap", 
+            group.by = "Diagnosis")+theme_classic()
 
-a+b+c
+a+b
+c+d
 ```
 
 ## Cell cycle scoring
@@ -657,7 +678,13 @@ DimPlot(seurat_integrated,
 
 ```
 
+```{r,fig.cap="Phase by Diagnosis", fig.width=8, fig.height=4}
+DimPlot(seurat_integrated,
+        reduction = "umap",
+        group.by= "Phase",
+        split.by = "Diagnosis", ncol=3)+ theme_classic()
 
+```
 
 ```{r}
 save(seurat_integrated, file = "./output/scRNA_seurat_integrated.Rdata")

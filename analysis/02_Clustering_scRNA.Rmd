@@ -59,7 +59,7 @@ load("./output/scRNA_seurat_integrated.Rdata")
 
 ## Clustering after batch correction
 
-```{r, Clustering after batch correction,warning=FALSE}
+```{r, Clustering after batch correction, warning=FALSE}
 seurat_integrated <- FindNeighbors(object = seurat_integrated, 
                                    dims = 1:10)
 seurat_integrated <- FindClusters(object = seurat_integrated,
@@ -347,7 +347,8 @@ for( i in unique(markers$cluster)){
   genelist[[i]] = markers$gene[markers$cluster == i ]
 }
 
-gostres = gost(query = genelist, evcodes = T)
+genebackground = rownames(seurat_integrated)
+gostres = gost(query = genelist, evcodes = T, custom_bg = genebackground)
 
 names(gostres)
 
@@ -576,7 +577,7 @@ pheatmap::pheatmap(enrichmentMap)
 # Map to neuronal Subtypes
 
 ### models not copnverging 
-```{r}
+```{r save}
 
 # allen_reference  = readRDS("./data/data/refData/allen_cortex.rds")
 # 

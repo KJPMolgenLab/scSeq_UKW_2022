@@ -29,7 +29,6 @@ library(gprofiler2)
 library(lme4)
 
 
-
 SamplePalette =  c(awr925_CL3_TR1="#000000",
                    awr925_CL3_TR2= "#808080",
                    jem839_CL5_TR2 = "#3399FF", 
@@ -55,24 +54,20 @@ names(Set26)=1:nb.cols-1
 
 ```{r load files}
 
-recalc=T
-if(recalc){
-  load(file = "./output/scRNA_seurat_integrated.Rdata")}
-if(!recalc){
-  load(file = "./output/scRNA_seurat_integrated.Rdata")
-}
+
+load(file = "./output/scRNA_seurat_integrated.Rdata")
 
 ```
 
 ## Identifying markers LMER
 ```{r identify markers LMER}
+recalc=T
+coldata = seurat_integrated@meta.data
+countdata = as.matrix(seurat_integrated@assays$SCT@scale.data)
+coldata$TR = gsub(".*(TR.)", "\\1", coldata$SampleID)
 
-  coldata = seurat_integrated@meta.data
-  countdata = as.matrix(seurat_integrated@assays$SCT@scale.data)
-  coldata$TR = gsub(".*(TR.)", "\\1", coldata$SampleID)
-  
-  model = as.formula("x ~ Genotype+(1|TR)+(1|BatchID)")
-  
+model = as.formula("x ~ Genotype+(1|TR)+(1|BatchID)")
+
 if(recalc){  
   runlmer = function(i, mod, gdata, cdata){
     #cat(i, end="\r")
@@ -90,14 +85,16 @@ if(recalc){
   reslmer$p.value = 2*pt(abs(reslmer$`t value`), df=ncol(countdata)-1, lower=FALSE)
   reslmer$adj.p = p.adjust(reslmer$p, method="BH")
 }
-  
+
 
 ```
 
 
 ```{r,fig.cap="Plot markers LMER"}
-ggplot(reslmer, aes(x=Estimate, y=-log10(p.value), col=(adj.p<0.05)))+
+g = ggplot(reslmer, aes(x=Estimate, y=-log10(p.value), col=(adj.p<0.05), text=paste("hgnc:", rownames(reslmer))))+
   geom_point()
+
+plotly::ggplotly(g)
 ```
 
 ## Identifying markers for Genotypes
@@ -176,22 +173,24 @@ if(recalc){
     reslist.by.cluster[[i]] = reslmer.cluster
     
   }
-
   
-names(reslist.by.cluster) <- unique(seurat_integrated$seurat_clusters)
-
-reslist.by.cluster = reslist.by.cluster[as.character(sort(unique(seurat_integrated$seurat_clusters)))]
-
-DEX.reslist.by.cluster = lapply(reslist.by.cluster, function(x){rownames(x)[x$adj.p<=0.05 & 
-                                                                              x$Estimate>=0.2]})
-
-names(DEX.reslist.by.cluster)  <- names(reslist.by.cluster) 
-
-Gost.reslist.by.cluster = lapply(DEX.reslist.by.cluster, function(x){gost(x, 
-                                                                          evcodes = T)})
-
-names(Gost.reslist.by.cluster)  <- names(reslist.by.cluster) 
-
+  names(reslist.by.cluster) <- unique(seurat_integrated$seurat_clusters)
+  
+  reslist.by.cluster = reslist.by.cluster[as.character(sort(unique(seurat_integrated$seurat_clusters)))]
+  
+  DEX.reslist.by.cluster = lapply(reslist.by.cluster, function(x){rownames(x)[x$adj.p<=0.05 & 
+                                                                                x$Estimate>=0.2]})
+  
+  names(DEX.reslist.by.cluster)  <- names(reslist.by.cluster) 
+  
+  gbackground = rownames(seurat_integrated)
+  
+  Gost.reslist.by.cluster = lapply(DEX.reslist.by.cluster, function(x){gost(x, organism = "hsapiens",
+                                                                            custom_bg = gbackground,
+                                                                            evcodes = T)})
+  
+  names(Gost.reslist.by.cluster)  <- names(reslist.by.cluster) 
+  
 }
 
 
@@ -202,6 +201,7 @@ names(Gost.reslist.by.cluster)  <- names(reslist.by.cluster)
 x="0"
 df = reslist.by.cluster[[x]]
 df = df[order(df$adj.p, decreasing = F),]
+
 DT::datatable(df, extensions = "Buttons",
               filter="top",
               caption = paste0("Genewise results cluster ",x),
@@ -215,11 +215,21 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+
+  geom_point()+theme_classic()
 
-gostplot(Gost.reslist.by.cluster[[x]])
+plotly::ggplotly(g)
 
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 ```
 ## Results Cluster 1
 ```{r cluster 1}
@@ -239,11 +249,20 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+
+  geom_point()+theme_classic()
 
-gostplot(Gost.reslist.by.cluster[[x]])
-
+plotly::ggplotly(g)
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 ```
 ## Results Cluster 2
 ```{r cluster 2}
@@ -263,10 +282,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+
+  geom_point()+theme_classic()
 
-gostplot(Gost.reslist.by.cluster[[x]])
+plotly::ggplotly(g)
+
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 3
@@ -287,11 +318,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+
+  geom_point()+theme_classic()
 
-gostplot(Gost.reslist.by.cluster[[x]])
+plotly::ggplotly(g)
 
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 ```
 ## Results Cluster 4
 ```{r cluster 4}
@@ -311,10 +353,21 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+
+  geom_point()+theme_classic()
 
-gostplot(Gost.reslist.by.cluster[[x]])
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 5
@@ -335,10 +388,20 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+
+  geom_point()+theme_classic()
 
-gostplot(Gost.reslist.by.cluster[[x]])
+plotly::ggplotly(g)
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 6
@@ -359,10 +422,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 7
@@ -383,10 +458,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 8
@@ -407,10 +494,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 9
@@ -431,10 +530,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 10
@@ -455,10 +566,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 11
@@ -479,10 +602,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 12
@@ -503,10 +638,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 13
@@ -527,10 +674,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 ## Results Cluster 14
@@ -551,10 +710,22 @@ DT::datatable(df, extensions = "Buttons",
               )
 )
 
-ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05)))+
-      geom_point()+theme_classic()
+g = ggplot(df, aes(x=Estimate, y=-log10(p.value), color=(adj.p<0.05), text=paste("hgnc:", rownames(df))))+   
+  geom_point()+theme_classic()  
 
-gostplot(Gost.reslist.by.cluster[[x]])
+
+plotly::ggplotly(g)
+
+if(is.null(Gost.reslist.by.cluster[[x]])){
+  ggplot() +                      # Draw ggplot2 plot with text only
+  annotate("text",
+           x = 1,
+           y = 1,
+           size = 8,
+           label = "no significant GO-terms associated") + 
+  theme_void()
+} else {
+gostplot(Gost.reslist.by.cluster[[x]])}
 
 ```
 
